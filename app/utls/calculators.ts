@@ -60,7 +60,7 @@ export function calcTransferDuty(purchaseCost: number) {
 
 // https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/first-home-buyer-choice#heading10
 export function calcPropertyTax(landValue: number, purpose: CalcData["purpose"]) {
-  return purpose === "occupier" ? 400 + 0.03 * landValue : 1500 + 0.011 * landValue
+  return purpose === "occupier" ? 400 + 0.003 * landValue : 1500 + 0.011 * landValue
 }
 
 // DTI * 6
