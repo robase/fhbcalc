@@ -1,8 +1,8 @@
 import { useState } from "react"
 import type { CalcData } from "~/utls/defaults"
 import AssistanceArea from "./AssistanceArea"
-import Calculator from "./Calculator"
-import ResultsTable from "./Results"
+import InfoForm from "./InfoForm"
+import ResultsTable from "./ResultsTable"
 
 export default function MainView() {
   const [calcState, setCalcState] = useState<CalcData | null>(null)
@@ -11,28 +11,28 @@ export default function MainView() {
 
   return (
     <>
-      <div className="container lg:mx-auto max-w-2xl px-8">
-        <div className="max-w-2xl mb-14">
-          <h1 className="my-10 text-4xl font-semibold">How do I buy my first house?</h1>
-          <p className="">
-            There's a lot to think about when buying a house for the first time. This site aims to centralise the basic
-            knowledge required to get started. Please note that this is only a tool
-            <b> intended to compliment your own research, this is not financial advice</b>.
-          </p>
-          <p className="mt-4">
-            No data is collected, retained or stored anywhere from this site, it never leaves your browser
+      <div className="flex flex-row flex-wrap ">
+        <div className="px-8">
+          <h1 className="my-10 text-4xl font-semibold">First Home Buyer Calulator</h1>
+        </div>
+        <div className="max-w-2xl mb-14 px-8 pt-10">
+          <p className="text-sm">
+            Please note that this is only a tool
+            <b> intended to compliment your own research, this is not financial advice</b>. No data is collected,
+            retained or stored anywhere from this site, it never leaves your browser. This calculator assumes: you are
+            an australian citizen, you are over 18 and you or your partner have never previously owned a home
           </p>
         </div>
-
-        <h3 className="text-2xl mb-8">First, some finacial info</h3>
-        <Calculator onItemHover={setFocusedItem} onValueChange={(values: CalcData) => setCalcState(values)} />
-        <h3 className="text-2xl mt-8">Your outlook</h3>
       </div>
-
-      <ResultsTable data={calcState} />
-
-      <div className="container lg:mx-auto max-w-2xl mt-8 px-8">
-        <h3 className="text-2xl">What does this mean?</h3>
+      <div className="flex flex-col px-8 xl:flex-col">
+        <div>
+          <h3 className="text-2xl mb-8">Your Info</h3>
+          <InfoForm onItemHover={setFocusedItem} onValueChange={(values: CalcData) => setCalcState(values)} />
+        </div>
+        <div>
+          <h3 className="text-2xl mb-2 mt-8">Results</h3>
+          <ResultsTable data={calcState} />
+        </div>
       </div>
     </>
   )
