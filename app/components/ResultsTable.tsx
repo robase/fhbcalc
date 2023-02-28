@@ -7,6 +7,7 @@ import {
   qualifiesForFHBC,
   qualifiesForFHBAS,
   qualifiesForFHOG,
+  calcLMI,
 } from "~/utls/calculators"
 import type { CalcData } from "~/utls/defaults"
 import { CALC_DEFAULTS } from "~/utls/defaults"
@@ -33,7 +34,7 @@ export default function ResultsTable({ data }: { data: CalcData | null }) {
       <table className="text-left">
         <thead>
           <tr>
-            <td colSpan={5} />
+            <td colSpan={6} />
             <td className="border-b text-center" colSpan={4}>
               Govt Scheme Eligibility
             </td>
@@ -83,37 +84,55 @@ export default function ResultsTable({ data }: { data: CalcData | null }) {
             const FHOGResult = qualifiesForFHOG(vals, purchasePrice)
 
             return (
-              <tr key={`${purchasePrice}`} className="[&>td]:pr-6 [&>td]:py-2 first:[&>td]:pl-0 border-b">
+              <tr key={`${purchasePrice}`} className="[&>td]:min-w-fit [&>td]:py-2 first:[&>td]:pl-0 border-b">
                 <td>{fmtAUD(purchasePrice)}</td>
                 <td>{fmtAUD(purchasePrice - vals.deposit)}</td>
                 <td>{calcLVR(purchasePrice, vals.deposit).toFixed(2)}%</td>
-                <td>$0</td>
+                <td>{calcLMI(purchasePrice, vals.deposit)}</td>
                 <td>
                   {calcTransferDuty(purchasePrice) === 0 ? (
                     <p>
-                      $0 <span className="text-[10px] text-zinc-400">(FHBAS - full)</span>
+                      $0 <span className="text-[10px] text-zinc-400">exempt</span>
                     </p>
                   ) : (
                     <p>
-                      {fmtAUD(calcTransferDuty(purchasePrice))}
-
+                      {fmtAUD(calcTransferDuty(purchasePrice))}{" "}
                       {FHBASResult.type === "concessional" && (
-                        <>
-                          <br />
-                          <span className="text-[10px] text-zinc-400">(FHBAS - conn)</span>
-                        </>
+                        <span className="text-[10px] text-zinc-400">concession</span>
                       )}
                     </p>
                   )}
                 </td>
 
                 <td>{fmtAUD(calcPropertyTax(vals.landValue, vals.purpose))}</td>
-                <td title={FHBASResult.reason || FHBASResult.type}>
-                  {FHBASResult.eligible ? (FHBASResult.type === "full" ? "🟢" : "🟡") : "🔴"}
-                </td>
-                <td title={FHOGResult.reason}>{FHOGResult.eligible ? "🟢" : "🔴"}</td>
-                <td title={FHGBResult.reason}>{FHGBResult.eligible ? "🟢" : "🔴"}</td>
-                <td title={FHGCResult.reason}>{FHGCResult.eligible ? "🟢" : "🔴"}</td>
+                <td
+                  title={FHBASResult.reason || FHBASResult.type}
+                  className={
+                    FHBASResult.eligible
+                      ? FHBASResult.type === "full"
+                        ? "bg-green-500 border-r opacity-80"
+                        : "bg-yellow-300 border-r opacity-80"
+                      : "bg-red-500 border-r opacity-80"
+                  }
+                ></td>
+                <td
+                  title={FHOGResult.reason}
+                  className={
+                    FHOGResult.eligible ? "bg-green-500 border-r opacity-80" : "bg-red-500 border-r opacity-80"
+                  }
+                ></td>
+                <td
+                  title={FHGBResult.reason}
+                  className={
+                    FHGBResult.eligible ? "bg-green-500 border-r opacity-80" : "bg-red-500 border-r opacity-80"
+                  }
+                ></td>
+                <td
+                  title={FHGCResult.reason}
+                  className={
+                    FHGCResult.eligible ? "bg-green-500 border-r opacity-80" : "bg-red-500 border-r opacity-80"
+                  }
+                ></td>
               </tr>
             )
           })}

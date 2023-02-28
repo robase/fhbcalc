@@ -115,7 +115,7 @@ export function qualifiesForFHBG(
   if (lvr < 80) {
     return {
       eligible: false,
-      reason: "The maximum LVR is 20%, LMI usually not charged for deposits of this size or larger",
+      reason: "Your LVR is less than 80%",
     }
   }
 
@@ -130,10 +130,6 @@ export function qualifiesForFHBG(
   }
 
   return { eligible: true }
-}
-
-export function calcLVR(purchasePrice: number, deposit: number) {
-  return ((purchasePrice - deposit) / purchasePrice) * 100
 }
 
 // https://www.revenue.nsw.gov.au/taxes-duties-levies-royalties/transfer-duty#heading4
@@ -159,8 +155,20 @@ export function estimateLoanAmount({ income, expenses }: CalcData) {
   return (income - expenses * 12) * 6
 }
 
+export function calcLVR(purchasePrice: number, deposit: number) {
+  return ((purchasePrice - deposit) / purchasePrice) * 100
+}
+
 // https://www.homeloanexperts.com.au/lenders-mortgage-insurance/lmi-premium-rates/
-function calcLMI() {
+export function calcLMI(purchasePrice: number, deposit: number) {
   // Get LVR, lookup LVR vs purchase price in table
   // get premium % from table, multiply by loan amount
+
+  const lvr = calcLVR(purchasePrice, deposit)
+
+  if (lvr < 80) {
+    return 0
+  }
+
+  return 1
 }
