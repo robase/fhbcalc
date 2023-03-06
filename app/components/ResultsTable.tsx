@@ -1,3 +1,4 @@
+import { Check, Check2Circle, CheckCircleFill, Icon0Circle, XCircleFill } from "react-bootstrap-icons"
 import {
   estimateLoanAmount,
   calcLVR,
@@ -34,7 +35,7 @@ export default function ResultsTable({ data }: { data: CalcData | null }) {
       <table className="text-left">
         <thead>
           <tr>
-            <td colSpan={6} />
+            <td colSpan={8} />
             <td className="border-b text-center" colSpan={4}>
               Govt Scheme Eligibility
             </td>
@@ -42,10 +43,13 @@ export default function ResultsTable({ data }: { data: CalcData | null }) {
           <tr className="[&>td]:pr-2 [&>td]:py-2 first:[&>td]:pl-0 border-b-2 border-zinc-800 font-semibold">
             <td>Purchase Price</td>
             <td>Loan Amount</td>
-            <td>LVR</td>
             <td>LMI</td>
+            <td>LVR</td>
+            <td>LVR inc LMI</td>
             <td>Transfer (Stamp) Duty</td>
             <td>Annual Property Tax</td>
+
+            <td>Total Cost</td>
             <td>
               <a
                 target="_blank"
@@ -83,12 +87,18 @@ export default function ResultsTable({ data }: { data: CalcData | null }) {
             const FHBASResult = qualifiesForFHBAS(vals, purchasePrice)
             const FHOGResult = qualifiesForFHOG(vals, purchasePrice)
 
+            const lmi = calcLMI(purchasePrice, vals.deposit)
+
             return (
-              <tr key={`${purchasePrice}`} className="[&>td]:min-w-fit [&>td]:py-2 first:[&>td]:pl-0 border-b">
+              <tr
+                key={`${purchasePrice}`}
+                className="[&>td]:min-w-fit [&>td]:px-2 [&>td]:py-2 first:[&>td]:pl-0 border-b"
+              >
                 <td>{fmtAUD(purchasePrice)}</td>
                 <td>{fmtAUD(purchasePrice - vals.deposit)}</td>
+                <td>{fmtAUD(lmi)}</td>
                 <td>{calcLVR(purchasePrice, vals.deposit).toFixed(2)}%</td>
-                <td>{calcLMI(purchasePrice, vals.deposit)}</td>
+                <td>{calcLVR(purchasePrice, vals.deposit - lmi).toFixed(2)}%</td>
                 <td>
                   {calcTransferDuty(purchasePrice) === 0 ? (
                     <p>
@@ -105,34 +115,39 @@ export default function ResultsTable({ data }: { data: CalcData | null }) {
                 </td>
 
                 <td>{fmtAUD(calcPropertyTax(vals.landValue, vals.purpose))}</td>
-                <td
-                  title={FHBASResult.reason || FHBASResult.type}
-                  className={
-                    FHBASResult.eligible
-                      ? FHBASResult.type === "full"
-                        ? "bg-green-500 border-r opacity-80"
-                        : "bg-yellow-300 border-r opacity-80"
-                      : "bg-red-500 border-r opacity-80"
-                  }
-                ></td>
-                <td
-                  title={FHOGResult.reason}
-                  className={
-                    FHOGResult.eligible ? "bg-green-500 border-r opacity-80" : "bg-red-500 border-r opacity-80"
-                  }
-                ></td>
-                <td
-                  title={FHGBResult.reason}
-                  className={
-                    FHGBResult.eligible ? "bg-green-500 border-r opacity-80" : "bg-red-500 border-r opacity-80"
-                  }
-                ></td>
-                <td
-                  title={FHGCResult.reason}
-                  className={
-                    FHGCResult.eligible ? "bg-green-500 border-r opacity-80" : "bg-red-500 border-r opacity-80"
-                  }
-                ></td>
+                <td>$0</td>
+                <td title={FHBASResult.reason || FHBASResult.type} className="text-center">
+                  {FHGCResult.eligible ? (
+                    FHBASResult.type === "full" ? (
+                      <CheckCircleFill className="fill-green-600" />
+                    ) : (
+                      <CheckCircleFill className="fill-yellow-500" />
+                    )
+                  ) : (
+                    <XCircleFill className="fill-red-600" />
+                  )}
+                </td>
+                <td title={FHOGResult.reason} className="text-center">
+                  {FHOGResult.eligible ? (
+                    <CheckCircleFill className="fill-green-600" />
+                  ) : (
+                    <XCircleFill className="fill-red-600" />
+                  )}
+                </td>
+                <td title={FHGBResult.reason} className="text-center">
+                  {FHGBResult.eligible ? (
+                    <CheckCircleFill className="fill-green-600" />
+                  ) : (
+                    <XCircleFill className="fill-red-600" />
+                  )}
+                </td>
+                <td title={FHGCResult.reason} className="text-center">
+                  {FHGCResult.eligible ? (
+                    <CheckCircleFill className="fill-green-600" />
+                  ) : (
+                    <XCircleFill className="fill-red-600" />
+                  )}
+                </td>
               </tr>
             )
           })}

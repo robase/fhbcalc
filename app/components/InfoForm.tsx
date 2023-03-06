@@ -14,7 +14,7 @@ export default function InfoForm({
   return (
     <form
       onChange={() => onValueChange(getValues() as CalcData)}
-      className="text-sm grid grid-cols-1 gap-y-4 md:grid-cols-2 xl:grid-cols-5 auto-cols-min"
+      className="text-sm grid grid-cols-3 gap-y-4 md:grid-cols-2 xl:grid-cols-5 grid-cols-[200px]"
     >
       <div onMouseEnter={() => onItemHover("occupier-vs-investor")}>
         <label htmlFor="form-fieldset-purpose" className="mb-4 font-semibold">
