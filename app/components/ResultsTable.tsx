@@ -27,28 +27,28 @@ export default function ResultsTable({ data }: { data: CalcData | null }) {
   const vals = data ? data : CALC_DEFAULTS
 
   const loanAmount = estimateLoanAmount(vals)
+  const transactionFee = 1500 + 800 + 463
 
   const houseCosts = new Array(10).fill(0).map((_, i) => Math.round((loanAmount - 5 * GAP + GAP * i) / 10000) * 10000)
 
   return (
     <div className="text-sm">
-      <table className="text-left">
-        <thead>
-          <tr>
+      <table className="w-full text-sm text-left font-roboto">
+        <thead className="text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 font-semibold">
+          <tr className="bg-white">
             <td colSpan={8} />
             <td className="border-b text-center" colSpan={4}>
-              Govt Scheme Eligibility
+              Government Scheme Eligibility
             </td>
           </tr>
-          <tr className="[&>td]:pr-2 [&>td]:py-2 first:[&>td]:pl-0 border-b-2 border-zinc-800 font-semibold">
+          <tr className="[&>td]:px-4 [&>td]:py-3  text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <td>Purchase Price</td>
             <td>Loan Amount</td>
-            <td>LMI</td>
             <td>LVR</td>
-            <td>LVR inc LMI</td>
+            <td>LMI</td>
             <td>Transfer (Stamp) Duty</td>
             <td>Annual Property Tax</td>
-
+            <td>Transaction Fees</td>
             <td>Total Cost</td>
             <td>
               <a
@@ -82,42 +82,50 @@ export default function ResultsTable({ data }: { data: CalcData | null }) {
         </thead>
         <tbody>
           {houseCosts.map((purchasePrice) => {
-            const FHGBResult = qualifiesForFHBG(vals, purchasePrice)
-            const FHGCResult = qualifiesForFHBC(vals, purchasePrice)
+            const FHBGResult = qualifiesForFHBG(vals, purchasePrice)
+            const FHBCResult = qualifiesForFHBC(vals, purchasePrice)
             const FHBASResult = qualifiesForFHBAS(vals, purchasePrice)
             const FHOGResult = qualifiesForFHOG(vals, purchasePrice)
 
+            const lvr = calcLVR(purchasePrice, vals.deposit)
             const lmi = calcLMI(purchasePrice, vals.deposit)
+            const transferDuty = calcTransferDuty(purchasePrice)
 
             return (
               <tr
                 key={`${purchasePrice}`}
-                className="[&>td]:min-w-fit [&>td]:px-2 [&>td]:py-2 first:[&>td]:pl-0 border-b"
+                className={
+                  lvr > 95
+                    ? "bg-white border-b dark:bg-gray-900 dark:border-gray-700 text-zinc-400 [&>td]:px-6 [&>td]:py-3"
+                    : "bg-white border-b dark:bg-gray-900 dark:border-gray-700 [&>td]:px-6 [&>td]:py-3"
+                }
               >
                 <td>{fmtAUD(purchasePrice)}</td>
                 <td>{fmtAUD(purchasePrice - vals.deposit)}</td>
-                <td>{fmtAUD(lmi)}</td>
-                <td>{calcLVR(purchasePrice, vals.deposit).toFixed(2)}%</td>
-                <td>{calcLVR(purchasePrice, vals.deposit - lmi).toFixed(2)}%</td>
+                <td>{lvr.toFixed(2)}%</td>
+                <td className={FHBGResult.eligible ? "line-through" : ""}>{fmtAUD(lmi)}</td>
                 <td>
-                  {calcTransferDuty(purchasePrice) === 0 ? (
+                  {transferDuty === 0 ? (
                     <p>
-                      $0 <span className="text-[10px] text-zinc-400">exempt</span>
+                      $0 <span className="text-[10px] text-zinc-400">FHBAS exempt</span>
                     </p>
                   ) : (
                     <p>
-                      {fmtAUD(calcTransferDuty(purchasePrice))}{" "}
+                      {fmtAUD(transferDuty)}{" "}
                       {FHBASResult.type === "concessional" && (
-                        <span className="text-[10px] text-zinc-400">concession</span>
+                        <span className="text-[10px] text-zinc-400">FHBAS concession</span>
                       )}
                     </p>
                   )}
                 </td>
 
-                <td>{fmtAUD(calcPropertyTax(vals.landValue, vals.purpose))}</td>
+                <td className={transferDuty === 0 ? "line-through" : ""}>
+                  {fmtAUD(calcPropertyTax(vals.landValue, vals.purpose))}
+                </td>
+                <td>{fmtAUD(transactionFee)}</td>
                 <td>$0</td>
                 <td title={FHBASResult.reason || FHBASResult.type} className="text-center">
-                  {FHGCResult.eligible ? (
+                  {FHBCResult.eligible ? (
                     FHBASResult.type === "full" ? (
                       <CheckCircleFill className="fill-green-600" />
                     ) : (
@@ -134,15 +142,15 @@ export default function ResultsTable({ data }: { data: CalcData | null }) {
                     <XCircleFill className="fill-red-600" />
                   )}
                 </td>
-                <td title={FHGBResult.reason} className="text-center">
-                  {FHGBResult.eligible ? (
+                <td title={FHBGResult.reason} className="text-center">
+                  {FHBGResult.eligible ? (
                     <CheckCircleFill className="fill-green-600" />
                   ) : (
                     <XCircleFill className="fill-red-600" />
                   )}
                 </td>
-                <td title={FHGCResult.reason} className="text-center">
-                  {FHGCResult.eligible ? (
+                <td title={FHBCResult.reason} className="text-center">
+                  {FHBCResult.eligible ? (
                     <CheckCircleFill className="fill-green-600" />
                   ) : (
                     <XCircleFill className="fill-red-600" />

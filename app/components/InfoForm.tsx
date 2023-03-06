@@ -14,10 +14,10 @@ export default function InfoForm({
   return (
     <form
       onChange={() => onValueChange(getValues() as CalcData)}
-      className="text-sm grid grid-cols-3 gap-y-4 md:grid-cols-2 xl:grid-cols-5 grid-cols-[200px]"
+      className="text-sm grid grid-cols-3 gap-y-4 md:grid-cols-2 xl:grid-cols-5 grid-cols-[200px] font-roboto"
     >
       <div onMouseEnter={() => onItemHover("occupier-vs-investor")}>
-        <label htmlFor="form-fieldset-purpose" className="mb-4 font-semibold">
+        <label htmlFor="form-fieldset-purpose" className="mb-4 font-medium">
           Why are you buying a place?
         </label>
         <fieldset defaultValue="occupier" id="form-fieldset-purpose" className="pt-4">

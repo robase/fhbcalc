@@ -11,7 +11,7 @@ export default function MainView() {
 
   return (
     <>
-      <div className="flex flex-row flex-wrap ">
+      <div className="flex flex-row flex-wrap font-roboto">
         <div className="px-8">
           <h1 className="my-10 text-4xl font-semibold">First Home Buyer Calulator</h1>
         </div>
