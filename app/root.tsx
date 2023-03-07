@@ -13,7 +13,7 @@ export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }]
 
 export default function App() {
   return (
-    <html lang="en">
+    <html className="bg-zinc-50" lang="en">
       <head>
         <Meta />
         <Links />

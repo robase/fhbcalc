@@ -1,5 +1,7 @@
 import type { CalcData } from "./defaults"
 
+import { JSDOM } from "jsdom"
+
 interface EligibilityResult {
   eligible: boolean
   type?: string
@@ -132,17 +134,28 @@ export function qualifiesForFHBG(
   return { eligible: true }
 }
 
+export function calcFHBASConcession(purchasePrice: number) {
+  return 0.20727 * purchasePrice - 134723.33391
+}
+
 // https://www.revenue.nsw.gov.au/taxes-duties-levies-royalties/transfer-duty#heading4
-export function calcTransferDuty(purchaseCost: number) {
-  if (purchaseCost <= 650_000) {
-    return 0
-  } else if (purchaseCost > 650_000 && purchaseCost <= 1_089_000) {
-    return purchaseCost / 450 + 9805
-  } else if (purchaseCost > 1_089_000 && purchaseCost <= 3_000_000) {
-    return purchaseCost / 550 + 44095
-  } else {
-    return -1
+export function calcTransferDuty(purchasePrice: number, { eligible, type }: EligibilityResult) {
+  if (eligible) {
+    if (type === "full") {
+      return 0
+    }
+
+    return calcFHBASConcession(purchasePrice)
   }
+
+  if (purchasePrice <= 15_000) return (purchasePrice / 100) * 1.25
+  if (purchasePrice <= 32_000) return ((purchasePrice - 15_000) / 100) * 1.5 + 187
+  if (purchasePrice <= 87_000) return ((purchasePrice - 32_000) / 100) * 1.75 + 442
+  if (purchasePrice <= 327_000) return ((purchasePrice - 87_000) / 100) * 3.5 + 1405
+  if (purchasePrice <= 1_089_000) return ((purchasePrice - 327_000) / 100) * 4.5 + 9805
+  if (purchasePrice <= 3_268_000) return ((purchasePrice - 1_089_000) / 100) * 5.5 + 44_095
+
+  return ((purchasePrice - 3_268_000) / 100) * 7.0 + 163_940
 }
 
 // https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/first-home-buyer-choice#heading10
@@ -155,20 +168,69 @@ export function estimateLoanAmount({ income, expenses }: CalcData) {
   return (income - expenses * 12) * 6
 }
 
-export function calcLVR(purchasePrice: number, deposit: number) {
-  return ((purchasePrice - deposit) / purchasePrice) * 100
+export function calcLVR(purchasePrice: number, depositPlusLMI: number) {
+  return ((purchasePrice - depositPlusLMI) / purchasePrice) * 100
 }
 
 // https://www.homeloanexperts.com.au/lenders-mortgage-insurance/lmi-premium-rates/
-export function calcLMI(purchasePrice: number, deposit: number) {
+export function calcLMI(purchasePrice: number, deposit: number, { eligible }: EligibilityResult) {
   // Get LVR, lookup LVR vs purchase price in table
   // get premium % from table, multiply by loan amount
 
-  const lvr = calcLVR(purchasePrice, deposit)
+  if (eligible) {
+    return 0
+  }
+  const lvr = Math.ceil(calcLVR(purchasePrice, deposit))
 
-  if (lvr < 80) {
+  if (lvr < 81) {
     return 0
   }
 
-  return 1
+  if (lvr > 95) {
+    return -1
+  }
+
+  const priceBuckets = [300000, 500000, 600000, 750000, 1000000]
+
+  let bucketIndex
+
+  for (let i = 0; i < priceBuckets.length; i++) {
+    if (purchasePrice <= priceBuckets[i]) {
+      bucketIndex = i
+      break
+    }
+  }
+
+  if (bucketIndex === null || bucketIndex === undefined) {
+    // console.log("price too high for lvr")
+    return -1
+  }
+
+  const lookup: Record<number, number[]> = {
+    81: [0.475, 0.568, 0.904, 0.904, 0.913],
+    82: [0.485, 0.568, 0.904, 0.904, 0.913],
+    83: [0.596, 0.699, 0.932, 1.09, 1.109],
+    84: [0.662, 0.829, 0.96, 1.09, 1.146],
+    85: [0.727, 0.969, 1.165, 1.333, 1.407],
+    86: [0.876, 1.081, 1.258, 1.407, 1.463],
+    87: [0.932, 1.146, 1.407, 1.631, 1.733],
+    88: [1.062, 1.305, 1.463, 1.631, 1.752],
+    89: [1.295, 1.621, 1.948, 2.218, 2.395],
+    90: [1.463, 1.873, 2.18, 2.367, 2.516],
+    91: [2.013, 2.618, 3.513, 3.783, 3.82],
+    92: [2.013, 2.674, 3.569, 3.867, 3.932],
+    93: [2.33, 3.028, 3.802, 4.081, 4.156],
+    94: [2.376, 3.028, 3.802, 4.286, 4.324],
+    95: [2.609, 3.345, 3.998, 4.613, 4.603],
+  }
+
+  const premium = lookup[Math.ceil(lvr)][bucketIndex]
+
+  return purchasePrice * (premium / 100)
+}
+
+export function cashOnHandRequired(deposit: number, fees: number, taxOrTransferDuty: number, lmi: number) {
+  // console.log(deposit, fees, taxOrTransferDuty, lmi, deposit + fees + taxOrTransferDuty + lmi)
+
+  return deposit + fees + taxOrTransferDuty + lmi
 }

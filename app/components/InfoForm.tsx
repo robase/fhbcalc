@@ -14,7 +14,7 @@ export default function InfoForm({
   return (
     <form
       onChange={() => onValueChange(getValues() as CalcData)}
-      className="text-sm grid grid-cols-1 gap-y-4 md:grid-cols-2 xl:grid-cols-5 auto-cols-min"
+      className="text-sm grid grid-cols-3 gap-y-4 md:grid-cols-2 xl:grid-cols-5 grid-cols-[200px] font-roboto  border-zinc-200"
     >
       <div onMouseEnter={() => onItemHover("occupier-vs-investor")}>
         <label htmlFor="form-fieldset-purpose" className="mb-4 font-semibold">
@@ -46,9 +46,10 @@ export default function InfoForm({
         </fieldset>
       </div>
       <div onMouseEnter={() => onItemHover("state")}>
-        <label htmlFor="form-state" className="block font-semibold mr-2 mb-2">
+        <label htmlFor="form-state" className="block font-semibold mr-2">
           What state are you in?
         </label>
+        <p className="text-xs text-zinc-600">&nbsp;</p>
         <select defaultValue={CALC_DEFAULTS.state} id="form-state" {...register("state")}>
           <option>NSW</option>
           <option disabled>More coming soon</option>
@@ -97,9 +98,11 @@ export default function InfoForm({
         <p className="text-xs text-zinc-600">Combined if a couple</p>
         <input
           defaultValue={CALC_DEFAULTS.income}
-          className="mt-2"
+          className="mt-0"
           id="form-income"
-          {...register("income")}
+          {...register("income", {
+            valueAsNumber: true,
+          })}
           type="number"
         />
       </div>
@@ -107,11 +110,14 @@ export default function InfoForm({
         <label htmlFor="form-deposit" className="block font-semibold mr-2">
           How much have you saved for a deposit?
         </label>
+        <p className="text-xs text-zinc-600">&nbsp;</p>
         <input
           className="border"
           defaultValue={CALC_DEFAULTS.deposit}
           id="form-deposit"
-          {...register("deposit")}
+          {...register("deposit", {
+            valueAsNumber: true,
+          })}
           type="number"
         />
       </div>
@@ -127,7 +133,9 @@ export default function InfoForm({
           defaultValue={CALC_DEFAULTS.expenses}
           className="mt-2"
           id="form-expenses"
-          {...register("expenses")}
+          {...register("expenses", {
+            valueAsNumber: true,
+          })}
           type="number"
         />
       </div>
@@ -223,11 +231,14 @@ export default function InfoForm({
         <label htmlFor="form-land-value" className="block font-semibold mr-2">
           What is the land value of the property?
         </label>
+        <p className="text-sm text-zinc-600">&nbsp;</p>
         <input
           className="border"
           defaultValue={CALC_DEFAULTS.landValue}
           id="form-land-value"
-          {...register("landValue")}
+          {...register("landValue", {
+            valueAsNumber: true,
+          })}
           type="number"
         />
       </div>

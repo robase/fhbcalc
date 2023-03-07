@@ -1,14 +1,14 @@
 export const CALC_DEFAULTS: CalcData = {
-  income: 100_000,
+  income: 130_000,
   expenses: 1700,
-  deposit: 60_000,
+  deposit: 65_000,
   purpose: "occupier",
   participants: "single",
   state: "NSW",
   hecs: 0,
   location: "city",
   propertyBuild: "existing",
-  landValue: 120_000,
+  landValue: 110_000,
 }
 
 export interface CalcData {
