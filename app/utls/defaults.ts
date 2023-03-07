@@ -8,7 +8,7 @@ export const CALC_DEFAULTS: CalcData = {
   hecs: 0,
   location: "city",
   propertyBuild: "existing",
-  landValue: 120_000,
+  landValue: 110_000,
 }
 
 export interface CalcData {
