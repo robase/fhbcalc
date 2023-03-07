@@ -134,17 +134,28 @@ export function qualifiesForFHBG(
   return { eligible: true }
 }
 
+export function calcFHBASConcession(purchasePrice: number) {
+  return 0.20727 * purchasePrice - 134723.33391
+}
+
 // https://www.revenue.nsw.gov.au/taxes-duties-levies-royalties/transfer-duty#heading4
-export function calcTransferDuty(purchaseCost: number) {
-  if (purchaseCost <= 650_000) {
-    return 0
-  } else if (purchaseCost > 650_000 && purchaseCost <= 1_089_000) {
-    return purchaseCost / 450 + 9805
-  } else if (purchaseCost > 1_089_000 && purchaseCost <= 3_000_000) {
-    return purchaseCost / 550 + 44095
-  } else {
-    return -1
+export function calcTransferDuty(purchasePrice: number, { eligible, type }: EligibilityResult) {
+  if (eligible) {
+    if (type === "full") {
+      return 0
+    }
+
+    return calcFHBASConcession(purchasePrice)
   }
+
+  if (purchasePrice <= 15_000) return (purchasePrice / 100) * 1.25
+  if (purchasePrice <= 32_000) return ((purchasePrice - 15_000) / 100) * 1.5 + 187
+  if (purchasePrice <= 87_000) return ((purchasePrice - 32_000) / 100) * 1.75 + 442
+  if (purchasePrice <= 327_000) return ((purchasePrice - 87_000) / 100) * 3.5 + 1405
+  if (purchasePrice <= 1_089_000) return ((purchasePrice - 327_000) / 100) * 4.5 + 9805
+  if (purchasePrice <= 3_268_000) return ((purchasePrice - 1_089_000) / 100) * 5.5 + 44_095
+
+  return ((purchasePrice - 3_268_000) / 100) * 7.0 + 163_940
 }
 
 // https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/first-home-buyer-choice#heading10
@@ -162,10 +173,13 @@ export function calcLVR(purchasePrice: number, depositPlusLMI: number) {
 }
 
 // https://www.homeloanexperts.com.au/lenders-mortgage-insurance/lmi-premium-rates/
-export function calcLMI(purchasePrice: number, deposit: number) {
+export function calcLMI(purchasePrice: number, deposit: number, { eligible }: EligibilityResult) {
   // Get LVR, lookup LVR vs purchase price in table
   // get premium % from table, multiply by loan amount
 
+  if (eligible) {
+    return 0
+  }
   const lvr = Math.ceil(calcLVR(purchasePrice, deposit))
 
   if (lvr < 81) {
@@ -188,7 +202,7 @@ export function calcLMI(purchasePrice: number, deposit: number) {
   }
 
   if (bucketIndex === null || bucketIndex === undefined) {
-    console.log("price too high for lvr")
+    // console.log("price too high for lvr")
     return -1
   }
 
@@ -213,4 +227,10 @@ export function calcLMI(purchasePrice: number, deposit: number) {
   const premium = lookup[Math.ceil(lvr)][bucketIndex]
 
   return purchasePrice * (premium / 100)
+}
+
+export function cashOnHandRequired(deposit: number, fees: number, taxOrTransferDuty: number, lmi: number) {
+  // console.log(deposit, fees, taxOrTransferDuty, lmi, deposit + fees + taxOrTransferDuty + lmi)
+
+  return deposit + fees + taxOrTransferDuty + lmi
 }
