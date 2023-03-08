@@ -15,13 +15,13 @@ export default function InfoForm({
   return (
     <form
       onChange={() => onValueChange(getValues() as CalcData)}
-      className="text-sm grid  gap-y-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 grid-cols-[200px] font-roboto  border-zinc-200"
+      className="text-sm text-zinc-700 grid  gap-y-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 [&>div]:pr-8  border-zinc-200"
     >
       <div onMouseEnter={() => onItemHover("occupier-vs-investor")}>
-        <label htmlFor="form-fieldset-purpose" className="mb-4 font-semibold">
+        <label htmlFor="form-fieldset-purpose" className="mb-4 font-bold font-spartan">
           Why are you buying a place?
         </label>
-        <fieldset defaultValue="occupier" id="form-fieldset-purpose" className="pt-4">
+        <fieldset defaultValue="occupier" id="form-fieldset-purpose" className="pt-4 font-roboto">
           <input
             type="radio"
             value="occupier"
@@ -47,7 +47,7 @@ export default function InfoForm({
         </fieldset>
       </div>
       <div onMouseEnter={() => onItemHover("state")} className="flex flex-col gap-2">
-        <label htmlFor="form-state" className="block font-semibold mr-2">
+        <label htmlFor="form-state" className="block font-bold mr-2">
           What state are you in?
         </label>
         <select defaultValue={CALC_DEFAULTS.state} id="form-state" {...register("state")} className="max-w-fit">
@@ -63,7 +63,7 @@ export default function InfoForm({
         </select>
       </div>
       <div onMouseEnter={() => onItemHover("location")}>
-        <label htmlFor="form-fieldset-location" className="mb-4 font-semibold">
+        <label htmlFor="form-fieldset-location" className="mb-4 font-bold font-spartan">
           Where are you buying?
         </label>
         <fieldset id="form-fieldset-location" className="pt-4 flex flex-col gap-2">
@@ -98,7 +98,7 @@ export default function InfoForm({
         </fieldset>
       </div>
       <div onMouseEnter={() => onItemHover("new-or-existing")}>
-        <label htmlFor="form-fieldset-new-or-existing" className="mb-4 font-semibold mr-4">
+        <label htmlFor="form-fieldset-new-or-existing" className="mb-4 font-bold mr-4">
           Buying an existing, new property or vacant land?
         </label>
         <fieldset id="form-fieldset-new-or-existing" className="pt-4 flex flex-col gap-1">
@@ -144,7 +144,7 @@ export default function InfoForm({
         </fieldset>
       </div>
       <div onMouseEnter={() => onItemHover("single-vs-couple")}>
-        <label htmlFor="form-fieldset-participants" className="mb-4 font-semibold">
+        <label htmlFor="form-fieldset-participants" className="mb-4 font-bold font-spartan">
           Buying as a single or a couple?
         </label>
         <fieldset id="form-fieldset-participants" className="pt-4">
@@ -174,7 +174,7 @@ export default function InfoForm({
       </div>
       <div onMouseEnter={() => onItemHover("income")} className="flex flex-col justify-between">
         <div>
-          <label htmlFor="form-income" className="block font-semibold mr-2">
+          <label htmlFor="form-income" className="block font-bold mr-2">
             What is your yearly income?
           </label>
           <p className="text-xs py-1 text-zinc-600">Combined if a couple</p>
@@ -191,7 +191,7 @@ export default function InfoForm({
         />
       </div>
       <div onMouseEnter={() => onItemHover("deposit")} className="flex flex-col justify-between">
-        <label htmlFor="form-deposit" className="block font-semibold mr-2">
+        <label htmlFor="form-deposit" className="block font-bold mr-2">
           How much have you saved for a deposit?
         </label>
         <CurrencyInput
@@ -207,7 +207,7 @@ export default function InfoForm({
       </div>
       <div onMouseEnter={() => onItemHover("expenses")} className="flex flex-col justify-between">
         <div>
-          <label htmlFor="form-expenses" className="block font-semibold mr-2">
+          <label htmlFor="form-expenses" className="block font-bold mr-2">
             What are your monthly expenses?
           </label>
           <p className="text-xs py-1 text-zinc-600">e.g. food, clothes, loan repayments - don't include rent</p>
@@ -225,7 +225,7 @@ export default function InfoForm({
       </div>
       <div onMouseEnter={() => onItemHover("expenses")} className="flex flex-col justify-between">
         <div>
-          <label htmlFor="form-hecs" className="block font-semibold mr-2">
+          <label htmlFor="form-hecs" className="block font-bold mr-2">
             Do you have a HECS debt?
           </label>
           <p className="text-xs py-1 text-zinc-600">Add your remaining amount, otherwise 0</p>
@@ -242,7 +242,7 @@ export default function InfoForm({
         />
       </div>
       <div onMouseEnter={() => onItemHover("land-value")} className="flex flex-col justify-between">
-        <label htmlFor="form-land-value" className="block font-semibold mr-2">
+        <label htmlFor="form-land-value" className="block font-bold mr-2">
           What is the land value of the property?
         </label>
         <CurrencyInput

@@ -1,5 +1,13 @@
 import { useState } from "react"
-import { Check, Check2Circle, CheckCircle, CheckCircleFill, Icon0Circle, XCircleFill } from "react-bootstrap-icons"
+import {
+  Check,
+  Check2Circle,
+  CheckCircle,
+  CheckCircleFill,
+  Circle,
+  Icon0Circle,
+  XCircleFill,
+} from "react-bootstrap-icons"
 import {
   estimateLoanAmount,
   calcLVR,
@@ -60,44 +68,44 @@ export default function ResultsTable({ data }: { data: CalcData | null }) {
 
   return (
     <div className="text-sm">
-      <table className="w-full text-sm text-left font-roboto border">
-        <thead className="text-gray-700 uppercase bg-zinc-100 dark:bg-gray-700 dark:text-gray-400 font-semibold">
-          <tr className=" text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <table className="w-full text-sm text-left  border">
+        <thead className="text-zinc-700 uppercase bg-zinc-100 dark:bg-gray-700 dark:text-gray-400 font-semibold font-spartan">
+          <tr className=" text-zinc-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <td className="px-4 py-3">Purchase Price</td>
             <td className="px-4 py-3">Loan Amount</td>
             <td className="px-4 py-3">LVR</td>
             <td className="px-4 py-3">LMI</td>
-            <td className="w-min cursor-pointer" onClick={() => setTaxOrTransferDuty("TRANSFER")}>
+            <td className="w-28 cursor-pointer" onClick={() => setTaxOrTransferDuty("TRANSFER")}>
               {taxOrTransferDuty === "TRANSFER" ? (
-                <div className="bg-sky-100 w-full h-full px-4 py-3 border border-sky-500 justify-between gap-2 flex items-center hover:bg-sky-50">
+                <div className="w-full h-full px-4 py-3 border border-zinc-500 gap-2  items-center hover:bg-zinc-100 rounded-l-lg">
                   <span className="whitespace-nowrap">Transfer Duty</span>
-                  <span className="inline">
-                    <CheckCircle size="1.3em" className="fill-sky-700" />
-                  </span>
+                  {/* <span className="inline">
+                    <CheckCircleFill size="1.3em" className="fill-zinc-600" />
+                  </span> */}
                 </div>
               ) : (
-                <div className="w-full h-full px-4 py-3 border border-zinc-200 flex justify-between gap-2 items-center hover:bg-sky-50 hover:border-sky-200">
+                <div className="text-zinc-300 w-full h-full px-4 py-3 border border-zinc-200  items-cente gap-2 hover:bg-zinc-200 hover:border-zinc-300 hover:text-zinc-500 rounded-l-lg">
                   <span className="whitespace-nowrap">Transfer Duty</span>
-                  <span className="inline">
-                    <CheckCircle size="1.3em" className="fill-zinc-100 m-0" />
-                  </span>
+                  {/* <span className="inline">
+                    <Circle size="1.3em" className="fill-zinc-400" />
+                  </span> */}
                 </div>
               )}
             </td>
-            <td className="w-min cursor-pointer" onClick={() => setTaxOrTransferDuty("TAX")}>
+            <td className="w-28 cursor-pointer" onClick={() => setTaxOrTransferDuty("TAX")}>
               {taxOrTransferDuty === "TAX" ? (
-                <div className="bg-sky-100 w-full h-full px-4 py-3 border border-sky-500 flex  justify-between gap-2 items-center hover:bg-sky-50 ">
+                <div className="w-full h-full px-4 py-3 border border-zinc-500  gap-2 items-center hover:bg-zinc-100  rounded-r-xl ">
                   <span className="whitespace-nowrap">Property Tax</span>
-                  <span className="inline">
-                    <CheckCircle size="1.3em" className="fill-sky-700 m-0" />
-                  </span>
+                  {/* <span className="inline">
+                    <CheckCircleFill size="1.3em" className="fill-sky-700 m-0" />
+                  </span> */}
                 </div>
               ) : (
-                <div className="w-full h-full px-4 py-3 border border-zinc-200 flex items-center justify-between gap-2 hover:bg-sky-50 hover:border-sky-200">
+                <div className="text-zinc-300 w-full h-full px-4 py-3 border border-zinc-200  items-cente gap-2 hover:bg-zinc-200 hover:border-zinc-300 hover:text-zinc-500 rounded-r-xl">
                   <span className="whitespace-nowrap">Property Tax</span>
-                  <span className="inline">
-                    <CheckCircle size="1.3em" className="fill-zinc-100 m-0" />
-                  </span>
+                  {/* <span className="inline">
+                    <Circle size="1.3em" className="fill-zinc-400" />
+                  </span> */}
                 </div>
               )}
             </td>
@@ -130,8 +138,8 @@ export default function ResultsTable({ data }: { data: CalcData | null }) {
                 key={`${purchasePrice}`}
                 className={
                   lvr > 95
-                    ? "bg-white border-b dark:bg-gray-900 dark:border-gray-700 text-zinc-400 [&>td]:px-6 [&>td]:py-3"
-                    : "bg-white border-b dark:bg-gray-900 dark:border-gray-700 [&>td]:px-6 [&>td]:py-3"
+                    ? "bg-white border-b dark:bg-gray-900 dark:border-gray-700 text-zinc-400 [&>td]:px-6 [&>td]:py-3 font-roboto"
+                    : "bg-white border-b dark:bg-gray-900 dark:border-gray-700 [&>td]:px-6 [&>td]:py-3 font-roboto"
                 }
               >
                 <td>{fmtAUD(purchasePrice)}</td>
@@ -143,19 +151,48 @@ export default function ResultsTable({ data }: { data: CalcData | null }) {
                 <td>
                   {FHBASResult.type === "full" ? (
                     <p>
-                      {fmtAUD(transferDuty)} <span className="text-[10px] text-zinc-400">FHBAS exempt</span>
+                      <span className={taxOrTransferDuty === "TAX" ? "line-through text-zinc-200" : ""}>
+                        {fmtAUD(transferDuty)}
+                      </span>{" "}
+                      <span
+                        className={
+                          taxOrTransferDuty === "TAX" ? "text-[10px] text-zinc-200" : "text-[10px] text-zinc-400"
+                        }
+                      >
+                        FHBAS exempt
+                      </span>
                     </p>
                   ) : (
-                    <p>
-                      {fmtAUD(transferDuty)}{" "}
+                    <div className="flex flex-row items-center gap-2">
+                      <p className={taxOrTransferDuty === "TAX" ? "line-through text-zinc-200" : ""}>
+                        {fmtAUD(transferDuty)}{" "}
+                      </p>
                       {FHBASResult.type === "concessional" && (
-                        <span className="text-[10px] text-zinc-400">FHBAS concession</span>
+                        <span
+                          className={
+                            taxOrTransferDuty === "TAX"
+                              ? "text-[10px] text-zinc-200 leading-3"
+                              : "text-[10px] text-zinc-400 leading-3"
+                          }
+                        >
+                          FHBAS <br />
+                          concession
+                        </span>
                       )}
-                    </p>
+                    </div>
                   )}
                 </td>
                 <td>
-                  {fmtAUD(propertyTax)} <span className="text-[11px] text-zinc-400">p.a.</span>
+                  <span className={taxOrTransferDuty === "TRANSFER" ? "line-through text-zinc-200" : ""}>
+                    {fmtAUD(propertyTax)}
+                  </span>{" "}
+                  <span
+                    className={
+                      taxOrTransferDuty === "TRANSFER" ? "text-[11px] text-zinc-200" : "text-[11px] text-zinc-400"
+                    }
+                  >
+                    p.a.
+                  </span>
                 </td>
                 <td>{fmtAUD(cashOnHand)}</td>
                 <td className="flex flex-row gap-2">

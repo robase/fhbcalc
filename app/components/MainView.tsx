@@ -10,38 +10,38 @@ export default function MainView() {
   const [focusedItem, setFocusedItem] = useState("")
 
   return (
-    <>
-      <div className="flex flex-row flex-wrap justify-between font-roboto ">
-        <div className="px-8">
-          <h1 className="mt-10 mb-4 text-4xl font-semibold">First Home Buyer Calulator</h1>
+    <div className="container xl:mx-auto">
+      <h1 className="px-8 mt-10 mb-8 text-4xl text-zinc-600 tracking-tight font-spartan font-bold uppercase">
+        🏡 First Home Buyer Calculator
+      </h1>
+      <div className="flex flex-row flex-wrap justify-between font-roboto text-sm px-8 mb-8 text-zinc-700">
+        <div>
+          <p>Assumptions:</p>
+          <ul className="list-inside list-disc pl-4 pt-2">
+            <li>you are a first home buyer</li>
+            <li>you are an australian citizen</li>
+            <li>you are over 18</li>
+            <li>you or your partner have never previously owned a home</li>
+          </ul>
         </div>
-        <div className="max-w-2xl mb-6 px-8 pt-10">
-          <p className="text-sm">
-            Please note that this is only a tool
-            <b> intended to compliment your own research, this is not financial advice</b>.<br />
+        <div className="max-w-md">
+          <p>
+            Please note that this is a tool intended to compliment your own research, this is not financial advice.
+            <br />
             <br /> No data is collected, retained or stored anywhere from this site, it never leaves your browser.
           </p>
         </div>
       </div>
-      <p className="font-roboto text-sm px-8 mb-8">
-        This calculator assumes:
-        <ul className="list-inside list-disc pl-4">
-          <li>you are a first home buyer</li>
-          <li>you are an australian citizen</li>
-          <li>you are over 18</li>
-          <li>you or your partner have never previously owned a home</li>
-        </ul>
-      </p>
-      <div className="flex flex-col px-8 xl:flex-col mb-8">
+      <div className="flex flex-col gap-20 px-8 mt-20 xl:flex-col mb-8 2xl:max-w-screen-2xl">
         <div>
-          <h3 className="text-2xl mb-8">Your Info</h3>
+          {/* <h3 className="text-2xl font-medium mb-8">Your Info</h3> */}
           <InfoForm onItemHover={setFocusedItem} onValueChange={(values: CalcData) => setCalcState(values)} />
         </div>
         <div>
-          <h3 className="text-2xl mb-2 mt-8 mb-8">Results</h3>
+          {/* <h3 className="text-2xl mb-2 mt-8 mb-8">Results</h3> */}
           <ResultsTable data={calcState} />
         </div>
       </div>
-    </>
+    </div>
   )
 }
