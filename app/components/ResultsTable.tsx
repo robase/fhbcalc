@@ -17,7 +17,7 @@ import { CALC_DEFAULTS } from "~/utls/defaults"
 
 const GAP = 10000
 
-function fmtAUD(amount: number) {
+export function fmtAUD(amount: number) {
   return new Intl.NumberFormat("en-AU", {
     style: "currency",
     currency: "AUD",

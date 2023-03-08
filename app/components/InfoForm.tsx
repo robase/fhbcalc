@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form"
 import type { CalcData } from "~/utls/defaults"
 import { CALC_DEFAULTS } from "~/utls/defaults"
+import CurrencyInput from "react-currency-input-field"
 
 export default function InfoForm({
   onValueChange,
@@ -14,7 +15,7 @@ export default function InfoForm({
   return (
     <form
       onChange={() => onValueChange(getValues() as CalcData)}
-      className="text-sm grid grid-cols-3 gap-y-4 md:grid-cols-2 xl:grid-cols-5 grid-cols-[200px] font-roboto  border-zinc-200"
+      className="text-sm grid  gap-y-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 grid-cols-[200px] font-roboto  border-zinc-200"
     >
       <div onMouseEnter={() => onItemHover("occupier-vs-investor")}>
         <label htmlFor="form-fieldset-purpose" className="mb-4 font-semibold">
@@ -45,12 +46,11 @@ export default function InfoForm({
           </label>
         </fieldset>
       </div>
-      <div onMouseEnter={() => onItemHover("state")}>
+      <div onMouseEnter={() => onItemHover("state")} className="flex flex-col gap-2">
         <label htmlFor="form-state" className="block font-semibold mr-2">
           What state are you in?
         </label>
-        <p className="text-xs text-zinc-600">&nbsp;</p>
-        <select defaultValue={CALC_DEFAULTS.state} id="form-state" {...register("state")}>
+        <select defaultValue={CALC_DEFAULTS.state} id="form-state" {...register("state")} className="max-w-fit">
           <option>NSW</option>
           <option disabled>More coming soon</option>
           {/* <option disabled>ACT</option>
@@ -61,90 +61,6 @@ export default function InfoForm({
           <option disabled>VIC</option>
           <option disabled>WA</option> */}
         </select>
-      </div>
-      <div onMouseEnter={() => onItemHover("single-vs-couple")}>
-        <label htmlFor="form-fieldset-participants" className="mb-4 font-semibold">
-          Buying as a single or a couple?
-        </label>
-        <fieldset id="form-fieldset-participants" className="pt-4">
-          <input
-            type="radio"
-            {...register("participants")}
-            value="single"
-            id="form-radio-single"
-            className="mr-2 cursor-pointer"
-            defaultChecked={CALC_DEFAULTS.participants === "single"}
-          />
-          <label htmlFor="form-radio-single" className="mr-8 cursor-pointer">
-            Single
-          </label>
-          <input
-            type="radio"
-            {...register("participants")}
-            value="couple"
-            id="form-radio-couple"
-            className="cursor-pointer"
-            defaultChecked={CALC_DEFAULTS.participants === "couple"}
-          />
-          <label htmlFor="form-radio-couple" className="mx-2 cursor-pointer">
-            Couple
-          </label>
-        </fieldset>
-      </div>
-      <div onMouseEnter={() => onItemHover("income")}>
-        <label htmlFor="form-income" className="block font-semibold mr-2">
-          What is your yearly income?
-        </label>
-        <p className="text-xs text-zinc-600">Combined if a couple</p>
-        <input
-          defaultValue={CALC_DEFAULTS.income}
-          className="mt-0"
-          id="form-income"
-          {...register("income", {
-            valueAsNumber: true,
-          })}
-          type="number"
-        />
-      </div>
-      <div onMouseEnter={() => onItemHover("deposit")}>
-        <label htmlFor="form-deposit" className="block font-semibold mr-2">
-          How much have you saved for a deposit?
-        </label>
-        <p className="text-xs text-zinc-600">&nbsp;</p>
-        <input
-          className="border"
-          defaultValue={CALC_DEFAULTS.deposit}
-          id="form-deposit"
-          {...register("deposit", {
-            valueAsNumber: true,
-          })}
-          type="number"
-        />
-      </div>
-      <div onMouseEnter={() => onItemHover("expenses")}>
-        <label htmlFor="form-expenses" className="block font-semibold mr-2">
-          What are your monthly expenses?
-        </label>
-        <p className="text-xs text-zinc-600 ">
-          e.g. food, clothes, loan repayments -
-          <br /> don't include rent
-        </p>
-        <input
-          defaultValue={CALC_DEFAULTS.expenses}
-          className="mt-2"
-          id="form-expenses"
-          {...register("expenses", {
-            valueAsNumber: true,
-          })}
-          type="number"
-        />
-      </div>
-      <div onMouseEnter={() => onItemHover("expenses")}>
-        <label htmlFor="form-hecs" className="block font-semibold mr-2">
-          Do you have a HECS debt?
-        </label>
-        <p className="text-xs pt-2 pb-2 text-zinc-600">Add your remaining amount, otherwise 0</p>
-        <input defaultValue={CALC_DEFAULTS.hecs} className="mt-2" id="form-hecs" {...register("hecs")} type="number" />
       </div>
       <div onMouseEnter={() => onItemHover("location")}>
         <label htmlFor="form-fieldset-location" className="mb-4 font-semibold">
@@ -209,7 +125,7 @@ export default function InfoForm({
               defaultChecked={CALC_DEFAULTS.propertyBuild === "new-property"}
             />
             <label htmlFor="form-radio-new-property" className="mx-2 cursor-pointer">
-              New <p className="text-xs inline-block">(e.g. off the plan)</p>
+              New <p className="text-xs py-1 inline-block">(e.g. off the plan)</p>
             </label>
           </div>
           <div>
@@ -227,19 +143,117 @@ export default function InfoForm({
           </div>
         </fieldset>
       </div>
-      <div onMouseEnter={() => onItemHover("land-value")}>
+      <div onMouseEnter={() => onItemHover("single-vs-couple")}>
+        <label htmlFor="form-fieldset-participants" className="mb-4 font-semibold">
+          Buying as a single or a couple?
+        </label>
+        <fieldset id="form-fieldset-participants" className="pt-4">
+          <input
+            type="radio"
+            {...register("participants")}
+            value="single"
+            id="form-radio-single"
+            className="mr-2 cursor-pointer"
+            defaultChecked={CALC_DEFAULTS.participants === "single"}
+          />
+          <label htmlFor="form-radio-single" className="mr-8 cursor-pointer">
+            Single
+          </label>
+          <input
+            type="radio"
+            {...register("participants")}
+            value="couple"
+            id="form-radio-couple"
+            className="cursor-pointer"
+            defaultChecked={CALC_DEFAULTS.participants === "couple"}
+          />
+          <label htmlFor="form-radio-couple" className="mx-2 cursor-pointer">
+            Couple
+          </label>
+        </fieldset>
+      </div>
+      <div onMouseEnter={() => onItemHover("income")} className="flex flex-col justify-between">
+        <div>
+          <label htmlFor="form-income" className="block font-semibold mr-2">
+            What is your yearly income?
+          </label>
+          <p className="text-xs py-1 text-zinc-600">Combined if a couple</p>
+        </div>
+        <CurrencyInput
+          className="max-w-fit"
+          id="form-income"
+          onFocus={(e) => e.target.select()}
+          intlConfig={{ locale: "en-AU", currency: "AUD" }}
+          placeholder="Please enter a number"
+          defaultValue={CALC_DEFAULTS.income}
+          decimalsLimit={2}
+          {...register("income", { setValueAs: (v) => Number(v.replace(/[^0-9.-]+/g, "")) })}
+        />
+      </div>
+      <div onMouseEnter={() => onItemHover("deposit")} className="flex flex-col justify-between">
+        <label htmlFor="form-deposit" className="block font-semibold mr-2">
+          How much have you saved for a deposit?
+        </label>
+        <CurrencyInput
+          className="max-w-fit"
+          id="form-deposit"
+          onFocus={(e) => e.target.select()}
+          intlConfig={{ locale: "en-AU", currency: "AUD" }}
+          placeholder="Please enter a number"
+          defaultValue={CALC_DEFAULTS.deposit}
+          decimalsLimit={2}
+          {...register("deposit", { setValueAs: (v) => Number(v.replace(/[^0-9.-]+/g, "")) })}
+        />
+      </div>
+      <div onMouseEnter={() => onItemHover("expenses")} className="flex flex-col justify-between">
+        <div>
+          <label htmlFor="form-expenses" className="block font-semibold mr-2">
+            What are your monthly expenses?
+          </label>
+          <p className="text-xs py-1 text-zinc-600">e.g. food, clothes, loan repayments - don't include rent</p>
+        </div>
+        <CurrencyInput
+          id="form-expenses"
+          className="max-w-fit"
+          onFocus={(e) => e.target.select()}
+          intlConfig={{ locale: "en-AU", currency: "AUD" }}
+          placeholder="Please enter a number"
+          defaultValue={CALC_DEFAULTS.expenses}
+          decimalsLimit={2}
+          {...register("expenses", { setValueAs: (v) => Number(v.replace(/[^0-9.-]+/g, "")) })}
+        />
+      </div>
+      <div onMouseEnter={() => onItemHover("expenses")} className="flex flex-col justify-between">
+        <div>
+          <label htmlFor="form-hecs" className="block font-semibold mr-2">
+            Do you have a HECS debt?
+          </label>
+          <p className="text-xs py-1 text-zinc-600">Add your remaining amount, otherwise 0</p>
+        </div>
+        <CurrencyInput
+          id="form-hecs"
+          className="max-w-fit"
+          onFocus={(e) => e.target.select()}
+          intlConfig={{ locale: "en-AU", currency: "AUD" }}
+          placeholder="Please enter a number"
+          defaultValue={CALC_DEFAULTS.hecs}
+          decimalsLimit={2}
+          {...register("hecs", { setValueAs: (v) => Number(v.replace(/[^0-9.-]+/g, "")) })}
+        />
+      </div>
+      <div onMouseEnter={() => onItemHover("land-value")} className="flex flex-col justify-between">
         <label htmlFor="form-land-value" className="block font-semibold mr-2">
           What is the land value of the property?
         </label>
-        <p className="text-sm text-zinc-600">&nbsp;</p>
-        <input
-          className="border"
-          defaultValue={CALC_DEFAULTS.landValue}
+        <CurrencyInput
+          className="max-w-fit"
+          onFocus={(e) => e.target.select()}
           id="form-land-value"
-          {...register("landValue", {
-            valueAsNumber: true,
-          })}
-          type="number"
+          intlConfig={{ locale: "en-AU", currency: "AUD" }}
+          placeholder="Please enter a number"
+          defaultValue={CALC_DEFAULTS.landValue}
+          decimalsLimit={2}
+          {...register("landValue", { setValueAs: (v) => Number(v.replace(/[^0-9.-]+/g, "")) })}
         />
       </div>
     </form>
