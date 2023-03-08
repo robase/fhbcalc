@@ -169,7 +169,8 @@ export function estimateLoanAmount({ income, expenses }: CalcData) {
 }
 
 export function calcLVR(purchasePrice: number, depositPlusLMI: number) {
-  return ((purchasePrice - depositPlusLMI) / purchasePrice) * 100
+  const lvr = ((purchasePrice - depositPlusLMI) / purchasePrice) * 100
+  return lvr > 0 ? lvr : 0
 }
 
 // https://www.homeloanexperts.com.au/lenders-mortgage-insurance/lmi-premium-rates/

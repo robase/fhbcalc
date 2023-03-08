@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import {
   Check,
   Check2Circle,
@@ -8,6 +8,7 @@ import {
   Icon0Circle,
   XCircleFill,
 } from "react-bootstrap-icons"
+import CurrencyInput from "react-currency-input-field"
 import {
   estimateLoanAmount,
   calcLVR,
@@ -51,9 +52,29 @@ function Pill({ text, status, url }: { text: string; status: "R" | "A" | "G"; ur
   )
 }
 
+function Inteval() {
+  let [count, setCount] = useState(0)
+
+  function incrementCount() {
+    count = count + 1
+    setCount(count)
+  }
+  function decrementCount() {
+    count = count - 1
+    setCount(count)
+  }
+  return (
+    <div className="App">
+      <div>{count}</div>
+      <button onClick={incrementCount}>+</button>
+      <button onClick={decrementCount}>-</button>
+    </div>
+  )
+}
+
 const urlFHBAS = "https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/assistance-scheme"
 const urlFHBG = "https://www.nhfic.gov.au/support-buy-home/first-home-guarantee"
-const urlFHOG = "https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer"
+const urlFHOG = "https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/new-homes"
 const urlFHBC = "https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/first-home-buyer-choice"
 
 export default function ResultsTable({ data }: { data: CalcData | null }) {
@@ -64,13 +85,63 @@ export default function ResultsTable({ data }: { data: CalcData | null }) {
   const loanAmount = estimateLoanAmount(vals)
   const transactionFee = 1500 + 800 + 463
 
-  const houseCosts = new Array(15).fill(0).map((_, i) => Math.round((loanAmount - 8 * GAP + GAP * i) / 10000) * 10000)
+  let [priceInterval, setPriceInterval] = useState(30000)
+  let [minPrice, setMinPrice] = useState(
+    Math.round((loanAmount - 8 * priceInterval + priceInterval * 0) / 10000) * 10000
+  )
+
+  const houseCosts = new Array(15).fill(0).map((_, i) => Math.round((minPrice + priceInterval * i) / 10000) * 10000)
+
+  useEffect(() => {
+    setMinPrice(
+      Math.round((loanAmount - 8 * priceInterval + priceInterval * 0) / 10000) * 10000 > 0
+        ? Math.round((loanAmount - 8 * priceInterval + priceInterval * 0) / 10000) * 10000
+        : 0
+    )
+  }, [loanAmount, priceInterval])
 
   return (
     <div className="text-sm">
+      <div className="pb-4 flex flex-row gap-4 text-zinc-700">
+        <div>
+          <label htmlFor="min-price" className="block text-xs font-light font-roboto text-zinc-500">
+            Min purchace price
+          </label>
+          <CurrencyInput
+            id="min-price"
+            className="block w-36 py-1.5 border-zinc-400"
+            onFocus={(e) => e.target.select()}
+            intlConfig={{ locale: "en-AU", currency: "AUD" }}
+            placeholder="Please enter a number"
+            decimalsLimit={2}
+            value={minPrice}
+            onChange={(e) => {
+              if (e.target.value !== "-") {
+                setMinPrice(Number(e.target.value.replace("-", "").replace(/[^0-9.-]+/g, "")))
+              }
+            }}
+          />
+        </div>
+        <div>
+          <label htmlFor="priceInterval" className="block text-xs font-light font-roboto text-zinc-500">
+            Price interval
+          </label>
+          <input
+            id="priceInterval"
+            type="number"
+            className="block w-36 py-1.5 border-zinc-400"
+            min={10000}
+            step={10000}
+            value={priceInterval}
+            onChange={(e) =>
+              setPriceInterval(parseInt(e.target?.value || "0") < 10000 ? 10000 : parseInt(e.target.value))
+            }
+          />
+        </div>
+      </div>
       <table className="w-full text-sm text-left  border">
         <thead className="text-zinc-800 uppercase bg-zinc-100 dark:bg-gray-700 dark:text-gray-400 font-semibold font-spartan">
-          <tr className="uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 tracking-wide">
+          <tr className="uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 tracking-wide ">
             <td className="px-4 py-3">Purchase Price</td>
             <td className="px-4 py-3">Loan Amount</td>
             <td className="px-4 py-3">LVR</td>
@@ -102,7 +173,7 @@ export default function ResultsTable({ data }: { data: CalcData | null }) {
           </tr>
         </thead>
         <tbody>
-          {houseCosts.map((purchasePrice) => {
+          {houseCosts.map((purchasePrice, i) => {
             const FHBGResult = qualifiesForFHBG(vals, purchasePrice)
             const FHBCResult = qualifiesForFHBC(vals, purchasePrice)
             const FHBASResult = qualifiesForFHBAS(vals, purchasePrice)
@@ -123,15 +194,17 @@ export default function ResultsTable({ data }: { data: CalcData | null }) {
 
             return (
               <tr
-                key={`${purchasePrice}`}
+                key={`${purchasePrice}-${i}`}
                 className={
                   lvr > 95
-                    ? "bg-white border-b dark:bg-gray-900 dark:border-gray-700 text-zinc-400 font-roboto"
-                    : "bg-white border-b dark:bg-gray-900 dark:border-gray-700 font-roboto"
+                    ? "bg-white border-b dark:bg-gray-900 dark:border-gray-700 text-zinc-400 font-roboto hover:bg-zinc-100"
+                    : "bg-white border-b dark:bg-gray-900 dark:border-gray-700 font-roboto hover:bg-zinc-100"
                 }
               >
                 <td className="px-4 py-3">{fmtAUD(purchasePrice)}</td>
-                <td className="px-4 py-3">{fmtAUD(purchasePrice - vals.deposit)}</td>
+                <td className="px-4 py-3">
+                  {purchasePrice - vals.deposit > 0 ? fmtAUD(purchasePrice - vals.deposit) : fmtAUD(0)}
+                </td>
                 <td className="px-4 py-3">{lvr.toFixed(2)}%</td>
                 <td className="px-4 py-3">
                   {fmtAUD(lmi)} {FHBGResult.eligible && <span className="text-[10px] text-zinc-400">FHBG</span>}
