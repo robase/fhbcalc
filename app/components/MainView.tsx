@@ -11,8 +11,8 @@ export default function MainView() {
 
   return (
     <div className="container xl:mx-auto">
-      <h1 className="px-8 mt-10 mb-8 text-4xl text-zinc-600 tracking-tight font-spartan font-bold uppercase">
-        🏡 First Home Buyer Calculator
+      <h1 className="px-8 mt-10 mb-8 text-4xl text-zinc-700 tracking-normal font-spartan font-semibold">
+        🏠 First Home Buyer Calculator
       </h1>
       <div className="flex flex-row flex-wrap justify-between font-roboto text-sm px-8 mb-8 text-zinc-700">
         <div>
