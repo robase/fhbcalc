@@ -69,8 +69,8 @@ export default function ResultsTable({ data }: { data: CalcData | null }) {
   return (
     <div className="text-sm">
       <table className="w-full text-sm text-left  border">
-        <thead className="text-zinc-700 uppercase bg-zinc-100 dark:bg-gray-700 dark:text-gray-400 font-semibold font-spartan">
-          <tr className=" text-zinc-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <thead className="text-zinc-800 uppercase bg-zinc-100 dark:bg-gray-700 dark:text-gray-400 font-semibold font-spartan">
+          <tr className="uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <td className="px-4 py-3">Purchase Price</td>
             <td className="px-4 py-3">Loan Amount</td>
             <td className="px-4 py-3">LVR</td>
@@ -138,17 +138,17 @@ export default function ResultsTable({ data }: { data: CalcData | null }) {
                 key={`${purchasePrice}`}
                 className={
                   lvr > 95
-                    ? "bg-white border-b dark:bg-gray-900 dark:border-gray-700 text-zinc-400 [&>td]:px-6 [&>td]:py-3 font-roboto"
-                    : "bg-white border-b dark:bg-gray-900 dark:border-gray-700 [&>td]:px-6 [&>td]:py-3 font-roboto"
+                    ? "bg-white border-b dark:bg-gray-900 dark:border-gray-700 text-zinc-400 font-roboto"
+                    : "bg-white border-b dark:bg-gray-900 dark:border-gray-700 font-roboto"
                 }
               >
-                <td>{fmtAUD(purchasePrice)}</td>
-                <td>{fmtAUD(purchasePrice - vals.deposit)}</td>
-                <td>{lvr.toFixed(2)}%</td>
-                <td>
+                <td className="px-4 py-3">{fmtAUD(purchasePrice)}</td>
+                <td className="px-4 py-3">{fmtAUD(purchasePrice - vals.deposit)}</td>
+                <td className="px-4 py-3">{lvr.toFixed(2)}%</td>
+                <td className="px-4 py-3">
                   {fmtAUD(lmi)} {FHBGResult.eligible && <span className="text-[10px] text-zinc-400">FHBG</span>}
                 </td>
-                <td>
+                <td className="px-4 py-3">
                   {FHBASResult.type === "full" ? (
                     <p>
                       <span className={taxOrTransferDuty === "TAX" ? "line-through text-zinc-200" : ""}>
@@ -182,7 +182,7 @@ export default function ResultsTable({ data }: { data: CalcData | null }) {
                     </div>
                   )}
                 </td>
-                <td>
+                <td className="px-4 py-3">
                   <span className={taxOrTransferDuty === "TRANSFER" ? "line-through text-zinc-200" : ""}>
                     {fmtAUD(propertyTax)}
                   </span>{" "}
@@ -194,8 +194,8 @@ export default function ResultsTable({ data }: { data: CalcData | null }) {
                     p.a.
                   </span>
                 </td>
-                <td>{fmtAUD(cashOnHand)}</td>
-                <td className="flex flex-row gap-2">
+                <td className="px-4 py-3">{fmtAUD(cashOnHand)}</td>
+                <td className="flex flex-row gap-2 px-4 py-3">
                   {FHBASResult.eligible ? (
                     FHBASResult.type === "full" ? (
                       <Pill status="G" text="BAS" url={urlFHBAS} />
