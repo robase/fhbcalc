@@ -21,29 +21,33 @@ export default function InfoForm({
         <label htmlFor="form-fieldset-purpose" className="mb-4 font-bold font-spartan">
           Why are you buying a place?
         </label>
-        <fieldset defaultValue="occupier" id="form-fieldset-purpose" className="pt-4 font-roboto">
-          <input
-            type="radio"
-            value="occupier"
-            id="form-radio-occupier"
-            className="mr-2 cursor-pointer"
-            {...register("purpose")}
-            // defaultChecked={CALC_DEFAULTS.purpose === "occupier"}
-          />
-          <label htmlFor="form-radio-occupier" className="mr-8 cursor-pointer">
-            To live in
-          </label>
-          <input
-            type="radio"
-            {...register("purpose")}
-            value="investor"
-            // defaultChecked={CALC_DEFAULTS.purpose === "investor"}
-            id="form-radio-investor"
-            className="cursor-pointer"
-          />
-          <label htmlFor="form-radio-investor" className="mx-2 cursor-pointer">
-            As an investment
-          </label>
+        <fieldset defaultValue="occupier" id="form-fieldset-purpose" className="pt-2 flex flex-col gap-2 font-roboto">
+          <div>
+            <input
+              type="radio"
+              value="occupier"
+              id="form-radio-occupier"
+              className="mr-2 cursor-pointer"
+              {...register("purpose")}
+              // defaultChecked={CALC_DEFAULTS.purpose === "occupier"}
+            />
+            <label htmlFor="form-radio-occupier" className="mr-8 cursor-pointer">
+              To live in
+            </label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              {...register("purpose")}
+              value="investor"
+              // defaultChecked={CALC_DEFAULTS.purpose === "investor"}
+              id="form-radio-investor"
+              className="cursor-pointer"
+            />
+            <label htmlFor="form-radio-investor" className="mx-2 cursor-pointer">
+              As an investment
+            </label>
+          </div>
         </fieldset>
       </div>
       <div onMouseEnter={() => onItemHover("state")} className="flex flex-col gap-2">
@@ -66,7 +70,7 @@ export default function InfoForm({
         <label htmlFor="form-fieldset-location" className="mb-4 font-bold font-spartan">
           Where are you buying?
         </label>
-        <fieldset id="form-fieldset-location" className="pt-4 flex flex-col gap-2">
+        <fieldset id="form-fieldset-location" className="pt-2 flex flex-col gap-2">
           <div>
             <input
               type="radio"
@@ -101,7 +105,7 @@ export default function InfoForm({
         <label htmlFor="form-fieldset-new-or-existing" className="mb-4 font-bold mr-4">
           Buying an existing, new property or vacant land?
         </label>
-        <fieldset id="form-fieldset-new-or-existing" className="pt-4 flex flex-col gap-1">
+        <fieldset id="form-fieldset-new-or-existing" className="pt-2 flex flex-col gap-1">
           <div>
             <input
               type="radio"
@@ -147,29 +151,33 @@ export default function InfoForm({
         <label htmlFor="form-fieldset-participants" className="mb-4 font-bold font-spartan">
           Buying as a single or a couple?
         </label>
-        <fieldset id="form-fieldset-participants" className="pt-4">
-          <input
-            type="radio"
-            {...register("participants")}
-            value="single"
-            id="form-radio-single"
-            className="mr-2 cursor-pointer"
-            // defaultChecked={CALC_DEFAULTS.participants === "single"}
-          />
-          <label htmlFor="form-radio-single" className="mr-8 cursor-pointer">
-            Single
-          </label>
-          <input
-            type="radio"
-            {...register("participants")}
-            value="couple"
-            id="form-radio-couple"
-            className="cursor-pointer"
-            // defaultChecked={CALC_DEFAULTS.participants === "couple"}
-          />
-          <label htmlFor="form-radio-couple" className="mx-2 cursor-pointer">
-            Couple
-          </label>
+        <fieldset id="form-fieldset-participants" className="pt-2 flex flex-col gap-1">
+          <div>
+            <input
+              type="radio"
+              {...register("participants")}
+              value="single"
+              id="form-radio-single"
+              className="mr-2 cursor-pointer"
+              // defaultChecked={CALC_DEFAULTS.participants === "single"}
+            />
+            <label htmlFor="form-radio-single" className="mr-8 cursor-pointer">
+              Single
+            </label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              {...register("participants")}
+              value="couple"
+              id="form-radio-couple"
+              className="cursor-pointer"
+              // defaultChecked={CALC_DEFAULTS.participants === "couple"}
+            />
+            <label htmlFor="form-radio-couple" className="mx-2 cursor-pointer">
+              Couple
+            </label>
+          </div>
         </fieldset>
       </div>
       <div onMouseEnter={() => onItemHover("income")} className="flex flex-col justify-between">
@@ -223,7 +231,7 @@ export default function InfoForm({
           {...register("expenses", { setValueAs: (v) => Number(v.replace(/[^0-9.-]+/g, "")) })}
         />
       </div>
-      <div onMouseEnter={() => onItemHover("expenses")} className="flex flex-col justify-between">
+      {/* <div onMouseEnter={() => onItemHover("expenses")} className="flex flex-col justify-between">
         <div>
           <label htmlFor="form-hecs" className="block font-bold mr-2">
             Do you have a HECS debt?
@@ -240,7 +248,7 @@ export default function InfoForm({
           decimalsLimit={2}
           {...register("hecs", { setValueAs: (v) => Number(v.replace(/[^0-9.-]+/g, "")) })}
         />
-      </div>
+      </div> */}
       <div onMouseEnter={() => onItemHover("land-value")} className="flex flex-col justify-between">
         <label htmlFor="form-land-value" className="block font-bold mr-2">
           What is the land value of the property?
