@@ -13,6 +13,7 @@ export const meta: MetaFunction = () => ({
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }]
 
 export default function App() {
+  console.log("Hi 👋, follow me on github: https://github.com/robase")
   return (
     <html className="bg-gradient-to-br from-zinc-50 to-zinc-100" lang="en">
       <head>

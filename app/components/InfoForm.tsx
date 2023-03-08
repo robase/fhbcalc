@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form"
-import type { CalcData } from "~/utls/defaults"
-import { CALC_DEFAULTS } from "~/utls/defaults"
+import { CalcData, CALC_DEFAULTS } from "~/utls/defaults"
+// import { defaults } from "~/utls/defaults"
 import CurrencyInput from "react-currency-input-field"
+import { useEffect, useState } from "react"
 
 export default function InfoForm({
   onValueChange,
@@ -11,7 +12,6 @@ export default function InfoForm({
   onItemHover: (focusedItem: string) => void
 }) {
   const { register, getValues } = useForm()
-
   return (
     <form
       onChange={() => onValueChange(getValues() as CalcData)}
@@ -28,7 +28,7 @@ export default function InfoForm({
             id="form-radio-occupier"
             className="mr-2 cursor-pointer"
             {...register("purpose")}
-            defaultChecked={CALC_DEFAULTS.purpose === "occupier"}
+            // defaultChecked={CALC_DEFAULTS.purpose === "occupier"}
           />
           <label htmlFor="form-radio-occupier" className="mr-8 cursor-pointer">
             To live in
@@ -37,7 +37,7 @@ export default function InfoForm({
             type="radio"
             {...register("purpose")}
             value="investor"
-            defaultChecked={CALC_DEFAULTS.purpose === "investor"}
+            // defaultChecked={CALC_DEFAULTS.purpose === "investor"}
             id="form-radio-investor"
             className="cursor-pointer"
           />
@@ -74,7 +74,7 @@ export default function InfoForm({
               value="city"
               id="form-radio-city"
               className="cursor-pointer float-left mt-2"
-              defaultChecked={CALC_DEFAULTS.location === "city"}
+              // defaultChecked={CALC_DEFAULTS.location === "city"}
             />
             <label htmlFor="form-radio-city" className="mr-14 cursor-pointer ml-6 block">
               {CALC_DEFAULTS.state === "NSW"
@@ -89,7 +89,7 @@ export default function InfoForm({
               value="regional"
               id="form-radio-regional"
               className="cursor-pointer"
-              defaultChecked={CALC_DEFAULTS.location === "regional"}
+              // defaultChecked={CALC_DEFAULTS.location === "regional"}
             />
             <label htmlFor="form-radio-regional" className="mx-2 cursor-pointer">
               Rest of State
@@ -109,7 +109,7 @@ export default function InfoForm({
               value="existing"
               id="form-radio-existing"
               className="mr-2 cursor-pointer"
-              defaultChecked={CALC_DEFAULTS.propertyBuild === "existing"}
+              // defaultChecked={CALC_DEFAULTS.propertyBuild === "existing"}
             />
             <label htmlFor="form-radio-existing" className="mr-8 cursor-pointer">
               Existing
@@ -122,7 +122,7 @@ export default function InfoForm({
               value="new-property"
               id="form-radio-new-property"
               className="cursor-pointer"
-              defaultChecked={CALC_DEFAULTS.propertyBuild === "new-property"}
+              // defaultChecked={CALC_DEFAULTS.propertyBuild === "new-property"}
             />
             <label htmlFor="form-radio-new-property" className="mx-2 cursor-pointer">
               New <p className="text-xs py-1 inline-block">(e.g. off the plan)</p>
@@ -135,7 +135,7 @@ export default function InfoForm({
               value="vacant-land"
               id="form-radio-vacant-land"
               className="cursor-pointer"
-              defaultChecked={CALC_DEFAULTS.propertyBuild === "vacant-land"}
+              // defaultChecked={CALC_DEFAULTS.propertyBuild === "vacant-land"}
             />
             <label htmlFor="form-radio-vacant-land" className="mx-2 cursor-pointer">
               Vacant Land
@@ -154,7 +154,7 @@ export default function InfoForm({
             value="single"
             id="form-radio-single"
             className="mr-2 cursor-pointer"
-            defaultChecked={CALC_DEFAULTS.participants === "single"}
+            // defaultChecked={CALC_DEFAULTS.participants === "single"}
           />
           <label htmlFor="form-radio-single" className="mr-8 cursor-pointer">
             Single
@@ -165,7 +165,7 @@ export default function InfoForm({
             value="couple"
             id="form-radio-couple"
             className="cursor-pointer"
-            defaultChecked={CALC_DEFAULTS.participants === "couple"}
+            // defaultChecked={CALC_DEFAULTS.participants === "couple"}
           />
           <label htmlFor="form-radio-couple" className="mx-2 cursor-pointer">
             Couple

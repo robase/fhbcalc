@@ -70,25 +70,19 @@ export default function ResultsTable({ data }: { data: CalcData | null }) {
     <div className="text-sm">
       <table className="w-full text-sm text-left  border">
         <thead className="text-zinc-800 uppercase bg-zinc-100 dark:bg-gray-700 dark:text-gray-400 font-semibold font-spartan">
-          <tr className="uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr className="uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 tracking-wide">
             <td className="px-4 py-3">Purchase Price</td>
             <td className="px-4 py-3">Loan Amount</td>
             <td className="px-4 py-3">LVR</td>
-            <td className="px-4 py-3">LMI</td>
+            <td className="px-4 py-3">LMI*</td>
             <td className="w-28 cursor-pointer" onClick={() => setTaxOrTransferDuty("TRANSFER")}>
               {taxOrTransferDuty === "TRANSFER" ? (
                 <div className="w-full h-full px-4 py-1 border border-zinc-500 gap-2  items-center hover:bg-zinc-100 rounded-l-xl">
                   <span className="whitespace-nowrap">Transfer Duty</span>
-                  {/* <span className="inline">
-                    <CheckCircleFill size="1.3em" className="fill-zinc-600" />
-                  </span> */}
                 </div>
               ) : (
                 <div className="text-zinc-300 w-full h-full px-4 py-1 border border-zinc-200  items-cente gap-2 hover:bg-zinc-200 hover:border-zinc-300 hover:text-zinc-500 rounded-l-xl">
                   <span className="whitespace-nowrap">Transfer Duty</span>
-                  {/* <span className="inline">
-                    <Circle size="1.3em" className="fill-zinc-400" />
-                  </span> */}
                 </div>
               )}
             </td>
@@ -96,20 +90,14 @@ export default function ResultsTable({ data }: { data: CalcData | null }) {
               {taxOrTransferDuty === "TAX" ? (
                 <div className="w-full h-full px-4 py-1 border border-zinc-500  gap-2 items-center hover:bg-zinc-100  rounded-r-xl ">
                   <span className="whitespace-nowrap">Property Tax</span>
-                  {/* <span className="inline">
-                    <CheckCircleFill size="1.3em" className="fill-sky-700 m-0" />
-                  </span> */}
                 </div>
               ) : (
                 <div className="text-zinc-300 w-full h-full px-4 py-1 border border-zinc-200  items-cente gap-2 hover:bg-zinc-200 hover:border-zinc-300 hover:text-zinc-500 rounded-r-xl">
                   <span className="whitespace-nowrap">Property Tax</span>
-                  {/* <span className="inline">
-                    <Circle size="1.3em" className="fill-zinc-400" />
-                  </span> */}
                 </div>
               )}
             </td>
-            <td className="px-4 py-3">Cash Required</td>
+            <td className="px-4 py-3">Upfront Cash Required</td>
             <td className="px-4 py-3">Gov Scheme Eligibility</td>
           </tr>
         </thead>
@@ -232,6 +220,7 @@ export default function ResultsTable({ data }: { data: CalcData | null }) {
           })}
         </tbody>
       </table>
+      <p>* estimate only</p>
     </div>
   )
 }
