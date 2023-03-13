@@ -12,6 +12,7 @@
     "@remix-run/vercel": "^1.13.0",
     "@vercel/node": "^2.6.2",
     "jsdom": "^21.1.0",
+    "lz-string": "^1.5.0",
     "react": "^18.2.0",
     "react-bootstrap-icons": "^1.10.2",
     "react-currency-input-field": "^3.6.10",

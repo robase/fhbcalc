@@ -1,0 +1,5 @@
+- [ ] Fix LMI for properties > $1m
+- [ ] Sharable link
+- [ ] Tooltips
+- [ ] Assistance section
+- [ ] Table highlighting

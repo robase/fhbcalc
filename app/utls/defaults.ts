@@ -9,6 +9,7 @@ export const CALC_DEFAULTS: CalcData = {
   location: "city",
   propertyBuild: "existing",
   landValue: 110_000,
+  priceInterval: 30_000,
 }
 
 export interface CalcData {
@@ -22,4 +23,6 @@ export interface CalcData {
   hecs: number
   location: "city" | "regional"
   propertyBuild: "existing" | "new-property" | "vacant-land"
+  priceInterval: number
+  minPrice?: number
 }

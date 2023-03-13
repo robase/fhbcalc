@@ -1,32 +1,59 @@
+import { useSearchParams } from "@remix-run/react"
 import { useState } from "react"
 import type { CalcData } from "~/utls/defaults"
-import AssistanceArea from "./AssistanceArea"
+import { CALC_DEFAULTS } from "~/utls/defaults"
 import InfoForm from "./InfoForm"
 import ResultsTable from "./ResultsTable"
+import LZString from "lz-string"
+import type { HELPTEXT } from "./AssistanceArea"
+import AssistanceArea from "./AssistanceArea"
+import { BoxArrowUpRight, Link, Link45deg } from "react-bootstrap-icons"
 
 export default function MainView() {
-  const [calcState, setCalcState] = useState<CalcData | null>(null)
+  const [params] = useSearchParams()
 
-  const [focusedItem, setFocusedItem] = useState("")
+  const urlCalcData = JSON.parse(LZString.decompressFromEncodedURIComponent(params.get("d") || "")) as CalcData
+
+  const defaultValues = urlCalcData ? urlCalcData : CALC_DEFAULTS
+  const [calcState, setCalcState] = useState<CalcData>(defaultValues)
+
+  const [focusedItem, setFocusedItem] = useState<{ item: HELPTEXT; x: number; y: number }>()
+
+  const handleItemFocus = (e: React.MouseEvent<HTMLDivElement | HTMLAnchorElement, MouseEvent>, item: HELPTEXT) => {
+    // console.log(e.nativeEvent.offsetX, e.currentTarget.clientTop)
+
+    const rect = e.currentTarget.getBoundingClientRect()
+
+    setFocusedItem({ item, x: rect.left, y: rect.top + rect.height + 40 })
+  }
 
   return (
-    <div className="container xl:mx-auto">
+    <div className=" xl:container xl:mx-auto">
+      <AssistanceArea focusedItem={focusedItem} clearFocusedItem={() => setFocusedItem(undefined)} />
       <h1 className="px-8 mt-10 mb-8 text-4xl text-zinc-700 tracking-normal font-spartan font-semibold">
         🏠 <span className="px-2"> </span>First Home Buyer Calculator
       </h1>
-      <div className="flex flex-col gap-20 px-8 mt-20 xl:flex-col mb-8 2xl:max-w-screen-2xl">
-        <div>
-          <InfoForm onItemHover={setFocusedItem} onValueChange={(values: CalcData) => setCalcState(values)} />
+      <div className="flex flex-col gap-20  mt-20 xl:flex-col mb-8 2xl:max-w-screen-4xl">
+        <div className="px-8">
+          <InfoForm
+            onItemHover={handleItemFocus}
+            onValueChange={(values: CalcData) => setCalcState(values)}
+            defaultValues={defaultValues}
+          />
         </div>
-        <div>
-          <ResultsTable data={calcState} />
+        <div className="px-1 md:px-8">
+          <ResultsTable onItemHover={handleItemFocus} data={calcState} />
         </div>
       </div>
-      <hr className="mb-8 mx-9" />
-      <div className="flex flex-row flex-wrap justify-between font-roboto text-sm px-8 mb-8 text-zinc-700">
+      <a rel="noreferrer" target="_blank" href="https://forms.gle/4vpH5Szigse9fq8v8">
+        <div className="mx-8 mb-8 px-4 text-sm py-2 border bg-white max-w-fit flex gap-4 hover:bg-zinc-100 border-zinc-300 rounded-lg cursor-pointer items-center">
+          Provide Feedback <BoxArrowUpRight aria-hidden size="1em" />
+        </div>
+      </a>
+      <div className="flex flex-row flex-wrap justify-between gap-4 font-roboto text-sm px-8 mb-8 text-zinc-500">
         <div>
           <p>Assumptions:</p>
-          <ul className="list-inside list-disc pl-4 pt-2">
+          <ul className="list-inside list-disc pl-2 pt-2">
             <li>you are a first home buyer</li>
             <li>you are an australian citizen</li>
             <li>you are over 18</li>
@@ -35,7 +62,7 @@ export default function MainView() {
         </div>
         <div>
           <p>Sources:</p>
-          <ul className="list-inside list-disc pl-4 pt-2">
+          <ul className="list-inside list-disc pl-2 pt-2">
             <li>
               <a
                 rel="noreferrer"
