@@ -5,7 +5,7 @@ import styles from "./tailwind.css"
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "FHB Help",
+  title: "First Home Buyer Help: Get the real cost of your first home",
   description: "Calculate the costs of buying your first home",
   viewport: "width=device-width,initial-scale=1",
 })
