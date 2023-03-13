@@ -66,7 +66,6 @@ export default function ResultsTable({
     )
 
     navigator.clipboard.writeText(window.location.href.split("?")[0] + "?d=" + compressed)
-    console.log(window.location.href.split("?")[0] + "?d=" + compressed)
 
     navigate(`./?d=${compressed}`, { replace: true })
   }
@@ -77,7 +76,7 @@ export default function ResultsTable({
         <div className="flex flex-row gap-4 ">
           <div>
             <label htmlFor="min-price" className="block text-xs font-light font-roboto text-zinc-500 select-none">
-              Min purchace price
+              Min purchase price
             </label>
             <CurrencyInput
               id="min-price"
@@ -145,7 +144,7 @@ export default function ResultsTable({
                     <span className="whitespace-nowrap">Transfer Duty</span>
                   </div>
                 ) : (
-                  <div className="text-zinc-300 w-full h-full px-4 py-1 border border-zinc-200  items-cente gap-2 hover:bg-zinc-200 hover:border-zinc-300 hover:text-zinc-500 rounded-l-xl">
+                  <div className="text-zinc-300 w-full h-full px-4 py-1 border border-zinc-200  items-center gap-2 hover:bg-zinc-200 hover:border-zinc-300 hover:text-zinc-500 rounded-l-xl">
                     <span className="whitespace-nowrap">Transfer Duty</span>
                   </div>
                 )}
@@ -160,7 +159,7 @@ export default function ResultsTable({
                     <span className="whitespace-nowrap">Property Tax</span>
                   </div>
                 ) : (
-                  <div className="text-zinc-300 w-full h-full px-4 py-1 border border-zinc-200  items-cente gap-2 hover:bg-zinc-200 hover:border-zinc-300 hover:text-zinc-500 rounded-r-xl">
+                  <div className="text-zinc-300 w-full h-full px-4 py-1 border border-zinc-200  items-center gap-2 hover:bg-zinc-200 hover:border-zinc-300 hover:text-zinc-500 rounded-r-xl">
                     <span className="whitespace-nowrap">Property Tax</span>
                   </div>
                 )}

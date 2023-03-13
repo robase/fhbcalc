@@ -28,7 +28,7 @@ export default function MainView() {
   }
 
   return (
-    <div className=" xl:container xl:mx-auto">
+    <div className=" xl:container xl:mx-auto transition-all ease-in-out">
       <AssistanceArea focusedItem={focusedItem} clearFocusedItem={() => setFocusedItem(undefined)} />
       <h1 className="px-8 mt-10 mb-8 text-4xl text-zinc-700 tracking-normal font-spartan font-semibold">
         🏠 <span className="px-2"> </span>First Home Buyer Calculator
@@ -70,7 +70,7 @@ export default function MainView() {
                 target="_blank"
                 href="https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/assistance-scheme"
               >
-                First Home Buyer Assistance Scheme (FBHAS)
+                First Home Buyer Assistance Scheme (FHBAS)
               </a>
             </li>
             <li>

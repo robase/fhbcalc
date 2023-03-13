@@ -8,7 +8,7 @@ export enum HELPTEXT {
   LMI = "lmi",
   TRANSFER_DUTY = "transfer-duty",
   PROPERTY_TAX = "property-tax",
-  UPFRONT_CASH = "upfornt-cash",
+  UPFRONT_CASH = "upfront-cash",
   FHBAS = "FHBAS",
   FHOG = "FHOG",
   FHBC = "FHBC",
@@ -61,7 +61,7 @@ function getContent(item: HELPTEXT) {
           <div>
             <p>
               The amount you will need to pay every month of the loan period. This calculator assumes a fixed-rate
-              mortgage with an interest rate of 6% and a 30 year loan period.
+              mortgage with an interest rate of 6% annually over a 30 year loan period.
             </p>
             <p className="pt-2">
               See{" "}
@@ -244,7 +244,7 @@ function getContent(item: HELPTEXT) {
                 >
                   First Home Guarantee (FHBG)
                 </a>
-                , the government will act as a garantor of your home loan and you will not need to pay LMI
+                , the government will act as a guarantor of your home loan and you will not need to pay LMI
               </li>
               <li>
                 You can qualify to have LMI waived with some lenders based on your profession - typically legal, medical

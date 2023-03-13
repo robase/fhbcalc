@@ -3,6 +3,7 @@ import type { CalcData } from "~/utls/defaults"
 import CurrencyInput from "react-currency-input-field"
 import type { HELPTEXT } from "./AssistanceArea"
 import { useEffect, useRef, useState } from "react"
+import { X } from "react-bootstrap-icons"
 
 function useOutsideAlerter(ref: React.MutableRefObject<any>, cb: () => void) {
   useEffect(() => {
@@ -43,10 +44,11 @@ export default function InfoForm({
   return (
     <form
       onChange={() => onValueChange(getValues() as CalcData)}
-      className="text-sm text-zinc-700 grid  gap-y-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 [&>div]:pr-8  border-zinc-200"
+      className="text-sm text-zinc-700 grid  gap-y-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5   border-zinc-200"
     >
       <div
-      // onMouseEnter={(e) => onItemHover(e, "occupier-vs-investor")}
+        // onMouseEnter={(e) => onItemHover(e, "occupier-vs-investor")}
+        className="pr-8"
       >
         <label htmlFor="form-fieldset-purpose" className="mb-4 font-bold font-spartan select-none">
           Why are you buying a place?
@@ -82,7 +84,7 @@ export default function InfoForm({
       </div>
       <div
         // onMouseEnter={() => onItemHover("state")}
-        className="flex flex-col gap-2"
+        className="flex flex-col gap-2 pr-8"
       >
         <label htmlFor="form-state" className="block font-bold mr-2 select-none">
           What state are you in?
@@ -105,7 +107,8 @@ export default function InfoForm({
         </select>
       </div>
       <div
-      // onMouseEnter={() => onItemHover("location")}
+        // onMouseEnter={() => onItemHover("location")}
+        className="pr-8"
       >
         <label htmlFor="form-fieldset-location" className="mb-4 font-bold font-spartan select-none">
           Where are you buying?
@@ -142,7 +145,8 @@ export default function InfoForm({
         </fieldset>
       </div>
       <div
-      // onMouseEnter={() => onItemHover("new-or-existing")}
+        // onMouseEnter={() => onItemHover("new-or-existing")}
+        className="pr-8"
       >
         <label htmlFor="form-fieldset-new-or-existing" className="mb-4 font-bold mr-4 select-none">
           Buying an existing, new property or vacant land?
@@ -190,7 +194,8 @@ export default function InfoForm({
         </fieldset>
       </div>
       <div
-      // onMouseEnter={() => onItemHover("single-vs-couple")}
+        className="pr-8"
+        // onMouseEnter={() => onItemHover("single-vs-couple")}
       >
         <label htmlFor="form-fieldset-participants" className="mb-4 font-bold font-spartan select-none">
           Buying as a single or a couple?
@@ -226,7 +231,7 @@ export default function InfoForm({
       </div>
       <div
         // onMouseEnter={() => onItemHover("income")}
-        className="flex flex-col justify-between"
+        className="flex flex-col justify-between pr-8"
       >
         <div>
           <label htmlFor="form-income" className="block font-bold mr-2 select-none">
@@ -247,7 +252,7 @@ export default function InfoForm({
       </div>
       <div
         // onMouseEnter={() => onItemHover("deposit")}
-        className="flex flex-col justify-between"
+        className="flex flex-col justify-between pr-8"
       >
         <label htmlFor="form-deposit" className="block font-bold mr-2 select-none">
           How much have you saved for a deposit?
@@ -265,14 +270,14 @@ export default function InfoForm({
       </div>
       <div
         // onMouseEnter={() => onItemHover("expenses")}
-        className="flex flex-col justify-between"
+        className="flex flex-col justify-between pr-8"
       >
         <div>
           <label htmlFor="form-expenses" className="block font-bold mr-2 select-none">
-            What are your monthly expenses?
+            What are your monthly living expenses?
           </label>
           <p className="text-xs py-1 text-zinc-600">
-            e.g. food, clothes, yearly hecs and other loan repayments - don't include rent
+            e.g. food, clothes, hecs and other loan repayments - don't include rent
           </p>
         </div>
         <CurrencyInput
@@ -286,7 +291,7 @@ export default function InfoForm({
           {...register("expenses", { setValueAs: (v) => Number(v.replace(/[^0-9.-]+/g, "")) })}
         />
       </div>
-      {/* <div onMouseEnter={() => onItemHover("expenses")} className="flex flex-col justify-between">
+      {/* <div onMouseEnter={() => onItemHover("expenses")} className="flex flex-col justify-between pr-8">
         <div>
           <label htmlFor="form-hecs" className="block font-bold mr-2 select-none">
             Do you have a HECS debt?
@@ -306,7 +311,7 @@ export default function InfoForm({
       </div> */}
       <div
         // onMouseEnter={() => onItemHover("land-value")}
-        className="flex flex-col justify-between"
+        className="flex flex-col justify-between pr-8"
       >
         <label htmlFor="form-land-value" className="block font-bold mr-2 select-none">
           What is the land value of the property?
@@ -334,36 +339,46 @@ export default function InfoForm({
       {open && (
         <div
           ref={wrapperRef}
-          className="fixed m-auto inset-0 bg-white z-30 border border-zinc-400 rounded-sm px-4 pt-3 pb-6 w-fit h-fit shadow-xl text-zinc-700 max-w-xl"
+          className="fixed m-auto inset-0 bg-white z-30 border border-zinc-400 p-4 pb-6 h-fit shadow-xl text-zinc-700 max-w-xl rounded-md"
         >
-          <p className="font-bold text-lg pb-4">Find the land value of a property</p>
-          <ol className="list-outside list-decimal pl-4 text-normal">
-            <li>
-              Find the{" "}
-              <a
-                rel="noreferrer"
-                target="_blank"
-                className="underline"
-                href="https://www.valuergeneral.nsw.gov.au/services/addr-inquiry.htm"
-              >
-                NSW property number here
-              </a>
-            </li>
-            <li>
-              Input the property number{" "}
-              <a
-                rel="noreferrer"
-                target="_blank"
-                className="underline"
-                href="https://www.valuergeneral.nsw.gov.au/services/lvs.htm"
-              >
-                here
-              </a>
-            </li>
-            <li>
-              If it's a unit/apartment, divide the total land value by the number of apartments on the property overall
-            </li>
-          </ol>
+          <div className="mx-auto">
+            <div className="flex justify-between">
+              <p className="font-bold text-lg pb-4">Find the land value of a property in NSW</p>
+              <X
+                className="border hover:bg-zinc-300 rounded-md cursor-pointer"
+                onClick={() => setOpen(false)}
+                size="24px"
+              />
+            </div>
+            <ol className="list-outside list-decimal pl-4 text-normal">
+              <li>
+                Find the{" "}
+                <a
+                  rel="noreferrer"
+                  target="_blank"
+                  className="underline"
+                  href="https://www.valuergeneral.nsw.gov.au/services/addr-inquiry.htm"
+                >
+                  NSW property number here
+                </a>
+              </li>
+              <li>
+                Input the property number{" "}
+                <a
+                  rel="noreferrer"
+                  target="_blank"
+                  className="underline"
+                  href="https://www.valuergeneral.nsw.gov.au/services/lvs.htm"
+                >
+                  here
+                </a>
+              </li>
+              <li>
+                If it's a unit/apartment, divide the total land value by the number of apartments on the property
+                overall
+              </li>
+            </ol>
+          </div>
         </div>
       )}
     </form>
