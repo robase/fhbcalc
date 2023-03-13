@@ -15,7 +15,7 @@ export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }]
 export default function App() {
   console.log("Hi 👋, follow me on github: https://github.com/robase")
   return (
-    <html className="bg-gradient-to-br from-zinc-50 to-zinc-100" lang="en">
+    <html className="bg-gradient-to-br from-stone-50 to-stone-200 w-full" lang="en">
       <head>
         <Meta />
         <Links />

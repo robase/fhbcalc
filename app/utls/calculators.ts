@@ -13,7 +13,7 @@ export function qualifiesForFHOG({ propertyBuild }: CalcData, purchasePrice: num
   if (!["vacant-land", "new-property"].includes(propertyBuild)) {
     return {
       eligible: false,
-      reason: "only available for newly built, purchased off the plan or substantially renovated",
+      reason: "FHOG: Only available for newly built, off the plan or substantially renovated properties",
     }
   }
 
@@ -21,14 +21,14 @@ export function qualifiesForFHOG({ propertyBuild }: CalcData, purchasePrice: num
     return {
       eligible: false,
       reason:
-        "Property value (house and land) must not exceed $750,000. Applies to Owner builders and Comprehensive home building contracts",
+        "FHOG: Property value (house and land) must not exceed $750,000. Applies to Owner builders and Comprehensive home building contracts",
     }
   }
 
   if (propertyBuild === "new-property" && purchasePrice > 600_000) {
     return {
       eligible: false,
-      reason: "The purchase price must not exceed $600,000",
+      reason: "FHOG: The purchase price must not exceed $600,000",
     }
   }
 
@@ -46,7 +46,10 @@ export function qualifiesForFHBAS({ propertyBuild, purpose }: CalcData, purchase
   //   }
   if (propertyBuild === "new-property" || propertyBuild === "existing") {
     if (purchasePrice >= 800_000) {
-      return { eligible: false, reason: "purchase price can not exceed $800,000 for new or existing home purchases" }
+      return {
+        eligible: false,
+        reason: "FHBAS: Purchase price can not exceed $800,000 for new or existing home purchases",
+      }
     }
     if (purchasePrice >= 650_000 && purchasePrice < 800_000) {
       return { eligible: true, type: "concessional" }
@@ -55,7 +58,7 @@ export function qualifiesForFHBAS({ propertyBuild, purpose }: CalcData, purchase
 
   if (propertyBuild === "vacant-land") {
     if (purchasePrice >= 450_000) {
-      return { eligible: false, reason: "purchase price can not exceed $450,000 for vacant land purchases" }
+      return { eligible: false, reason: "FHBAS: Purchase price can not exceed $450,000 for vacant land purchases" }
     }
     if (purchasePrice >= 350_000 && purchasePrice < 450_000) {
       return { eligible: true, type: "concessional" }
@@ -68,11 +71,11 @@ export function qualifiesForFHBAS({ propertyBuild, purpose }: CalcData, purchase
 // https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/first-home-buyer-choice#heading3
 export function qualifiesForFHBC({ propertyBuild }: CalcData, purchasePrice: number): EligibilityResult {
   if (purchasePrice > 1_500_000 && ["existing", "new-property"].includes(propertyBuild)) {
-    return { eligible: false, reason: "new or existing home purchases must not exceed $1.5m" }
+    return { eligible: false, reason: "FHBC: New or existing home purchases must not exceed $1.5m" }
   }
 
   if (propertyBuild === "vacant-land" && purchasePrice > 800_000) {
-    return { eligible: false, reason: "vacant land purchases must not exceed $800,000" }
+    return { eligible: false, reason: "FHBC: Vacant land purchases must not exceed $800,000" }
   }
 
   return { eligible: true }
@@ -85,7 +88,7 @@ export function qualifiesForFHBG(
   purchasePrice: number
 ): EligibilityResult {
   if (purpose === "investor") {
-    return { eligible: false, reason: "you must be intending to be an owner-occupier of the purchased property" }
+    return { eligible: false, reason: "FHBG: You must be intending to be an owner-occupier of the purchased property" }
   }
 
   if (location === "city") {
@@ -93,7 +96,7 @@ export function qualifiesForFHBG(
       return {
         eligible: false,
         reason:
-          "purchase price must not exceed $900,000 for properties in Sydney, Newcastle, Lake Macquarie or Illawarra",
+          "FHBG: Purchase price must not exceed $900,000 for properties in Sydney, Newcastle, Lake Macquarie or Illawarra",
       }
     }
   }
@@ -103,7 +106,7 @@ export function qualifiesForFHBG(
       return {
         eligible: false,
         reason:
-          "purchase price must not exceed $750,000 for properties not in Sydney, Newcastle, Lake Macquarie or Illawarra",
+          "FHBG: Purchase price must not exceed $750,000 for properties outside of Sydney, Newcastle, Lake Macquarie or Illawarra",
       }
     }
   }
@@ -111,23 +114,23 @@ export function qualifiesForFHBG(
   const lvr = calcLVR(purchasePrice, deposit)
 
   if (lvr > 95) {
-    return { eligible: false, reason: "The minimum deposit required is 5%" }
+    return { eligible: false, reason: "FHBG: The minimum deposit required is 5%" }
   }
 
   if (lvr < 80) {
     return {
       eligible: false,
-      reason: "Your LVR is less than 80%",
+      reason: "FHBG: Your LVR is less than 80%",
     }
   }
 
   if (participants === "couple") {
     if (income > 200_000) {
-      return { eligible: false, reason: "your income is over the 200k threshold for couples" }
+      return { eligible: false, reason: "FHBG: your income is over the 200k threshold for couples" }
     }
   } else {
     if (income > 125_000) {
-      return { eligible: false, reason: "your income is over the 125k threshold for individuals" }
+      return { eligible: false, reason: "FHBG: your income is over the 125k threshold for individuals" }
     }
   }
 
@@ -135,7 +138,8 @@ export function qualifiesForFHBG(
 }
 
 export function calcFHBASConcession(purchasePrice: number) {
-  return 0.20727 * purchasePrice - 134723.33391
+  const res = 0.20727 * purchasePrice - 134723.33391
+  return res < 0 ? 0 : res
 }
 
 // https://www.revenue.nsw.gov.au/taxes-duties-levies-royalties/transfer-duty#heading4
@@ -234,4 +238,13 @@ export function cashOnHandRequired(deposit: number, fees: number, taxOrTransferD
   // console.log(deposit, fees, taxOrTransferDuty, lmi, deposit + fees + taxOrTransferDuty + lmi)
 
   return deposit + fees + taxOrTransferDuty + lmi
+}
+
+export function calcMonthlyRepayment(purchasePrice: number) {
+  const r = 0.06 / 12
+  const numMonths = 12 * 30
+  const P = purchasePrice
+
+  return (r * P) / (1 - Math.pow(1 + r, -numMonths))
+  // return purchasePrice / (Math.pow(1 + , 30 * 12) - 1) / ((0.06 / 12) * Math.pow(1 + 0.06 / 12, 30 * 12))
 }
