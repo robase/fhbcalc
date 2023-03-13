@@ -181,9 +181,11 @@ function getContent(item: HELPTEXT) {
               property. It must be paid as a lump upfront cost.
             </p>
             <p className="py-2">
-              Calculating transfer duty is complex as it is a progressive tax for which you are charged a set fee and
-              percentage for every dollar the price of the property is over each pricing tier. The higher the purchase
-              price of the property, the more transfer duty you will need to pay. Read:{" "}
+              Calculating transfer duty is complex as it is a progressive tax for which you are charged both a set fee
+              and percentage for every dollar the auction price is over each price bracket. More simply: the higher the
+              purchase price of the property, the more transfer duty you will need to pay.
+              <br />
+              <br /> Read:{" "}
               <a
                 rel="noreferrer"
                 target="_blank"
