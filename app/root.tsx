@@ -1,5 +1,6 @@
 import type { LinksFunction, MetaFunction } from "@remix-run/node"
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react"
+import { Analytics } from "@vercel/analytics/react"
 
 import styles from "./tailwind.css"
 
@@ -27,6 +28,7 @@ export default function App() {
         <Links />
       </head>
       <body>
+        <Analytics />
         <Outlet />
         <ScrollRestoration />
         <Scripts />
