@@ -6,10 +6,12 @@ import styles from "./tailwind.css"
 export const meta: MetaFunction = () => ({
   "charset": "utf-8",
   // "title": "First Home Buyer Calculator",
-  "description": "A tool to help you navigate the journey of buying your first home",
+  "description":
+    "A tool to help you navigate the journey of buying your first home. Discover your NSW government scheme eligibility and the benefits to your home loan",
   "viewport": "width=device-width,initial-scale=1",
   "og:title": "First Home Buyer Calculator",
-  "og:description": "A tool to help you navigate the journey of buying your first home",
+  "og:description":
+    "A tool to help you navigate the journey of buying your first home. Discover your NSW government scheme eligibility and the benefits to your home loan",
   "og:url": "https://firsthomebuyer.help",
   "og:image": "https://firsthomebuyer.help/ogimg.jpg",
 })
