@@ -4,10 +4,16 @@ import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from "@re
 import styles from "./tailwind.css"
 
 export const meta: MetaFunction = () => ({
-  charset: "utf-8",
-  title: "First Home Buyer Help: Get the real cost of your first home",
-  description: "Calculate the costs of buying your first home",
-  viewport: "width=device-width,initial-scale=1",
+  "charset": "utf-8",
+  // "title": "First Home Buyer Help: Get the real cost of your first home",
+  "description":
+    "Discover the costs involved in buying your first home and explore available government benefits for first home buyers. Navigate the complex process of purchasing your first home with ease",
+  "viewport": "width=device-width,initial-scale=1",
+  "og:title": "First Home Buyer Help: Get the real cost of your first home",
+  "og:description":
+    "Discover the costs involved in buying your first home and explore available government benefits for first home buyers. Navigate the complex process of purchasing your first home with ease",
+  "og:url": "https://firsthomebuyer.help",
+  "og:image": "https://firsthomebuyer.help/ogimg.jpg",
 })
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }]

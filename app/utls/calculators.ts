@@ -41,7 +41,7 @@ export function qualifiesForFHBAS({ propertyBuild, purpose }: CalcData, purchase
   //     return {
   //       eligible: false,
   //       type: "amber",
-  //       reason: "you must live in the porperty for at least 6 continuous months, you must move in within 12 months",
+  //       reason: "you must live in the property for at least 6 continuous months, you must move in within 12 months",
   //     }
   //   }
   if (propertyBuild === "new-property" || propertyBuild === "existing") {
