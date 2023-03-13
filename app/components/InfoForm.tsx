@@ -260,7 +260,7 @@ export default function InfoForm({
         <CurrencyInput
           className="max-w-fit rounded-md"
           id="form-deposit"
-          onFocus={(e) => e.target.select()}
+          // onFocus={(e) => e.target.select()}
           intlConfig={{ locale: "en-AU", currency: "AUD" }}
           placeholder="Please enter a number"
           defaultValue={defaultValues.deposit}
@@ -283,7 +283,7 @@ export default function InfoForm({
         <CurrencyInput
           id="form-expenses"
           className="max-w-fit rounded-md"
-          onFocus={(e) => e.target.select()}
+          // onFocus={(e) => e.target.select()}
           intlConfig={{ locale: "en-AU", currency: "AUD" }}
           placeholder="Please enter a number"
           defaultValue={defaultValues.expenses}
@@ -301,7 +301,7 @@ export default function InfoForm({
         <CurrencyInput
           id="form-hecs"
           className="max-w-fit rounded-md"
-          onFocus={(e) => e.target.select()}
+          // onFocus={(e) => e.target.select()}
           intlConfig={{ locale: "en-AU", currency: "AUD" }}
           placeholder="Please enter a number"
           defaultValue={defaultValues.hecs}
@@ -327,7 +327,7 @@ export default function InfoForm({
         </p>
         <CurrencyInput
           className="max-w-fit rounded-md"
-          onFocus={(e) => e.target.select()}
+          // onFocus={(e) => e.target.select()}
           id="form-land-value"
           intlConfig={{ locale: "en-AU", currency: "AUD" }}
           placeholder="Please enter a number"
