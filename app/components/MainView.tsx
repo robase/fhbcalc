@@ -7,7 +7,7 @@ import ResultsTable from "./ResultsTable"
 import LZString from "lz-string"
 import type { HELPTEXT } from "./AssistanceArea"
 import AssistanceArea from "./AssistanceArea"
-import { BoxArrowUpRight, Link, Link45deg } from "react-bootstrap-icons"
+import { BoxArrowUpRight } from "react-bootstrap-icons"
 
 export default function MainView() {
   const [params] = useSearchParams()

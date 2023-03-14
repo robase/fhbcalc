@@ -167,9 +167,13 @@ export function calcPropertyTax(landValue: number, purpose: CalcData["purpose"])
   return purpose === "occupier" ? 400 + 0.003 * landValue : 1500 + 0.011 * landValue
 }
 
+export function calcDTI(monthlyExpenses: number, monthlyIncome: number) {
+  return monthlyExpenses / monthlyIncome
+}
+
 // DTI * 6
-export function estimateLoanAmount({ income, expenses }: CalcData) {
-  return (income - expenses * 12) * 6
+export function estimateLoanAmount(DTI: number) {
+  return DTI * 6
 }
 
 export function calcLVR(purchasePrice: number, depositPlusLMI: number) {
@@ -240,11 +244,47 @@ export function cashOnHandRequired(deposit: number, fees: number, taxOrTransferD
   return deposit + fees + taxOrTransferDuty + lmi
 }
 
-export function calcMonthlyRepayment(purchasePrice: number) {
+export function calcPrincipalFromRepayment(m: number) {
+  const r = 0.06 / 12
+  const n = 12 * 30
+
+  // Loan principal = Monthly repayment / ((1 + r)^n - 1) * (1 + r)^n / r
+
+  const res = (m * (1 - Math.pow(1 + r, -n))) / r
+
+  return res > 0 ? res : 0
+  // return monthlyRepayment / ((Math.pow(1 + r, n) - 1) * (Math.pow(1 + r, n) / r))
+  // return purchasePrice / (Math.pow(1 + , 30 * 12) - 1) / ((0.06 / 12) * Math.pow(1 + 0.06 / 12, 30 * 12))
+}
+
+export function calcMonthlyRepayment(principal: number) {
   const r = 0.06 / 12
   const numMonths = 12 * 30
-  const P = purchasePrice
+  const P = principal
 
-  return (r * P) / (1 - Math.pow(1 + r, -numMonths))
-  // return purchasePrice / (Math.pow(1 + , 30 * 12) - 1) / ((0.06 / 12) * Math.pow(1 + 0.06 / 12, 30 * 12))
+  const res = (r * P) / (1 - Math.pow(1 + r, -numMonths))
+  return res > 0 ? res : 0
+}
+
+// https://www.ato.gov.au/Rates/HELP,-TSL-and-SFSS-repayment-thresholds-and-rates/
+export function calcHecsYearlyRepayment(income: number, hecs: number) {
+  if (income < 48361) return 0
+  if (income < 55836) return income * 0.01 > hecs ? hecs : income * 0.01
+  if (income < 59186) return income * 0.02 > hecs ? hecs : income * 0.02
+  if (income < 62738) return income * 0.025 > hecs ? hecs : income * 0.025
+  if (income < 66502) return income * 0.03 > hecs ? hecs : income * 0.03
+  if (income < 70492) return income * 0.035 > hecs ? hecs : income * 0.035
+  if (income < 74722) return income * 0.04 > hecs ? hecs : income * 0.04
+  if (income < 79206) return income * 0.045 > hecs ? hecs : income * 0.045
+  if (income < 83958) return income * 0.05 > hecs ? hecs : income * 0.05
+  if (income < 88996) return income * 0.055 > hecs ? hecs : income * 0.055
+  if (income < 94336) return income * 0.06 > hecs ? hecs : income * 0.06
+  if (income < 99996) return income * 0.065 > hecs ? hecs : income * 0.065
+  if (income < 105996) return income * 0.07 > hecs ? hecs : income * 0.07
+  if (income < 112355) return income * 0.075 > hecs ? hecs : income * 0.075
+  if (income < 119097) return income * 0.08 > hecs ? hecs : income * 0.08
+  if (income < 126243) return income * 0.085 > hecs ? hecs : income * 0.085
+  if (income < 133818) return income * 0.09 > hecs ? hecs : income * 0.09
+  if (income < 141847) return income * 0.095 > hecs ? hecs : income * 0.095
+  return income * 0.1 > hecs ? hecs : income * 0.1
 }

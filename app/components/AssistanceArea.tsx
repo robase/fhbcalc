@@ -14,6 +14,7 @@ export enum HELPTEXT {
   FHBC = "FHBC",
   FHBG = "FHBG",
   MONTHLY_REPAYMENT = "monthly-repayment",
+  DTI = "dti",
 }
 
 function getContent(item: HELPTEXT) {
@@ -51,6 +52,34 @@ function getContent(item: HELPTEXT) {
         body: (
           <div>
             <p>This is some text</p>
+          </div>
+        ),
+      }
+    case HELPTEXT.DTI:
+      return {
+        title: "Debt to Income Ratio (DTI)",
+        body: (
+          <div>
+            <p>
+              Debt to income ratio (DTI) is a measure of your expenses compared to how much money you make. It is
+              calculated by dividing your total monthly debt payments and living expenses by your gross monthly income.
+            </p>
+            <p className="mx-auto my-4 p-2 border w-fit font-mono text-center">
+              DTI = monthly expenses / monthly income <br />
+              <br />
+              DTI = (living expenses + monthly hecs) / monthly income
+            </p>
+            <p className="font-semibold py-2">Borrowing Power</p>
+            <ul className="list-outside pl-4 list-disc pb-2">
+              <li>
+                Different lenders will place different limits on DTI when offering loans as a way to limit their risk
+                exposure to of you failing to repay your loan. The higher the DTI of a borrower, the higher the risk.
+              </li>
+              <li>
+                To decrease your DTI and increase your borrowing power, you can either reduce your expenses or loan
+                repayments (e.g. cancel a credit card, pay off your hecs), or increase your income.
+              </li>
+            </ul>
           </div>
         ),
       }
@@ -141,7 +170,7 @@ function getContent(item: HELPTEXT) {
               transfer duty.
             </p>
             <p className="py-2">
-              The amount of tax paid annually depends on the value of the land of the property being purchased:
+              The amount of tax paid annually depends on the land value of the property being purchased:
             </p>
             <p className="mx-auto my-4 p-2 border w-fit font-mono text-center">
               <span className="font-bold font-sans">Owner occupier</span>
@@ -293,7 +322,7 @@ function getContent(item: HELPTEXT) {
                 the LMI added to your loan principal
               </li>
             </ul>
-            <p>Calculated with LMI capitalisation:</p>
+            <p>Loan principal calculated with LMI capitalisation:</p>
             <p className="mx-auto my-4 p-2 border w-fit font-mono">Loan Principal = Purchase Price - Deposit + LMI</p>
           </div>
         ),

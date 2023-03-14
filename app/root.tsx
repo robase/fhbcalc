@@ -14,7 +14,7 @@ export const meta: MetaFunction = () => ({
   "og:description":
     "A tool to help you navigate the journey of buying your first home. Discover your NSW government scheme eligibility and the benefits to your home loan",
   "og:url": "https://firsthomebuyer.help",
-  "og:image": "https://firsthomebuyer.help/ogimg.jpg",
+  "og:image": "https://firsthomebuyer.help/ogimage.jpg",
 })
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }]

@@ -3,7 +3,7 @@ import type { CalcData } from "~/utls/defaults"
 import CurrencyInput from "react-currency-input-field"
 import type { HELPTEXT } from "./AssistanceArea"
 import { useEffect, useRef, useState } from "react"
-import { X } from "react-bootstrap-icons"
+import { Link45deg, X } from "react-bootstrap-icons"
 
 function useOutsideAlerter(ref: React.MutableRefObject<any>, cb: () => void) {
   useEffect(() => {
@@ -38,9 +38,11 @@ export default function InfoForm({
   const [open, setOpen] = useState(false)
 
   const wrapperRef = useRef(null)
+
   useOutsideAlerter(wrapperRef, () => {
     setOpen(false)
   })
+
   return (
     <form
       onChange={() => onValueChange(getValues() as CalcData)}
@@ -235,7 +237,7 @@ export default function InfoForm({
       >
         <div>
           <label htmlFor="form-income" className="block font-bold mr-2 select-none">
-            What is your yearly income?
+            What is your yearly pre-tax income?
           </label>
           <p className="text-xs py-1 text-zinc-600">Combined if a couple</p>
         </div>
@@ -276,9 +278,7 @@ export default function InfoForm({
           <label htmlFor="form-expenses" className="block font-bold mr-2 select-none">
             What are your monthly living expenses?
           </label>
-          <p className="text-xs py-1 text-zinc-600">
-            e.g. food, clothes, hecs and other loan repayments - don't include rent
-          </p>
+          <p className="text-xs py-1 text-zinc-600">e.g. food, clothes and other loan repayments, don't include rent</p>
         </div>
         <CurrencyInput
           id="form-expenses"
@@ -291,13 +291,15 @@ export default function InfoForm({
           {...register("expenses", { setValueAs: (v) => Number(v.replace(/[^0-9.-]+/g, "")) })}
         />
       </div>
-      {/* <div onMouseEnter={() => onItemHover("expenses")} className="flex flex-col justify-between pr-8">
-        <div>
-          <label htmlFor="form-hecs" className="block font-bold mr-2 select-none">
-            Do you have a HECS debt?
-          </label>
-          <p className="text-xs py-1 text-zinc-600">Add your remaining amount, otherwise 0</p>
-        </div>
+      <div
+        // onMouseEnter={() => onItemHover("hecs")}
+        className="flex flex-col justify-between pr-8"
+      >
+        <label htmlFor="form-hecs" className="block font-bold mr-2 select-none">
+          Do you have a HECS debt?
+        </label>
+        <p className="text-xs py-1 text-zinc-600">Add your total remaining amount</p>
+
         <CurrencyInput
           id="form-hecs"
           className="max-w-fit rounded-md"
@@ -308,7 +310,7 @@ export default function InfoForm({
           decimalsLimit={2}
           {...register("hecs", { setValueAs: (v) => Number(v.replace(/[^0-9.-]+/g, "")) })}
         />
-      </div> */}
+      </div>
       <div
         // onMouseEnter={() => onItemHover("land-value")}
         className="flex flex-col justify-between pr-8"
@@ -316,15 +318,15 @@ export default function InfoForm({
         <label htmlFor="form-land-value" className="block font-bold mr-2 select-none">
           What is the land value of the property?
         </label>
-
-        <p
-          className="text-xs py-2 underline hover:text-zinc-400 text-zinc-600 cursor-pointer"
+        <div
           onClick={() => {
             setOpen(true)
           }}
+          className="flex flex-row gap-1 items-center hover:text-zinc-400 text-zinc-600 cursor-pointer"
         >
-          How to get land value
-        </p>
+          <p className="text-xs py-2 underline">How to get land value</p>
+          <Link45deg />
+        </div>
         <CurrencyInput
           className="max-w-fit rounded-md"
           // onFocus={(e) => e.target.select()}
@@ -339,7 +341,7 @@ export default function InfoForm({
       {open && (
         <div
           ref={wrapperRef}
-          className="fixed m-auto inset-0 bg-white z-30 border border-zinc-400 p-4 pb-6 h-fit shadow-xl text-zinc-700 max-w-xl rounded-md"
+          className="fixed m-auto inset-0 bg-white z-30 border border-zinc-400 p-4 pb-6 h-fit shadow-xl text-zinc-700 max-w-lg rounded-md"
         >
           <div className="mx-auto">
             <div className="flex justify-between">
@@ -350,27 +352,27 @@ export default function InfoForm({
                 size="24px"
               />
             </div>
-            <ol className="list-outside list-decimal pl-4 text-normal">
+            <ol className="list-outside list-decimal pl-4 text-normal [&>li]:py-2">
               <li>
-                Find the{" "}
+                Find the NSW property number via the{" "}
                 <a
                   rel="noreferrer"
                   target="_blank"
-                  className="underline"
+                  className="underline hover:text-zinc-400"
                   href="https://www.valuergeneral.nsw.gov.au/services/addr-inquiry.htm"
                 >
-                  NSW property number here
+                  property address enquiry tool
                 </a>
               </li>
               <li>
-                Input the property number{" "}
+                Input the property number to the{" "}
                 <a
                   rel="noreferrer"
                   target="_blank"
-                  className="underline"
+                  className="underline hover:text-zinc-400"
                   href="https://www.valuergeneral.nsw.gov.au/services/lvs.htm"
                 >
-                  here
+                  land value search tool
                 </a>
               </li>
               <li>
