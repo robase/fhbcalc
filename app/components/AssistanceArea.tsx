@@ -73,7 +73,7 @@ function getContent(item: HELPTEXT) {
             <ul className="list-outside pl-4 list-disc pb-2">
               <li>
                 Different lenders will place different limits on DTI when offering loans as a way to limit their risk
-                exposure to of you failing to repay your loan. The higher the DTI of a borrower, the higher the risk.
+                exposure to you failing to repay your loan. The higher the DTI of a borrower, the higher the risk.
               </li>
               <li>
                 To decrease your DTI and increase your borrowing power, you can either reduce your expenses or loan

@@ -75,7 +75,7 @@ export default function ResultsTable({
 
   return (
     <div className="text-sm">
-      <div className="flex flex-row gap-4 justify-between items-end pb-4 max-md:px-8 text-zinc-700">
+      <div className="flex flex-row gap-4 justify-between items-end pb-4 max-md:px-8 text-zinc-700 overflow-x-auto">
         <div className="flex flex-row gap-4 ">
           {/* <div>
             <label htmlFor="min-price" className="block text-xs font-light font-roboto text-zinc-500 select-none">
