@@ -187,7 +187,7 @@ export default function ResultsTable({
               </td>
               <td className="px-3 py-2" onMouseEnter={(e) => onItemHover(e, HELPTEXT.MONTHLY_REPAYMENT)}>
                 Monthly Repayment
-                <p className="text-xs normal-case py-1 tracking-normal text-zinc-400 whitespace-nowrap">
+                <p className="text-xs normal-case py-1 tracking-normal font-normal text-zinc-400 whitespace-nowrap">
                   30 years @ {((interestRate || 0) as number).toFixed(2)}% p.a.
                 </p>
               </td>
