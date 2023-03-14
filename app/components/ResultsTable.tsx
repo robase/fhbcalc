@@ -40,7 +40,7 @@ export default function ResultsTable({
   const [interestRate, setInterestRate] = useState<number | string>(data.interestRate)
   const loanAmount = Math.round(calcPrincipalFromRepayment(maxRepayment, interestRate as number) / 1000) * 1000
 
-  const transactionFee = 2000 + 800 + 154
+  const transactionFee = 3000
 
   const [taxOrTransferDuty, setTaxOrTransferDuty] = useState<"TRANSFER" | "TAX">("TRANSFER")
   const [linkButtonText, setLinkButtonText] = useState("copy results link")

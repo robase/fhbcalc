@@ -175,11 +175,19 @@ function getContent(item: HELPTEXT) {
         title: "Upfront Cash Required",
         body: (
           <div>
-            <p>The amount of cash on hand you will need to buy a property</p>
+            <p>
+              The amount of cash on hand you will need to buy a property e.g. conveyancing fees, settlement costs. These
+              costs can significantly vary depending on your choice of lender and conveyancer
+            </p>
+
+            <p className="py-2">
+              This calculator adds a flat amount of $3000 to account for these costs when calculating cash on hand
+              required for a purchase
+            </p>
 
             <p className="py-2">Example:</p>
-            <table className="text-left mx-auto">
-              <thead className="[&>tr>th]:px-2 [&>tr>th]:py-1">
+            <table className="text-left">
+              <thead className="[&>tr>th]:px-2 [&>tr>th]:py-1 border-b">
                 <tr>
                   <th>Cost</th>
                   <th>Amount</th>
@@ -204,14 +212,25 @@ function getContent(item: HELPTEXT) {
                 </tr>
                 <tr>
                   <td>Lender fees</td>
-                  <td>$800</td>
+                  <td>$846</td>
                 </tr>
-                <tr>
+                <tr className="border-t">
                   <td className="font-bold">Total</td>
-                  <td>$81,034</td>
+                  <td>$80,080</td>
                 </tr>
               </tbody>
             </table>
+            <p className="pt-4">
+              View a detailed{" "}
+              <a
+                rel="noreferrer"
+                target="_blank"
+                className="underline hover:text-zinc-300"
+                href="https://www.nsw.gov.au/housing-and-construction/buying-and-selling-property/buying-residential-property-nsw/planning-your-finances/costs-when-buying-a-home"
+              >
+                breakdown of costs associated with buying a property
+              </a>
+            </p>
           </div>
         ),
       }
