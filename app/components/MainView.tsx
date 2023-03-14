@@ -28,7 +28,7 @@ export default function MainView() {
   return (
     <div className=" xl:container xl:mx-auto transition-all ease-in-out">
       <AssistanceArea focusedItem={focusedItem} clearFocusedItem={() => setFocusedItem(undefined)} />
-      <h1 className="px-8 mt-10 mb-8 text-4xl text-zinc-700 tracking-normal font-spartan font-semibold">
+      <h1 className="px-8 mt-10 mb-8 text-4xl text-zinc-700 tracking-normal font-spartan font-semibold leading-relaxed">
         🏠 <span className="px-2"> </span>First Home Buyer Calculator
       </h1>
       <div className="flex flex-col gap-20  mt-20 xl:flex-col mb-8 2xl:max-w-screen-4xl">
