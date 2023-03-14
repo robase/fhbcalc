@@ -1,5 +1,5 @@
 export const CALC_DEFAULTS: CalcData = {
-  income: 120_000,
+  income: 100_000,
   expenses: 1700,
   deposit: 65_000,
   purpose: "occupier",

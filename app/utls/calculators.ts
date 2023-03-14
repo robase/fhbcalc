@@ -1,7 +1,5 @@
 import type { CalcData } from "./defaults"
 
-import { JSDOM } from "jsdom"
-
 interface EligibilityResult {
   eligible: boolean
   type?: string
