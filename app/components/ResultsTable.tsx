@@ -135,8 +135,8 @@ export default function ResultsTable({
       </div>
       <div className="overflow-x-auto overflow-y-visible w-full">
         <table className="w-full text-sm text-left border overflow-visible">
-          <thead className="text-zinc-800 uppercase bg-zinc-100 dark:bg-gray-700 dark:text-gray-400 font-semibold font-spartan">
-            <tr className="uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 tracking-wide [&>td]:select-none">
+          <thead className="text-zinc-700 uppercase bg-zinc-100 dark:bg-gray-700 dark:text-gray-400 font-semibold font-spartan">
+            <tr className="uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400  [&>td]:select-none">
               <td className="px-3 py-2" onMouseEnter={(e) => onItemHover(e, HELPTEXT.PURCHASE_PRICE)}>
                 Purchase Price
               </td>

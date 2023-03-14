@@ -17,6 +17,54 @@ export enum HELPTEXT {
   DTI = "dti",
 }
 
+const propertyTaxBody = (
+  <div>
+    <p>
+      The{" "}
+      <a
+        rel="noreferrer"
+        target="_blank"
+        className="underline"
+        href="https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/first-home-buyer-choice"
+      >
+        First Home Buyer Choice (FHBC)
+      </a>{" "}
+      scheme enables eligible first home buyers to choose to pay an annual property tax instead of upfront transfer
+      duty.
+    </p>
+    <p className="py-2">The amount of tax paid annually depends on the land value of the property being purchased:</p>
+    <p className="mx-auto my-4 p-2 border w-fit font-mono text-center">
+      <span className="font-bold font-sans">Owner occupier</span>
+      <br /> Annual property tax = $400 + 0.3% of Land value <br />
+      <br />
+      <span className="font-bold font-sans">Investor</span>
+      <br /> Annual property tax = $1500 + 1.1% of Land value
+    </p>
+    <p className="font-semibold py-2">Considerations</p>
+    <ul className="list-outside pl-4 list-disc pb-2">
+      <li className="py-2">
+        The choice to pay annual property tax rather than transfer duty enables you to put more of your savings toward a
+        deposit when buying.
+      </li>
+      <li className="py-2">
+        Depending on how long you intend to live in a property, paying an annual land tax can work out to be more
+        expensive than paying transfer duty over time, where:
+      </li>
+      <ul className="list-outside pl-6 list-disc pb-2">
+        <li className="py-2">
+          <code className="border">(annual property tax * years lived in home) &#62; transfer duty</code>
+        </li>
+      </ul>
+    </ul>
+    <p className="font-semibold">Full information:</p>
+    <a href="https://www.nsw.gov.au/housing-and-construction/first-home-buyer-choice" rel="noreferrer" target="_blank">
+      <div className="hover:underline hover:bg-blue-100 rounded-full border-blue-500 border-2 shadow-md bg-white px-4 py-2 mt-3 flex flex-row gap-2 w-fit">
+        <span>FHBC Website</span> <Link45deg size="20px" />
+      </div>
+    </a>
+  </div>
+)
+
 function getContent(item: HELPTEXT) {
   switch (item) {
     case HELPTEXT.FHBAS:
@@ -30,20 +78,22 @@ function getContent(item: HELPTEXT) {
             </p>
             <p className="font-semibold py-2">Eligibility</p>
             <ul className="list-outside px-4 list-disc pb-2">
-              <li>You move in within 12 months and live there for a minimum 6 continuous months</li>
-              <li>You must be an owner-occupier of the purchased property (not buying as an investment)</li>
+              <li className="py-1">You move in within 12 months and live there for a minimum 6 continuous months</li>
+              <li className="py-1">
+                You must be an owner-occupier of the purchased property (not buying as an investment)
+              </li>
             </ul>
             <p className="font-semibold py-2">Benefits</p>
             <ul className="list-outside px-4 list-disc">
-              <li>New and existing homes</li>
+              <li className="py-1">New and existing homes</li>
               <ul className="list-outside px-4 list-disc">
-                <li>Full exemption for purchase price less than $650,000</li>
-                <li>Concessional rate for purchase price less than $800,000</li>
+                <li className="py-1">Full exemption for purchase price less than $650,000</li>
+                <li className="py-1">Concessional rate for purchase price less than $800,000</li>
               </ul>
-              <li>Vacant Land</li>
+              <li className="py-1">Vacant Land</li>
               <ul className="list-outside px-4 list-disc">
-                <li>Full exemption for purchase price less than $350,000</li>
-                <li>Concessional rate for purchase price less than $450,000</li>
+                <li className="py-1">Full exemption for purchase price less than $350,000</li>
+                <li className="py-1">Concessional rate for purchase price less than $450,000</li>
               </ul>
             </ul>
             <p className="font-semibold pt-2">Full information:</p>
@@ -67,11 +117,11 @@ function getContent(item: HELPTEXT) {
             <p>First Home Owner's Grant (FHOG) gives you $10,000 when you build or buy your first home.</p>
             <p className="font-semibold py-2">Eligibility</p>
             <ul className="list-outside px-4 list-disc pb-2">
-              <li>The purchase price must not exceed:</li>
+              <li className="py-1">The purchase price must not exceed:</li>
               <ul className="list-outside px-4 list-disc">
-                <li>$600,000 for a newly built house, townhouse, apartment, unit or similar</li>
-                <li>$600,000 for a home which was substantially renovated by the seller</li>
-                <li>$750,000 when buying vacant land with a building contract </li>
+                <li className="py-1">$600,000 for a newly built house, townhouse, apartment, unit or similar</li>
+                <li className="py-1">$600,000 for a home which was substantially renovated by the seller</li>
+                <li className="py-1">$750,000 when buying vacant land with a building contract </li>
               </ul>
             </ul>
             <p className="font-semibold pt-2">Full information:</p>
@@ -102,12 +152,16 @@ function getContent(item: HELPTEXT) {
             </p>
             <p className="font-semibold py-2">Eligibility</p>
             <ul className="list-outside px-4 list-disc pb-2">
-              <li>You must earn less than: $125,000 for individuals or $200,000 for couples, evidenced via the ATO</li>
-              <li>You must be an owner-occupiers of the purchased property (not buying as an investment)</li>
-              <li>The property price must be less than:</li>
+              <li className="py-1">
+                You must earn less than: $125,000 for individuals or $200,000 for couples, evidenced via the ATO
+              </li>
+              <li className="py-1">
+                You must be an owner-occupiers of the purchased property (not buying as an investment)
+              </li>
+              <li className="py-1">The property price must be less than:</li>
               <ul className="list-outside px-4 list-disc">
-                <li>$900,000 if buying in Sydney, Newcastle, Lake Macquarie or Illawarra</li>
-                <li>$750,000 otherwise</li>
+                <li className="py-1">$900,000 if buying in Sydney, Newcastle, Lake Macquarie or Illawarra</li>
+                <li className="py-1">$750,000 otherwise</li>
               </ul>
             </ul>
             <p className="font-semibold">Full information:</p>
@@ -135,11 +189,11 @@ function getContent(item: HELPTEXT) {
             </p>
             <p className="font-semibold py-2">Borrowing Power</p>
             <ul className="list-outside pl-4 list-disc pb-2">
-              <li>
+              <li className="py-2">
                 Different lenders will place different limits on DTI when offering loans as a way to limit their risk
                 exposure to you failing to repay your loan. The higher the DTI of a borrower, the higher the risk.
               </li>
-              <li>
+              <li className="py-2">
                 To decrease your DTI and increase your borrowing power, you can either reduce your expenses or loan
                 repayments (e.g. cancel a credit card, pay off your hecs), or increase your income.
               </li>
@@ -237,120 +291,12 @@ function getContent(item: HELPTEXT) {
     case HELPTEXT.FHBC:
       return {
         title: "First Home Buyer Choice (FHBC)",
-        body: (
-          <div>
-            <p>
-              The{" "}
-              <a
-                rel="noreferrer"
-                target="_blank"
-                className="underline"
-                href="https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/first-home-buyer-choice"
-              >
-                First Home Buyer Choice (FHBC)
-              </a>{" "}
-              scheme enables eligible first home buyers to choose to pay an annual property tax instead of upfront
-              transfer duty.
-            </p>
-            <p className="py-2">
-              The amount of tax paid annually depends on the land value of the property being purchased:
-            </p>
-            <p className="mx-auto my-4 p-2 border w-fit font-mono text-center">
-              <span className="font-bold font-sans">Owner occupier</span>
-              <br /> Annual property tax = $400 + 0.3% of Land value <br />
-              <br />
-              <span className="font-bold font-sans">Investor</span>
-              <br /> Annual property tax = $1500 + 1.1% of Land value
-            </p>
-            <p className="font-semibold py-2">Considerations</p>
-            <ul className="list-outside pl-4 list-disc pb-2">
-              <li>
-                The choice to pay annual property tax rather than transfer duty enables you to put more of your savings
-                toward a deposit when buying.
-              </li>
-              <li>
-                Depending on how long you intend to live in a property, paying an annual land tax can work out to be
-                more expensive than paying transfer duty over time, where:
-              </li>
-              <ul className="list-outside pl-6 list-disc pb-2">
-                <li>
-                  <code className="border">
-                    (annual property tax * number of years you live in a property) &#62; transfer duty
-                  </code>
-                </li>
-              </ul>
-            </ul>
-            <p className="font-semibold">Full information:</p>
-            <a
-              href="https://www.nsw.gov.au/housing-and-construction/first-home-buyer-choice"
-              rel="noreferrer"
-              target="_blank"
-            >
-              <div className="hover:underline hover:bg-blue-100 rounded-full border-blue-500 border-2 shadow-md bg-white px-4 py-2 mt-3 flex flex-row gap-2 w-fit">
-                <span>FHBC Website</span> <Link45deg size="20px" />
-              </div>
-            </a>
-          </div>
-        ),
+        body: propertyTaxBody,
       }
     case HELPTEXT.PROPERTY_TAX:
       return {
         title: "Property Tax",
-        body: (
-          <div>
-            <p>
-              The{" "}
-              <a
-                rel="noreferrer"
-                target="_blank"
-                className="underline"
-                href="https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/first-home-buyer-choice"
-              >
-                First Home Buyer Choice (FHBC)
-              </a>{" "}
-              scheme enables eligible first home buyers to choose to pay an annual property tax instead of upfront
-              transfer duty.
-            </p>
-            <p className="py-2">
-              The amount of tax paid annually depends on the land value of the property being purchased:
-            </p>
-            <p className="mx-auto my-4 p-2 border w-fit font-mono text-center">
-              <span className="font-bold font-sans">Owner occupier</span>
-              <br /> Annual property tax = $400 + 0.3% of Land value <br />
-              <br />
-              <span className="font-bold font-sans">Investor</span>
-              <br /> Annual property tax = $1500 + 1.1% of Land value
-            </p>
-            <p className="font-semibold py-2">Considerations</p>
-            <ul className="list-outside pl-4 list-disc pb-2">
-              <li>
-                The choice to pay annual property tax rather than transfer duty enables you to put more of your savings
-                toward a deposit when buying.
-              </li>
-              <li>
-                Depending on how long you intend to live in a property, paying an annual land tax can work out to be
-                more expensive than paying transfer duty over time, where:
-              </li>
-              <ul className="list-outside pl-6 list-disc pb-2">
-                <li>
-                  <code className="border">
-                    (annual property tax * number of years you live in a property) &#62; transfer duty
-                  </code>
-                </li>
-              </ul>
-            </ul>
-            <p className="font-semibold">Full information:</p>
-            <a
-              href="https://www.nsw.gov.au/housing-and-construction/first-home-buyer-choice"
-              rel="noreferrer"
-              target="_blank"
-            >
-              <div className="hover:underline hover:bg-blue-100 rounded-full border-blue-500 border-2 shadow-md bg-white px-4 py-2 mt-3 flex flex-row gap-2 w-fit">
-                <span>FHBC Website</span> <Link45deg size="20px" />
-              </div>
-            </a>
-          </div>
-        ),
+        body: propertyTaxBody,
       }
     case HELPTEXT.TRANSFER_DUTY:
       return {
@@ -378,14 +324,14 @@ function getContent(item: HELPTEXT) {
             </p>
             <p className="font-semibold py-1">First Home Buyer's Assistance Scheme (FHBAS)</p>
             <ul className="list-outside pl-4 list-disc pb-2">
-              <li>
+              <li className="py-2">
                 If you qualify for the FHBAS, you may be entitled to either a full exemption or a concessional rate when
                 paying transfer duty.
               </li>
             </ul>
             <p className="font-semibold py-1">First Home Buyer Choice (FHBC)</p>
             <ul className="list-outside pl-4 list-disc pb-2">
-              <li>
+              <li className="py-2">
                 If you qualify for the FHBC scheme, you can choose to pay an annual property tax instead of transfer
                 duty. This can be beneficial as you can avoid paying transfer duty as a lump sum which can free up more
                 of your savings to use for a deposit.
@@ -417,7 +363,7 @@ function getContent(item: HELPTEXT) {
 
             <p className="font-semibold py-1">Avoiding LMI</p>
             <ul className="list-outside pl-4 list-disc pb-2">
-              <li>
+              <li className="py-2">
                 If you qualify for the{" "}
                 <a
                   href="https://www.nhfic.gov.au/support-buy-home/first-home-guarantee"
@@ -429,7 +375,7 @@ function getContent(item: HELPTEXT) {
                 </a>
                 , the government will act as a guarantor of your home loan and you will not need to pay LMI
               </li>
-              <li>
+              <li className="py-2">
                 You can qualify to have LMI waived with some lenders based on your profession - typically legal, medical
                 and accounting professionals will qualify.
               </li>
@@ -461,15 +407,15 @@ function getContent(item: HELPTEXT) {
             <p className="mx-auto my-4 p-2 border w-fit font-mono">Loan Amount = Purchase Price - Deposit</p>
             <p className="font-semibold py-1">Note: LMI Capitalisation</p>
             <ul className="list-outside pl-4 list-disc pb-2">
-              <li>
+              <li className="py-2">
                 This calculator assumes that LMI is being paid in a lump sum as an upfront cost when you first begin
                 your loan.
               </li>
-              <li>
+              <li className="py-2">
                 Some lenders offer the option to add the cost of LMI to your loan so you can avoid paying it upfront -
                 known as LMI Capitalisation
               </li>
-              <li>
+              <li className="py-2">
                 This can be beneficial if you have a low deposit but may cost more as you will be charged interest on
                 the LMI added to your loan principal
               </li>
@@ -537,7 +483,7 @@ export default function AssistanceArea({
       <div className="flex flex-row justify-between items-center gap-4">
         <div className="flex flex-row gap-2 items-center mb-1">
           <QuestionCircleFill />
-          <h3 className="font-spartan font-bold pb-1">{title}</h3>
+          <h3 className="font-spartan font-bold py-1">{title}</h3>
         </div>
         <div
           onClick={clearFocusedItem}

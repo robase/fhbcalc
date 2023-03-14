@@ -74,7 +74,7 @@ export default function MainView() {
       <div className="w-fit mx-8 mb-8">
         <a rel="noreferrer" target="_blank" href="https://forms.gle/4vpH5Szigse9fq8v8" className="w-fit">
           <div className="px-4 text-sm py-2 border bg-white w-44 flex gap-4 hover:bg-zinc-100 border-zinc-300 rounded-lg cursor-pointer items-center">
-            <span>Provide Feedback</span> <BoxArrowUpRight aria-hidden size="1em" />
+            <span className="whitespace-nowrap">Provide Feedback</span> <BoxArrowUpRight aria-hidden size="1em" />
           </div>
         </a>
       </div>

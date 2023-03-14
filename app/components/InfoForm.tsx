@@ -21,7 +21,7 @@ function useOutsideAlerter(ref: React.MutableRefObject<any>, cb: () => void) {
       // Unbind the event listener on clean up
       document.removeEventListener("mousedown", handleClickOutside)
     }
-  }, [ref])
+  }, [cb, ref])
 }
 
 export default function InfoForm({
@@ -46,7 +46,7 @@ export default function InfoForm({
   return (
     <form
       onChange={() => onValueChange(getValues() as CalcData)}
-      className="text-sm text-zinc-700 grid  gap-y-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5   border-zinc-200"
+      className="text-sm text-zinc-700 grid  gap-y-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5  font-roboto border-zinc-200"
     >
       <div
         // onMouseEnter={(e) => onItemHover(e, "occupier-vs-investor")}
@@ -88,7 +88,7 @@ export default function InfoForm({
         // onMouseEnter={() => onItemHover("state")}
         className="flex flex-col gap-2 pr-8"
       >
-        <label htmlFor="form-state" className="block font-bold mr-2 select-none">
+        <label htmlFor="form-state" className="block font-bold font-spartan mr-2 select-none">
           What state are you in?
         </label>
         <select
@@ -150,7 +150,7 @@ export default function InfoForm({
         // onMouseEnter={() => onItemHover("new-or-existing")}
         className="pr-8"
       >
-        <label htmlFor="form-fieldset-new-or-existing" className="mb-4 font-bold mr-4 select-none">
+        <label htmlFor="form-fieldset-new-or-existing" className="mb-4 font-bold font-spartan mr-4 select-none">
           Buying an existing, new property or vacant land?
         </label>
         <fieldset id="form-fieldset-new-or-existing" className="pt-2 flex flex-col gap-1">
@@ -236,7 +236,7 @@ export default function InfoForm({
         className="flex flex-col justify-between pr-8"
       >
         <div>
-          <label htmlFor="form-income" className="block font-bold mr-2 select-none">
+          <label htmlFor="form-income" className="block font-bold font-spartan mr-2 select-none">
             What is your yearly pre-tax income?
           </label>
           <p className="text-xs py-1 text-zinc-600">Combined if a couple</p>
@@ -256,7 +256,7 @@ export default function InfoForm({
         // onMouseEnter={() => onItemHover("deposit")}
         className="flex flex-col justify-between pr-8"
       >
-        <label htmlFor="form-deposit" className="block font-bold mr-2 select-none">
+        <label htmlFor="form-deposit" className="block font-bold font-spartan mr-2 select-none">
           How much have you saved for a deposit?
         </label>
         <CurrencyInput
@@ -275,7 +275,7 @@ export default function InfoForm({
         className="flex flex-col justify-between pr-8"
       >
         <div>
-          <label htmlFor="form-expenses" className="block font-bold mr-2 select-none">
+          <label htmlFor="form-expenses" className="block font-bold font-spartan mr-2 select-none">
             What are your monthly living expenses?
           </label>
           <p className="text-xs py-1 text-zinc-600">e.g. food, clothes and other loan repayments, don't include rent</p>
@@ -295,7 +295,7 @@ export default function InfoForm({
         // onMouseEnter={() => onItemHover("hecs")}
         className="flex flex-col justify-between pr-8"
       >
-        <label htmlFor="form-hecs" className="block font-bold mr-2 select-none">
+        <label htmlFor="form-hecs" className="block font-bold mr-2 font-spartan select-none">
           Do you have a HECS debt?
         </label>
         <p className="text-xs py-1 text-zinc-600">Add your total remaining amount</p>
@@ -315,7 +315,7 @@ export default function InfoForm({
         // onMouseEnter={() => onItemHover("land-value")}
         className="flex flex-col justify-between pr-8"
       >
-        <label htmlFor="form-land-value" className="block font-bold mr-2 select-none">
+        <label htmlFor="form-land-value" className="block font-bold font-spartan mr-2 select-none">
           What is the land value of the property?
         </label>
         <div

@@ -22,7 +22,7 @@ export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }]
 export default function App() {
   console.log("Hi 👋, follow me on github: https://github.com/robase")
   return (
-    <html className="bg-gradient-to-br from-white to-stone-300 w-full min-h-full" lang="en">
+    <html className="bg-gradient-to-br from-white to-stone-300 w-full min-h-full font-roboto" lang="en">
       <head>
         <Meta />
         <Links />
