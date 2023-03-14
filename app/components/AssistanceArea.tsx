@@ -513,14 +513,19 @@ export default function AssistanceArea({
     <div
       className={`${
         focusedItem.x > window.innerWidth / 2 - 100 ? "ml-10 mr-auto" : "mr-10 ml-auto"
-      } fixed mb-10 rounded-lg mt-auto inset-0 bg-white z-30 border border-zinc-300 px-4 pt-3 pb-4 w-fit h-fit shadow-md text-zinc-700 max-w-xl`}
+      } fixed mb-10 rounded-lg mt-auto inset-0 bg-white z-30 border border-zinc-400 px-4 pt-3 pb-4 w-fit h-fit shadow-md text-zinc-700 max-w-xl`}
     >
       <div className="flex flex-row justify-between items-center gap-4">
         <div className="flex flex-row gap-2 items-center mb-1">
           <QuestionCircleFill />
           <h3 className="font-spartan font-bold pb-1">{title}</h3>
         </div>
-        <XLg className="mb-1 hover:bg-black hover:fill-white cursor-pointer" onClick={clearFocusedItem} size="1em" />
+        <div
+          onClick={clearFocusedItem}
+          className="mb-1 hover:bg-zinc-200  hover:text-zinc-50 cursor-pointer border p-1 rounded-lg"
+        >
+          <XLg size="1em" className="" />
+        </div>
       </div>
       <div className="text-sm">{body}</div>
     </div>

@@ -43,11 +43,13 @@ export default function MainView() {
           <ResultsTable onItemHover={handleItemFocus} data={calcState} />
         </div>
       </div>
-      <a rel="noreferrer" target="_blank" href="https://forms.gle/4vpH5Szigse9fq8v8">
-        <div className="mx-8 mb-8 px-4 text-sm py-2 border bg-white max-w-fit flex gap-4 hover:bg-zinc-100 border-zinc-300 rounded-lg cursor-pointer items-center">
-          Provide Feedback <BoxArrowUpRight aria-hidden size="1em" />
-        </div>
-      </a>
+      <div className="w-fit mx-8 mb-8">
+        <a rel="noreferrer" target="_blank" href="https://forms.gle/4vpH5Szigse9fq8v8" className="w-fit">
+          <div className="px-4 text-sm py-2 border bg-white w-44 flex gap-4 hover:bg-zinc-100 border-zinc-300 rounded-lg cursor-pointer items-center">
+            <span>Provide Feedback</span> <BoxArrowUpRight aria-hidden size="1em" />
+          </div>
+        </a>
+      </div>
       <div className="flex flex-row flex-wrap justify-between gap-4 font-roboto text-sm px-8 mb-8 text-zinc-500">
         <div>
           <p>Assumptions:</p>
