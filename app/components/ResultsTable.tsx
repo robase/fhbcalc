@@ -215,7 +215,8 @@ export default function ResultsTable({
                 data.deposit,
                 transactionFee,
                 taxOrTransferDuty === "TAX" ? propertyTax : transferDuty,
-                lmi // lvr >= 90 ? lmi : 0
+                lmi, // lvr >= 90 ? lmi : 0,
+                FHOGResult.eligible
               )
 
               return (
@@ -300,7 +301,12 @@ export default function ResultsTable({
                     </div>
                   </td>
                   <td className="px-3 py-2">
-                    {fmtAUD(cashOnHand)} {lmi === -1 && "+ LMI"}
+                    <div className="flex flex-row gap-2 items-center">
+                      <span>
+                        {fmtAUD(cashOnHand)} {lmi === -1 && "+ LMI"}
+                      </span>
+                      {FHOGResult.eligible && <span className="text-zinc-400 text-[10px] leading-3">inc. FHOG</span>}
+                    </div>
                   </td>
                   <td className="px-3 py-2">
                     <div className="flex flex-row gap-2">
@@ -316,7 +322,7 @@ export default function ResultsTable({
                       {FHBASResult.eligible ? (
                         FHBASResult.type === "full" ? (
                           <Pill
-                            // onMouseEnter={(e) => onItemHover(e, HELPTEXT.FHBAS)}
+                            onMouseEnter={(e) => onItemHover(e, HELPTEXT.FHBAS)}
                             status="G"
                             text="FHBAS"
                             url={urlFHBAS}
@@ -324,7 +330,7 @@ export default function ResultsTable({
                           />
                         ) : (
                           <Pill
-                            // onMouseEnter={(e) => onItemHover(e, HELPTEXT.FHBAS)}
+                            onMouseEnter={(e) => onItemHover(e, HELPTEXT.FHBAS)}
                             status="A"
                             text="FHBAS"
                             url={urlFHBAS}
@@ -333,7 +339,7 @@ export default function ResultsTable({
                         )
                       ) : (
                         <Pill
-                          // onMouseEnter={(e) => onItemHover(e, HELPTEXT.FHBAS)}
+                          onMouseEnter={(e) => onItemHover(e, HELPTEXT.FHBAS)}
                           status="R"
                           text="FHBAS"
                           url={urlFHBAS}
@@ -342,7 +348,7 @@ export default function ResultsTable({
                       )}
                       {FHOGResult.eligible ? (
                         <Pill
-                          // onMouseEnter={(e) => onItemHover(e, HELPTEXT.FHOG)}
+                          onMouseEnter={(e) => onItemHover(e, HELPTEXT.FHOG)}
                           status="G"
                           text="FHOG"
                           url={urlFHOG}
@@ -351,7 +357,7 @@ export default function ResultsTable({
                       ) : (
                         <>
                           <Pill
-                            // onMouseEnter={(e) => onItemHover(e, HELPTEXT.FHOG)}
+                            onMouseEnter={(e) => onItemHover(e, HELPTEXT.FHOG)}
                             status="R"
                             text="FHOG"
                             url={urlFHOG}
@@ -361,7 +367,7 @@ export default function ResultsTable({
                       )}
                       {FHBGResult.eligible ? (
                         <Pill
-                          // onMouseEnter={(e) => onItemHover(e, HELPTEXT.FHBG)}
+                          onMouseEnter={(e) => onItemHover(e, HELPTEXT.FHBG)}
                           status="G"
                           text="FHBG"
                           url={urlFHBG}
@@ -370,7 +376,7 @@ export default function ResultsTable({
                       ) : (
                         <>
                           <Pill
-                            // onMouseEnter={(e) => onItemHover(e, HELPTEXT.FHBG)}
+                            onMouseEnter={(e) => onItemHover(e, HELPTEXT.FHBG)}
                             status="R"
                             text="FHBG"
                             url={urlFHBG}
@@ -380,7 +386,7 @@ export default function ResultsTable({
                       )}
                       {FHBCResult.eligible ? (
                         <Pill
-                          // onMouseEnter={(e) => onItemHover(e, HELPTEXT.FHBC)}
+                          onMouseEnter={(e) => onItemHover(e, HELPTEXT.FHBC)}
                           status="G"
                           text="FHBC"
                           url={urlFHBC}
@@ -389,7 +395,7 @@ export default function ResultsTable({
                       ) : (
                         <>
                           <Pill
-                            // onMouseEnter={(e) => onItemHover(e, HELPTEXT.FHBC)}
+                            onMouseEnter={(e) => onItemHover(e, HELPTEXT.FHBC)}
                             status="R"
                             text="FHBC"
                             url={urlFHBC}

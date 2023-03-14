@@ -236,10 +236,14 @@ export function calcLMI(purchasePrice: number, deposit: number, { eligible }: El
   return purchasePrice * (premium / 100)
 }
 
-export function cashOnHandRequired(deposit: number, fees: number, taxOrTransferDuty: number, lmi: number) {
-  // console.log(deposit, fees, taxOrTransferDuty, lmi, deposit + fees + taxOrTransferDuty + lmi)
-
-  return deposit + fees + taxOrTransferDuty + lmi
+export function cashOnHandRequired(
+  deposit: number,
+  fees: number,
+  taxOrTransferDuty: number,
+  lmi: number,
+  FHOGeligible: boolean
+) {
+  return deposit + fees + taxOrTransferDuty + lmi - (FHOGeligible ? 10000 : 0)
 }
 
 export function calcPrincipalFromRepayment(m: number, rPA?: number) {

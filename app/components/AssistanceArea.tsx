@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { QuestionCircleFill, XCircle, XLg } from "react-bootstrap-icons"
+import { Link45deg, QuestionCircleFill, XCircle, XLg } from "react-bootstrap-icons"
 
 export enum HELPTEXT {
   PURCHASE_PRICE = "purchase-price",
@@ -24,7 +24,38 @@ function getContent(item: HELPTEXT) {
         title: "First Home Buyer's Assistance Scheme (FHBAS)",
         body: (
           <div>
-            <p>This is some text</p>
+            <p>
+              If you qualify for the FHBAS, you may be entitled to either a full exemption or a concessional rate when
+              paying transfer duty.
+            </p>
+            <p className="font-semibold py-2">Eligibility</p>
+            <ul className="list-outside px-4 list-disc pb-2">
+              <li>You move in within 12 months and live there for a minimum 6 continuous months</li>
+              <li>You must be an owner-occupier of the purchased property (not buying as an investment)</li>
+            </ul>
+            <p className="font-semibold py-2">Benefits</p>
+            <ul className="list-outside px-4 list-disc">
+              <li>New and existing homes</li>
+              <ul className="list-outside px-4 list-disc">
+                <li>Full exemption for purchase price less than $650,000</li>
+                <li>Concessional rate for purchase price less than $800,000</li>
+              </ul>
+              <li>Vacant Land</li>
+              <ul className="list-outside px-4 list-disc">
+                <li>Full exemption for purchase price less than $350,000</li>
+                <li>Concessional rate for purchase price less than $450,000</li>
+              </ul>
+            </ul>
+            <p className="font-semibold pt-2">Full information:</p>
+            <a
+              href="https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/assistance-scheme"
+              rel="noreferrer"
+              target="_blank"
+            >
+              <div className="hover:underline hover:bg-blue-100 rounded-full border-blue-500 border-2 shadow-md bg-white px-4 py-2 mt-3 flex flex-row gap-2 w-fit">
+                <span>FHBAS Website</span> <Link45deg size="20px" />
+              </div>
+            </a>
           </div>
         ),
       }
@@ -33,16 +64,26 @@ function getContent(item: HELPTEXT) {
         title: "First Home Owner's Grant (FHOG)",
         body: (
           <div>
-            <p>This is some text</p>
-          </div>
-        ),
-      }
-    case HELPTEXT.FHBC:
-      return {
-        title: "First Home Buyer Choice (FHBC)",
-        body: (
-          <div>
-            <p>This is some text</p>
+            <p>First Home Owner's Grant (FHOG) gives you $10,000 when you build or buy your first home.</p>
+            <p className="font-semibold py-2">Eligibility</p>
+            <ul className="list-outside px-4 list-disc pb-2">
+              <li>The purchase price must not exceed:</li>
+              <ul className="list-outside px-4 list-disc">
+                <li>$600,000 for a newly built house, townhouse, apartment, unit or similar</li>
+                <li>$600,000 for a home which was substantially renovated by the seller</li>
+                <li>$750,000 when buying vacant land with a building contract </li>
+              </ul>
+            </ul>
+            <p className="font-semibold pt-2">Full information:</p>
+            <a
+              href="https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/new-homes"
+              rel="noreferrer"
+              target="_blank"
+            >
+              <div className="hover:underline hover:bg-blue-100 rounded-full border-blue-500 border-2 shadow-md bg-white px-4 py-2 mt-3 flex flex-row gap-2 w-fit">
+                <span>FHOG Website</span> <Link45deg size="20px" />
+              </div>
+            </a>
           </div>
         ),
       }
@@ -51,7 +92,30 @@ function getContent(item: HELPTEXT) {
         title: "First Home Buyer's Grant (FHBG)",
         body: (
           <div>
-            <p>This is some text</p>
+            <p>
+              The First Home Buyer's Grant (FHBG) allows eligible first home buyers to purchase a property with an LVR
+              up to 95% without paying Lenders Mortgage Insurance (LMI).
+            </p>
+            <p className="pt-2">
+              The FHBG scheme is delivered through participating lenders. Lenders have a limited allocation of spots
+              available for each financial year.
+            </p>
+            <p className="font-semibold py-2">Eligibility</p>
+            <ul className="list-outside px-4 list-disc pb-2">
+              <li>You must earn less than: $125,000 for individuals or $200,000 for couples, evidenced via the ATO</li>
+              <li>You must be an owner-occupiers of the purchased property (not buying as an investment)</li>
+              <li>The property price must be less than:</li>
+              <ul className="list-outside px-4 list-disc">
+                <li>$900,000 if buying in Sydney, Newcastle, Lake Macquarie or Illawarra</li>
+                <li>$750,000 otherwise</li>
+              </ul>
+            </ul>
+            <p className="font-semibold">Full information:</p>
+            <a href="https://www.nhfic.gov.au/support-buy-home/first-home-guarantee" rel="noreferrer" target="_blank">
+              <div className="hover:underline hover:bg-blue-100 rounded-full border-blue-500 border-2 shadow-md bg-white px-4 py-2 mt-3 flex flex-row gap-2 w-fit">
+                <span>FHBG Website</span> <Link45deg size="20px" />
+              </div>
+            </a>
           </div>
         ),
       }
@@ -151,6 +215,65 @@ function getContent(item: HELPTEXT) {
           </div>
         ),
       }
+    case HELPTEXT.FHBC:
+      return {
+        title: "First Home Buyer Choice (FHBC)",
+        body: (
+          <div>
+            <p>
+              The{" "}
+              <a
+                rel="noreferrer"
+                target="_blank"
+                className="underline"
+                href="https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/first-home-buyer-choice"
+              >
+                First Home Buyer Choice (FHBC)
+              </a>{" "}
+              scheme enables eligible first home buyers to choose to pay an annual property tax instead of upfront
+              transfer duty.
+            </p>
+            <p className="py-2">
+              The amount of tax paid annually depends on the land value of the property being purchased:
+            </p>
+            <p className="mx-auto my-4 p-2 border w-fit font-mono text-center">
+              <span className="font-bold font-sans">Owner occupier</span>
+              <br /> Annual property tax = $400 + 0.3% of Land value <br />
+              <br />
+              <span className="font-bold font-sans">Investor</span>
+              <br /> Annual property tax = $1500 + 1.1% of Land value
+            </p>
+            <p className="font-semibold py-2">Considerations</p>
+            <ul className="list-outside pl-4 list-disc pb-2">
+              <li>
+                The choice to pay annual property tax rather than transfer duty enables you to put more of your savings
+                toward a deposit when buying.
+              </li>
+              <li>
+                Depending on how long you intend to live in a property, paying an annual land tax can work out to be
+                more expensive than paying transfer duty over time, where:
+              </li>
+              <ul className="list-outside pl-6 list-disc pb-2">
+                <li>
+                  <code className="border">
+                    (annual property tax * number of years you live in a property) &#62; transfer duty
+                  </code>
+                </li>
+              </ul>
+            </ul>
+            <p className="font-semibold">Full information:</p>
+            <a
+              href="https://www.nsw.gov.au/housing-and-construction/first-home-buyer-choice"
+              rel="noreferrer"
+              target="_blank"
+            >
+              <div className="hover:underline hover:bg-blue-100 rounded-full border-blue-500 border-2 shadow-md bg-white px-4 py-2 mt-3 flex flex-row gap-2 w-fit">
+                <span>FHBC Website</span> <Link45deg size="20px" />
+              </div>
+            </a>
+          </div>
+        ),
+      }
     case HELPTEXT.PROPERTY_TAX:
       return {
         title: "Property Tax",
@@ -197,6 +320,16 @@ function getContent(item: HELPTEXT) {
                 </li>
               </ul>
             </ul>
+            <p className="font-semibold">Full information:</p>
+            <a
+              href="https://www.nsw.gov.au/housing-and-construction/first-home-buyer-choice"
+              rel="noreferrer"
+              target="_blank"
+            >
+              <div className="hover:underline hover:bg-blue-100 rounded-full border-blue-500 border-2 shadow-md bg-white px-4 py-2 mt-3 flex flex-row gap-2 w-fit">
+                <span>FHBC Website</span> <Link45deg size="20px" />
+              </div>
+            </a>
           </div>
         ),
       }
@@ -211,8 +344,8 @@ function getContent(item: HELPTEXT) {
             </p>
             <p className="py-2">
               Calculating transfer duty is complex as it is a progressive tax for which you are charged both a set fee
-              and percentage for every dollar the auction price is over each price bracket. More simply: the higher the
-              purchase price of the property, the more transfer duty you will need to pay.
+              and a percentage of every dollar over each price bracket the property price is. More simply: the higher
+              the purchase price of the property, the more transfer duty you will need to pay.
               <br />
               <br /> Read:{" "}
               <a
@@ -234,9 +367,9 @@ function getContent(item: HELPTEXT) {
             <p className="font-semibold py-1">First Home Buyer Choice (FHBC)</p>
             <ul className="list-outside pl-4 list-disc pb-2">
               <li>
-                If you qualify for the FHBC scheme, you can choose to pay an annual property tax instead of a lump sum.
-                This can be beneficial as paying transfer duty as a lump sum can cut heavily into the savings you have
-                available to use as a deposit.
+                If you qualify for the FHBC scheme, you can choose to pay an annual property tax instead of transfer
+                duty. This can be beneficial as you can avoid paying transfer duty as a lump sum which can free up more
+                of your savings to use for a deposit.
               </li>
             </ul>
           </div>
