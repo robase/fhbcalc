@@ -10,7 +10,7 @@ export const CALC_DEFAULTS: CalcData = {
   propertyBuild: "existing",
   landValue: 110_000,
   priceInterval: 30_000,
-  interestRate: 6.0,
+  interestRate: 6.01,
 }
 
 export interface CalcData {

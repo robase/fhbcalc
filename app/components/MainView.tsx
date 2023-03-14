@@ -106,11 +106,12 @@ export default function MainView() {
         <div className="max-w-md">
           <p>
             Please note that this is a tool intended to compliment your own research, this is not financial advice.
+            Accuracy is best effort
             <br />
             <br /> No data is collected, retained or stored anywhere from this site, it never leaves your browser.
             <br />
             <br />
-            v0.0.1
+            v0.0.1 - last updated 14/03/23
           </p>
         </div>
       </div>
