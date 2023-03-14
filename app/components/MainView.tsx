@@ -20,8 +20,6 @@ export default function MainView() {
   const [focusedItem, setFocusedItem] = useState<{ item: HELPTEXT; x: number; y: number }>()
 
   const handleItemFocus = (e: React.MouseEvent<HTMLDivElement | HTMLAnchorElement, MouseEvent>, item: HELPTEXT) => {
-    // console.log(e.nativeEvent.offsetX, e.currentTarget.clientTop)
-
     const rect = e.currentTarget.getBoundingClientRect()
 
     setFocusedItem({ item, x: rect.left, y: rect.top + rect.height + 40 })
@@ -110,6 +108,9 @@ export default function MainView() {
             Please note that this is a tool intended to compliment your own research, this is not financial advice.
             <br />
             <br /> No data is collected, retained or stored anywhere from this site, it never leaves your browser.
+            <br />
+            <br />
+            v0.0.1
           </p>
         </div>
       </div>

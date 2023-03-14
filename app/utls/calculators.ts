@@ -244,21 +244,16 @@ export function cashOnHandRequired(deposit: number, fees: number, taxOrTransferD
   return deposit + fees + taxOrTransferDuty + lmi
 }
 
-export function calcPrincipalFromRepayment(m: number) {
-  const r = 0.06 / 12
+export function calcPrincipalFromRepayment(m: number, rPA?: number) {
+  const r = (rPA || 0) / 100 / 12
   const n = 12 * 30
-
-  // Loan principal = Monthly repayment / ((1 + r)^n - 1) * (1 + r)^n / r
-
   const res = (m * (1 - Math.pow(1 + r, -n))) / r
 
   return res > 0 ? res : 0
-  // return monthlyRepayment / ((Math.pow(1 + r, n) - 1) * (Math.pow(1 + r, n) / r))
-  // return purchasePrice / (Math.pow(1 + , 30 * 12) - 1) / ((0.06 / 12) * Math.pow(1 + 0.06 / 12, 30 * 12))
 }
 
-export function calcMonthlyRepayment(principal: number) {
-  const r = 0.06 / 12
+export function calcMonthlyRepayment(principal: number, rPA?: number) {
+  const r = (rPA || 0) / 100 / 12
   const numMonths = 12 * 30
   const P = principal
 

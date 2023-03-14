@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react"
-import CurrencyInput from "react-currency-input-field"
 import {
-  estimateLoanAmount,
   calcLVR,
   calcTransferDuty,
   calcPropertyTax,
@@ -21,7 +19,6 @@ import { fmtAUD } from "~/utls/formatters"
 import CopyResultsButton from "./ui/CopyResultsButton"
 import Pill from "./ui/Pill"
 import LZString from "lz-string"
-import { useNavigate } from "@remix-run/react"
 import { HELPTEXT } from "./AssistanceArea"
 
 const urlFHBAS = "https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/assistance-scheme"
@@ -39,22 +36,25 @@ export default function ResultsTable({
   const monthlyIncome = data.income / 12
   const monthlyExpenses = data.expenses + calcHecsYearlyRepayment(data.income, data.hecs) / 12
   const maxRepayment = 0.7 * monthlyIncome - monthlyExpenses
-  const loanAmount = Math.round(calcPrincipalFromRepayment(maxRepayment) / 1000) * 1000
+
+  const [interestRate, setInterestRate] = useState<number | string>(data.interestRate)
+  const loanAmount = Math.round(calcPrincipalFromRepayment(maxRepayment, interestRate as number) / 1000) * 1000
 
   const transactionFee = 2000 + 800 + 154
 
   const [taxOrTransferDuty, setTaxOrTransferDuty] = useState<"TRANSFER" | "TAX">("TRANSFER")
   const [linkButtonText, setLinkButtonText] = useState("copy results link")
   const [priceInterval, setPriceInterval] = useState(data.priceInterval)
+
   const [maxPrice, setMaxPrice] = useState(loanAmount)
 
   useEffect(() => {
     const monthlyIncome = data.income / 12
     const monthlyExpenses = data.expenses + calcHecsYearlyRepayment(data.income, data.hecs) / 12
     const maxRepayment = 0.7 * monthlyIncome - monthlyExpenses
-    const loanAmount = Math.round(calcPrincipalFromRepayment(maxRepayment) / 1000) * 1000
+    const loanAmount = Math.round(calcPrincipalFromRepayment(maxRepayment, interestRate as number) / 1000) * 1000
     setMaxPrice(loanAmount)
-  }, [loanAmount, monthlyExpenses, data.hecs, data.income, data.expenses])
+  }, [loanAmount, monthlyExpenses, data.hecs, data.income, data.expenses, interestRate])
 
   const loanPrincipals = new Array(15)
     .fill(0)
@@ -65,6 +65,7 @@ export default function ResultsTable({
       JSON.stringify({
         ...data,
         priceInterval,
+        interestRate,
       })
     )
 
@@ -107,6 +108,20 @@ export default function ResultsTable({
               step={10000}
               value={priceInterval}
               onChange={(e) => setPriceInterval(parseInt(e.target?.value))}
+            />
+          </div>
+          <div>
+            <label htmlFor="min-price" className="block text-xs font-light font-roboto text-zinc-500 select-none">
+              Interest rate %
+            </label>
+            <input
+              id="interestRate"
+              type="number"
+              className="block w-36 py-1.5 border-zinc-400"
+              min={0}
+              step={0.01}
+              value={interestRate}
+              onChange={(e) => setInterestRate(e.target?.value ? parseFloat(e.target?.value) : "")}
             />
           </div>
         </div>
@@ -173,7 +188,7 @@ export default function ResultsTable({
               <td className="px-3 py-2" onMouseEnter={(e) => onItemHover(e, HELPTEXT.MONTHLY_REPAYMENT)}>
                 Monthly Repayment
                 <p className="text-xs normal-case py-1 tracking-normal text-zinc-400 whitespace-nowrap">
-                  30 years @ 6% p.a.
+                  30 years @ {((interestRate || 0) as number).toFixed(2)}% p.a.
                 </p>
               </td>
               <td className="px-3 py-2">Gov Scheme Eligibility</td>
@@ -187,7 +202,7 @@ export default function ResultsTable({
               const FHBASResult = qualifiesForFHBAS(data, purchasePrice)
               const FHOGResult = qualifiesForFHOG(data, purchasePrice)
 
-              const monthlyRepayment = calcMonthlyRepayment(loanPrincipal)
+              const monthlyRepayment = calcMonthlyRepayment(loanPrincipal, interestRate as number)
 
               const lvr = calcLVR(purchasePrice, data.deposit)
               const lmi = calcLMI(purchasePrice, data.deposit, FHBGResult)
