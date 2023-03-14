@@ -6,7 +6,7 @@ import styles from "./tailwind.css"
 
 export const meta: MetaFunction = () => ({
   "charset": "utf-8",
-  // "title": "First Home Buyer Calculator",
+  "title": "First Home Buyer Calculator",
   "description":
     "Navigate the journey of buying your first home with ease. Discover your government scheme eligibility and the benefits to your home loan as a first home buyer",
   "viewport": "width=device-width,initial-scale=1",
