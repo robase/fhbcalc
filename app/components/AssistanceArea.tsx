@@ -339,13 +339,13 @@ function getContent(item: HELPTEXT) {
         body: (
           <div>
             <p>
-              Transfer duty (formerly known as stamp duty) is a tax that the government charges when you purchase a
-              property. It must be paid as a lump upfront cost.
+              Transfer duty (formerly known as stamp duty in NSW) is a tax paid when you purchase or transfer ownership
+              of a property. It must be paid as a lump upfront cost.
             </p>
             <p className="py-2">
-              Calculating transfer duty is complex as it is a progressive tax for which you are charged both a set fee
-              and a percentage of every dollar over each price bracket the property price is. More simply: the higher
-              the purchase price of the property, the more transfer duty you will need to pay.
+              Calculating transfer duty can be complicated because it is a progressive tax. This means that you are
+              charged a set fee as well as a percentage of every dollar over each price bracket that the property price
+              falls into. More simply: the more expensive the property is, the more transfer duty you will have to pay.
               <br />
               <br /> Read:{" "}
               <a
