@@ -208,7 +208,7 @@ function getContent(item: HELPTEXT) {
           <div>
             <p>
               The amount you will need to pay every month of the loan period. This calculator assumes a fixed-rate
-              mortgage with an interest rate of 6% annually over a 30 year loan period.
+              mortgage with an interest rate of your choice (default is 6.01%) annually over a 30 year loan period.
             </p>
             <p className="pt-2">
               See{" "}
