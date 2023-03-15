@@ -30,7 +30,7 @@ export default function App() {
       <body>
         <Analytics />
         <Outlet />
-        <ScrollRestoration />
+        {/* <ScrollRestoration /> */}
         <Scripts />
         <LiveReload />
       </body>
