@@ -3,13 +3,13 @@ export default function Pill({
   status,
   url,
   reason,
-  onMouseEnter,
+  onClick,
 }: {
   text: string
   status: "R" | "A" | "G"
   url?: string
   reason?: string
-  onMouseEnter?: React.MouseEventHandler<HTMLDivElement>
+  onClick?: React.MouseEventHandler<HTMLDivElement>
 }) {
   return (
     <div
@@ -17,7 +17,7 @@ export default function Pill({
       // rel="noreferrer"
       // target="_blank"
       title={reason}
-      onMouseEnter={onMouseEnter}
+      onClick={onClick}
     >
       <p
         className={`${

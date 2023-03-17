@@ -95,7 +95,7 @@ export default function MainView() {
     setFocusedItem({ item, x: rect.left, y: rect.top + rect.height + 40 })
   }
 
-  const [linkButtonText, setLinkButtonText] = useState("copy results link")
+  const [linkButtonText, setLinkButtonText] = useState("Copy results link")
 
   const monthlyIncome = formValues.income / 12
   const staticExpenses = formValues.expenses + calcHecsMonthlyRepayment(formValues.income, formValues.hecs)
@@ -270,6 +270,10 @@ export default function MainView() {
                 }}
               />
             </div>
+          </div>
+          <div className="max-md:hidden p-2  pr-3 border bg-white rounded-full flex flex-row gap-2 items-center">
+            <InfoCircle size="20px" className="fill-zinc-400 shadow-sm" />
+            <p className="text-sm">Click on table headings for calculation explanations</p>
           </div>
           <div>
             <CopyResultsButton

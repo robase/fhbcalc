@@ -22,7 +22,7 @@ export default function CopyResultsButton({
       className="
       hover:bg-zinc-200 active:bg-zinc-300 rounded-md
       px-4 py-2 bg-zinc-50 border border-zinc-400
-       font-spartan uppercase text-zinc-700 flex flex-row gap-2 items-center cursor-pointer whitespace-nowrap"
+      uppercase font-spartan text-sm w-52 text-zinc-700 flex flex-row gap-2 justify-between items-center cursor-pointer whitespace-nowrap"
     >
       <span>{linkText}</span> <Files size="18px" className="fill-zinc-500" />
     </button>
