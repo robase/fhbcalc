@@ -8,7 +8,7 @@ import ResultsTable from "./ResultsTable"
 import LZString from "lz-string"
 import type { HELPTEXT } from "./AssistanceArea"
 import AssistanceArea from "./AssistanceArea"
-import { BoxArrowUpRight } from "react-bootstrap-icons"
+import { BoxArrowUpRight, InfoCircle } from "react-bootstrap-icons"
 import CopyResultsButton from "./ui/CopyResultsButton"
 import type { EligibilityResult } from "~/utls/calculators"
 import {
@@ -206,7 +206,10 @@ export default function MainView() {
           />
         </div>
       </div>
-
+      <div className="sm:hidden m-8 p-4 border-sky-300 border-2 bg-gradient-to-br from-white via-pink-50 to-sky-50 rounded-full flex flex-row gap-2 items-center">
+        <InfoCircle size="20px" />
+        <p className="text-sm">Tap the table headings for info & calculation explanations</p>
+      </div>
       <div className="lg:mx-auto">
         <div className="flex flex-row gap-4 justify-between items-end pb-4 max-sm:px-8 2xl:max-w-screen-4xl text-zinc-700 overflow-x-auto">
           <div className="flex flex-row gap-4">
@@ -283,7 +286,7 @@ export default function MainView() {
           settings={calcSettings}
         />
       </div>
-      <div className="flex flex-row justify-center">
+      <div className="flex flex-row justify-center max-sm:justify-start max-sm:p-8">
         <CopyResultsButton
           linkText={linkButtonText}
           setLinkText={setLinkButtonText}
