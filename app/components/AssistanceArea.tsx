@@ -482,7 +482,7 @@ export default function AssistanceArea({
     <div
       className={`${
         focusedItem.x > window.innerWidth / 2 - 100 ? "sm:ml-10 sm:mr-auto" : "sm:mr-10 sm:ml-auto"
-      } h-min max-h-full fixed sm:mb-10 rounded-lg mt-auto inset-0 bg-white z-30 border border-zinc-400 px-4 pt-3 pb-4 w-fit max-sm:w-full max-sm:rounded-none shadow-md text-zinc-700 max-w-xl`}
+      } h-min max-h-full fixed sm:mb-10 rounded-lg mt-auto inset-0 bg-white z-30 border max-sm:border-blue-300  max-sm:border-0 max-sm:border-t-8 max-sm:shadow-2xl border-zinc-400 px-4 pt-3 pb-4 w-fit max-sm:w-full max-sm:rounded-none shadow-md text-zinc-700 max-w-xl`}
     >
       <div className="flex flex-row justify-between items-center gap-4">
         <div className="flex flex-row gap-2 items-center mb-1">
