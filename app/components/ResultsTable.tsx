@@ -23,7 +23,7 @@ export default function ResultsTable({
 }) {
   return (
     <div className="text-sm">
-      <div className="overflow-x-scroll overflow-y-visible w-full">
+      <div className="overflow-x-auto w-full">
         <table className="w-full text-sm text-left border overflow-visible">
           <thead className="text-zinc-700 uppercase bg-zinc-100 dark:bg-gray-700 dark:text-gray-400 font-semibold font-spartan">
             <tr className="uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400  [&>td]:select-none">
