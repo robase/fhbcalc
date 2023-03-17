@@ -408,7 +408,7 @@ function getContent(item: HELPTEXT) {
           <div>
             <p className="pb-1">The amount you will need to borrow to buy a house for the given purchase price</p>
             <p>Calculated as:</p>
-            <p className="mx-auto my-4 p-2 border w-fit font-mono">Loan Amount = Purchase Price - Deposit</p>
+            <p className="mx-auto my-4 p-2 border w-fit font-mono">Loan Principal = Purchase Price - Deposit</p>
             <p className="font-semibold py-1">Note: LMI Capitalisation</p>
             <ul className="list-outside pl-4 list-disc pb-2">
               <li className="py-2">
