@@ -208,7 +208,7 @@ export default function MainView() {
       </div>
       <div className="sm:hidden m-8 p-4 border-sky-500 border-2 bg-white rounded-full flex flex-row gap-2 items-center">
         <InfoCircle size="20px" />
-        <p className="text-sm">Tap the table headings for info & calculation explanations</p>
+        <p className="text-sm">Tap table headings for calculation explanations</p>
       </div>
       <div className="lg:mx-auto">
         <div className="flex flex-row gap-4 justify-between items-end pb-4 max-sm:px-8 2xl:max-w-screen-4xl text-zinc-700 overflow-x-auto">
