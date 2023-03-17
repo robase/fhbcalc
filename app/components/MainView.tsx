@@ -206,7 +206,7 @@ export default function MainView() {
           />
         </div>
       </div>
-      <div className="sm:hidden m-8 p-4 border-sky-300 border-2 bg-gradient-to-br from-white via-pink-50 to-sky-50 rounded-full flex flex-row gap-2 items-center">
+      <div className="sm:hidden m-8 p-4 border-sky-500 border-2 bg-white rounded-full flex flex-row gap-2 items-center">
         <InfoCircle size="20px" />
         <p className="text-sm">Tap the table headings for info & calculation explanations</p>
       </div>
