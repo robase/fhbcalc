@@ -53,7 +53,7 @@ export default function ResultsTable({
                 LMI*
               </td>
               <td
-                className="cursor-pointer"
+                className="cursor-pointer whitespace-nowrap"
                 onClick={() => setCalcSettings((prev) => ({ ...prev, transferOrTax: "TRANSFER" }))}
                 onMouseEnter={(e) => onItemHover(e, HELPTEXT.TRANSFER_DUTY)}
               >
@@ -68,7 +68,7 @@ export default function ResultsTable({
                 )}
               </td>
               <td
-                className="cursor-pointer"
+                className="cursor-pointer whitespace-nowrap"
                 onClick={() => setCalcSettings((prev) => ({ ...prev, transferOrTax: "TAX" }))}
                 onMouseEnter={(e) => onItemHover(e, HELPTEXT.PROPERTY_TAX)}
               >

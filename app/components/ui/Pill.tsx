@@ -9,10 +9,16 @@ export default function Pill({
   status: "R" | "A" | "G"
   url?: string
   reason?: string
-  onMouseEnter?: React.MouseEventHandler<HTMLAnchorElement>
+  onMouseEnter?: React.MouseEventHandler<HTMLDivElement>
 }) {
   return (
-    <a href={url} rel="noreferrer" target="_blank" title={reason} onMouseEnter={onMouseEnter}>
+    <div
+      // href={url}
+      // rel="noreferrer"
+      // target="_blank"
+      title={reason}
+      onMouseEnter={onMouseEnter}
+    >
       <p
         className={`${
           status === "R"
@@ -24,6 +30,6 @@ export default function Pill({
       >
         {text}
       </p>
-    </a>
+    </div>
   )
 }
