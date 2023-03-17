@@ -58,7 +58,7 @@ const propertyTaxBody = (
     </ul>
     <p className="font-semibold">Full information:</p>
     <a href="https://www.nsw.gov.au/housing-and-construction/first-home-buyer-choice" rel="noreferrer" target="_blank">
-      <div className="hover:underline hover:bg-blue-100 rounded-full border-blue-500 border-2 shadow-md bg-white px-4 py-2 mt-3 flex flex-row gap-2 w-fit">
+      <div className="hover:underline hover:bg-blue-100 rounded-full border-blue-300 border-2 shadow-md bg-white px-4 py-2 mt-3 flex flex-row gap-2 w-fit">
         <span>FHBC Website</span> <Link45deg size="20px" />
       </div>
     </a>
@@ -102,7 +102,7 @@ function getContent(item: HELPTEXT) {
               rel="noreferrer"
               target="_blank"
             >
-              <div className="hover:underline hover:bg-blue-100 rounded-full border-blue-500 border-2 shadow-md bg-white px-4 py-2 mt-3 flex flex-row gap-2 w-fit">
+              <div className="hover:underline hover:bg-blue-100 rounded-full border-blue-300 border-2 shadow-md bg-white px-4 py-2 mt-3 flex flex-row gap-2 w-fit">
                 <span>FHBAS Website</span> <Link45deg size="20px" />
               </div>
             </a>
@@ -130,7 +130,7 @@ function getContent(item: HELPTEXT) {
               rel="noreferrer"
               target="_blank"
             >
-              <div className="hover:underline hover:bg-blue-100 rounded-full border-blue-500 border-2 shadow-md bg-white px-4 py-2 mt-3 flex flex-row gap-2 w-fit">
+              <div className="hover:underline hover:bg-blue-100 rounded-full border-blue-300 border-2 shadow-md bg-white px-4 py-2 mt-3 flex flex-row gap-2 w-fit">
                 <span>FHOG Website</span> <Link45deg size="20px" />
               </div>
             </a>
@@ -166,7 +166,7 @@ function getContent(item: HELPTEXT) {
             </ul>
             <p className="font-semibold">Full information:</p>
             <a href="https://www.nhfic.gov.au/support-buy-home/first-home-guarantee" rel="noreferrer" target="_blank">
-              <div className="hover:underline hover:bg-blue-100 rounded-full border-blue-500 border-2 shadow-md bg-white px-4 py-2 mt-3 flex flex-row gap-2 w-fit">
+              <div className="hover:underline hover:bg-blue-100 rounded-full border-blue-300 border-2 shadow-md bg-white px-4 py-2 mt-3 flex flex-row gap-2 w-fit">
                 <span>FHBG Website</span> <Link45deg size="20px" />
               </div>
             </a>
@@ -239,7 +239,7 @@ function getContent(item: HELPTEXT) {
               required for a purchase
             </p>
 
-            <p className="py-2">Example:</p>
+            <p className="py-2">Example for a house bought for $818,500, no government scheme benefits applied:</p>
             <table className="text-left">
               <thead className="[&>tr>th]:px-2 [&>tr>th]:py-1 border-b">
                 <tr>
@@ -254,7 +254,11 @@ function getContent(item: HELPTEXT) {
                 </tr>
                 <tr>
                   <td>LMI</td>
-                  <td>$13,080</td>
+                  <td>$34,017</td>
+                </tr>
+                <tr>
+                  <td>Transfer Duty</td>
+                  <td>$31,923</td>
                 </tr>
                 <tr>
                   <td>Conveyancing</td>
@@ -270,7 +274,7 @@ function getContent(item: HELPTEXT) {
                 </tr>
                 <tr className="border-t">
                   <td className="font-bold">Total</td>
-                  <td>$80,080</td>
+                  <td>$133,940</td>
                 </tr>
               </tbody>
             </table>
@@ -477,8 +481,8 @@ export default function AssistanceArea({
   return (
     <div
       className={`${
-        focusedItem.x > window.innerWidth / 2 - 100 ? "ml-10 mr-auto" : "mr-10 ml-auto"
-      } fixed mb-10 rounded-lg mt-auto inset-0 bg-white z-30 border border-zinc-400 px-4 pt-3 pb-4 w-fit h-fit shadow-md text-zinc-700 max-w-xl`}
+        focusedItem.x > window.innerWidth / 2 - 100 ? "sm:ml-10 sm:mr-auto" : "sm:mr-10 sm:ml-auto"
+      } h-min max-h-full fixed sm:mb-10 rounded-lg mt-auto inset-0 bg-white z-30 border-blue-300 border-t-8 shadow-xl px-4 pt-3 w-fit max-sm:w-full max-sm:rounded-none text-zinc-700 max-w-xl`}
     >
       <div className="flex flex-row justify-between items-center gap-4">
         <div className="flex flex-row gap-2 items-center mb-1">
@@ -492,7 +496,7 @@ export default function AssistanceArea({
           <XLg size="1em" className="" />
         </div>
       </div>
-      <div className="text-sm">{body}</div>
+      <div className="text-sm max-h-[80vh] overflow-y-auto pb-4 mb-4">{body}</div>
     </div>
   )
 }
