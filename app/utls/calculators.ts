@@ -1,13 +1,16 @@
-import type { CalcData } from "./defaults"
+import type { FormResponse } from "./defaults"
 
-interface EligibilityResult {
+export interface EligibilityResult {
   eligible: boolean
   type?: string
   reason?: string
 }
 
 // https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/new-homes
-export function qualifiesForFHOG({ propertyBuild }: CalcData, purchasePrice: number): EligibilityResult {
+export function qualifiesForFHOG(
+  { propertyBuild }: Pick<FormResponse, "propertyBuild">,
+  purchasePrice: number
+): EligibilityResult {
   if (!["vacant-land", "new-property"].includes(propertyBuild)) {
     return {
       eligible: false,
@@ -34,7 +37,10 @@ export function qualifiesForFHOG({ propertyBuild }: CalcData, purchasePrice: num
 }
 
 // https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/assistance-scheme
-export function qualifiesForFHBAS({ propertyBuild, purpose }: CalcData, purchasePrice: number): EligibilityResult {
+export function qualifiesForFHBAS(
+  { propertyBuild, purpose }: Pick<FormResponse, "propertyBuild" | "purpose">,
+  purchasePrice: number
+): EligibilityResult {
   //   if (purpose === "investor") {
   //     return {
   //       eligible: false,
@@ -67,7 +73,10 @@ export function qualifiesForFHBAS({ propertyBuild, purpose }: CalcData, purchase
 }
 
 // https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/first-home-buyer-choice#heading3
-export function qualifiesForFHBC({ propertyBuild }: CalcData, purchasePrice: number): EligibilityResult {
+export function qualifiesForFHBC(
+  { propertyBuild }: Pick<FormResponse, "propertyBuild">,
+  purchasePrice: number
+): EligibilityResult {
   if (purchasePrice > 1_500_000 && ["existing", "new-property"].includes(propertyBuild)) {
     return { eligible: false, reason: "FHBC: New or existing home purchases must not exceed $1.5m" }
   }
@@ -82,7 +91,14 @@ export function qualifiesForFHBC({ propertyBuild }: CalcData, purchasePrice: num
 // https://www.nhfic.gov.au/support-buy-home/property-price-caps
 // https://www.nhfic.gov.au/support-buy-home/first-home-guarantee#eligibility-and-how-to-apply
 export function qualifiesForFHBG(
-  { participants, income, purpose, deposit, location, state }: CalcData,
+  {
+    participants,
+    income,
+    purpose,
+    deposit,
+    location,
+    state,
+  }: Pick<FormResponse, "participants" | "income" | "purpose" | "deposit" | "location" | "state">,
   purchasePrice: number
 ): EligibilityResult {
   if (purpose === "investor") {
@@ -161,7 +177,7 @@ export function calcTransferDuty(purchasePrice: number, { eligible, type }: Elig
 }
 
 // https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/first-home-buyer-choice#heading10
-export function calcPropertyTax(landValue: number, purpose: CalcData["purpose"]) {
+export function calcPropertyTax(landValue: number, purpose: FormResponse["purpose"]) {
   return purpose === "occupier" ? 400 + 0.003 * landValue : 1500 + 0.011 * landValue
 }
 
@@ -264,7 +280,7 @@ export function calcMonthlyRepayment(principal: number, rPA?: number) {
 }
 
 // https://www.ato.gov.au/Rates/HELP,-TSL-and-SFSS-repayment-thresholds-and-rates/
-export function calcHecsYearlyRepayment(income: number, hecs: number) {
+function calcHecsYearlyRepayment(income: number, hecs: number) {
   if (income < 48361) return 0
   if (income < 55836) return income * 0.01 > hecs ? hecs : income * 0.01
   if (income < 59186) return income * 0.02 > hecs ? hecs : income * 0.02
@@ -284,4 +300,18 @@ export function calcHecsYearlyRepayment(income: number, hecs: number) {
   if (income < 133818) return income * 0.09 > hecs ? hecs : income * 0.09
   if (income < 141847) return income * 0.095 > hecs ? hecs : income * 0.095
   return income * 0.1 > hecs ? hecs : income * 0.1
+}
+
+export function calcHecsMonthlyRepayment(income: number, hecs: number) {
+  return calcHecsYearlyRepayment(income, hecs) / 12
+}
+
+export function calcMaxLoan(monthlyIncome: number, staticExpenses: number, interestRate: number) {
+  return (
+    Math.round(calcPrincipalFromRepayment(0.7 * monthlyIncome - staticExpenses, interestRate as number) / 10000) * 10000
+  )
+}
+
+export function calcMonthlyIncome(income: number) {
+  return income / 12
 }

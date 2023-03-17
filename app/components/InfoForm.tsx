@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form"
-import type { CalcData } from "~/utls/defaults"
+import type { FormResponse } from "~/utls/defaults"
 import CurrencyInput from "react-currency-input-field"
 import type { HELPTEXT } from "./AssistanceArea"
 import { useEffect, useRef, useState } from "react"
@@ -29,8 +29,8 @@ export default function InfoForm({
   onValueChange,
   onItemHover,
 }: {
-  defaultValues: CalcData
-  onValueChange: (values: CalcData) => void
+  defaultValues: FormResponse
+  onValueChange: (values: FormResponse) => void
   onItemHover: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, focusedItem: HELPTEXT) => void
 }) {
   const { register, getValues } = useForm()
@@ -45,7 +45,7 @@ export default function InfoForm({
 
   return (
     <form
-      onChange={() => onValueChange(getValues() as CalcData)}
+      onChange={() => onValueChange(getValues() as FormResponse)}
       className="text-sm text-zinc-700 grid  gap-y-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5  font-roboto border-zinc-200"
     >
       <div

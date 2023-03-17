@@ -1,4 +1,4 @@
-export const CALC_DEFAULTS: CalcData = {
+export const FORM_DEFAULT: FormResponse = {
   income: 100_000,
   expenses: 1700,
   deposit: 65_000,
@@ -9,11 +9,9 @@ export const CALC_DEFAULTS: CalcData = {
   location: "city",
   propertyBuild: "existing",
   landValue: 110_000,
-  priceInterval: 30_000,
-  interestRate: 6.01,
 }
 
-export interface CalcData {
+export interface FormResponse {
   income: number
   expenses: number
   deposit: number
@@ -24,7 +22,19 @@ export interface CalcData {
   hecs: number
   location: "city" | "regional"
   propertyBuild: "existing" | "new-property" | "vacant-land"
-  priceInterval: number
   minPrice?: number
+}
+
+export const SETTINGS_DEFAULT: CalcSettings = {
+  priceInterval: 30_000,
+  interestRate: 6.01,
+  transferOrTax: "TRANSFER",
+  transactionFee: 3000,
+}
+
+export interface CalcSettings {
+  transferOrTax: "TRANSFER" | "TAX"
+  priceInterval: number
   interestRate: number
+  transactionFee: number
 }

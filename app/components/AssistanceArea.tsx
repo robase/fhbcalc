@@ -239,7 +239,7 @@ function getContent(item: HELPTEXT) {
               required for a purchase
             </p>
 
-            <p className="py-2">Example:</p>
+            <p className="py-2">Example for a house bought for $818,500, no government scheme benefits applied:</p>
             <table className="text-left">
               <thead className="[&>tr>th]:px-2 [&>tr>th]:py-1 border-b">
                 <tr>
@@ -254,7 +254,11 @@ function getContent(item: HELPTEXT) {
                 </tr>
                 <tr>
                   <td>LMI</td>
-                  <td>$13,080</td>
+                  <td>$34,017</td>
+                </tr>
+                <tr>
+                  <td>Transfer Duty</td>
+                  <td>$31,923</td>
                 </tr>
                 <tr>
                   <td>Conveyancing</td>
@@ -270,7 +274,7 @@ function getContent(item: HELPTEXT) {
                 </tr>
                 <tr className="border-t">
                   <td className="font-bold">Total</td>
-                  <td>$80,080</td>
+                  <td>$133,940</td>
                 </tr>
               </tbody>
             </table>
@@ -477,8 +481,8 @@ export default function AssistanceArea({
   return (
     <div
       className={`${
-        focusedItem.x > window.innerWidth / 2 - 100 ? "ml-10 mr-auto" : "mr-10 ml-auto"
-      } fixed mb-10 rounded-lg mt-auto inset-0 bg-white z-30 border border-zinc-400 px-4 pt-3 pb-4 w-fit h-fit shadow-md text-zinc-700 max-w-xl`}
+        focusedItem.x > window.innerWidth / 2 - 100 ? "sm:ml-10 sm:mr-auto" : "sm:mr-10 sm:ml-auto"
+      } max-h-full fixed sm:mb-10 rounded-lg mt-auto inset-0 bg-white z-30 border border-zinc-400 px-4 pt-3 pb-4 w-fit shadow-md text-zinc-700 max-w-xl`}
     >
       <div className="flex flex-row justify-between items-center gap-4">
         <div className="flex flex-row gap-2 items-center mb-1">
@@ -492,7 +496,7 @@ export default function AssistanceArea({
           <XLg size="1em" className="" />
         </div>
       </div>
-      <div className="text-sm">{body}</div>
+      <div className="text-sm h-fit max-h-full overflow-y-auto pb-4 mb-4">{body}</div>
     </div>
   )
 }
