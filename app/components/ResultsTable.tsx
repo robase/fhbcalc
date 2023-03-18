@@ -25,8 +25,8 @@ export default function ResultsTable({
     <div className="text-sm">
       <div className="overflow-x-auto w-full">
         <table className="w-full text-sm text-left border overflow-visible">
-          <thead className="text-zinc-700 uppercase bg-zinc-100 dark:bg-gray-700 dark:text-gray-400 font-semibold font-spartan">
-            <tr className="uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400  [&>td]:select-none">
+          <thead className="text-zinc-700 uppercase bg-zinc-100 font-semibold font-spartan">
+            <tr className="uppercase bg-gray-50  [&>td]:select-none">
               <td
                 className=" select-none hover:bg-white px-3 py-2 cursor-pointer"
                 onClick={(e) => onItemHover(e, HELPTEXT.PURCHASE_PRICE)}
@@ -125,8 +125,8 @@ export default function ResultsTable({
                 key={`${row.purchasePrice}-${i}`}
                 className={
                   row.dti > 0.71 || row.dti < 0
-                    ? "bg-white border-b dark:bg-gray-900 dark:border-gray-700 text-zinc-400 font-roboto hover:bg-zinc-50"
-                    : "bg-white border-b dark:bg-gray-900 dark:border-gray-700 font-roboto hover:bg-zinc-50"
+                    ? "bg-white border-b text-zinc-400 font-roboto hover:bg-zinc-50"
+                    : "bg-white border-b font-roboto hover:bg-zinc-50"
                 }
               >
                 <td className=" px-3 py-2">{fmtAUD(row.purchasePrice)}</td>
