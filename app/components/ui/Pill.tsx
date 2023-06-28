@@ -12,13 +12,7 @@ export default function Pill({
   onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
 }) {
   return (
-    <div
-      // href={url}
-      // rel="noreferrer"
-      // target="_blank"
-      title={reason}
-      onMouseEnter={onMouseEnter}
-    >
+    <div title={reason} onMouseEnter={onMouseEnter}>
       <p
         className={`${
           status === "R"
