@@ -18,7 +18,7 @@ export interface FormResponse {
   landValue: number
   purpose: "occupier" | "investor"
   participants: "single" | "couple"
-  state: "NSW"
+  state: "NSW" | "VIC" | "QLD" | "SA" | "WA" | "TAS" | "ACT" | "NT"
   hecs: number
   location: "city" | "regional"
   propertyBuild: "existing" | "new-property" | "vacant-land"

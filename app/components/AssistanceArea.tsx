@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react"
-import { Link45deg, QuestionCircleFill, XCircle, XLg } from "react-bootstrap-icons"
+import { Link45deg, QuestionCircleFill, XLg } from "react-bootstrap-icons";
 
 export enum HELPTEXT {
   PURCHASE_PRICE = "purchase-price",
@@ -58,12 +57,12 @@ const propertyTaxBody = (
     </ul>
     <p className="font-semibold">Full information:</p>
     <a href="https://www.nsw.gov.au/housing-and-construction/first-home-buyer-choice" rel="noreferrer" target="_blank">
-      <div className="hover:underline hover:bg-blue-100 rounded-full border-blue-300 border-2 shadow-md bg-white px-4 py-2 mt-3 flex flex-row gap-2 w-fit">
+      <div className="hover:underline hover:bg-blue-100 rounded-full border-[#516472] border-2 shadow-md bg-white px-4 py-2 mt-3 flex flex-row gap-2 w-fit">
         <span>FHBC Website</span> <Link45deg size="20px" />
       </div>
     </a>
   </div>
-)
+);
 
 function getContent(item: HELPTEXT) {
   switch (item) {
@@ -102,13 +101,13 @@ function getContent(item: HELPTEXT) {
               rel="noreferrer"
               target="_blank"
             >
-              <div className="hover:underline hover:bg-blue-100 rounded-full border-blue-300 border-2 shadow-md bg-white px-4 py-2 mt-3 flex flex-row gap-2 w-fit">
+              <div className="hover:underline hover:bg-blue-100 rounded-full border-[#516472] border-2 shadow-md bg-white px-4 py-2 mt-3 flex flex-row gap-2 w-fit">
                 <span>FHBAS Website</span> <Link45deg size="20px" />
               </div>
             </a>
           </div>
         ),
-      }
+      };
     case HELPTEXT.FHOG:
       return {
         title: "First Home Owner's Grant (FHOG)",
@@ -130,13 +129,13 @@ function getContent(item: HELPTEXT) {
               rel="noreferrer"
               target="_blank"
             >
-              <div className="hover:underline hover:bg-blue-100 rounded-full border-blue-300 border-2 shadow-md bg-white px-4 py-2 mt-3 flex flex-row gap-2 w-fit">
+              <div className="hover:underline hover:bg-blue-100 rounded-full border-[#516472] border-2 shadow-md bg-white px-4 py-2 mt-3 flex flex-row gap-2 w-fit">
                 <span>FHOG Website</span> <Link45deg size="20px" />
               </div>
             </a>
           </div>
         ),
-      }
+      };
     case HELPTEXT.FHBG:
       return {
         title: "First Home Buyer's Grant (FHBG)",
@@ -166,13 +165,13 @@ function getContent(item: HELPTEXT) {
             </ul>
             <p className="font-semibold">Full information:</p>
             <a href="https://www.nhfic.gov.au/support-buy-home/first-home-guarantee" rel="noreferrer" target="_blank">
-              <div className="hover:underline hover:bg-blue-100 rounded-full border-blue-300 border-2 shadow-md bg-white px-4 py-2 mt-3 flex flex-row gap-2 w-fit">
+              <div className="hover:underline hover:bg-blue-100 rounded-full border-[#516472] border-2 shadow-md bg-white px-4 py-2 mt-3 flex flex-row gap-2 w-fit">
                 <span>FHBG Website</span> <Link45deg size="20px" />
               </div>
             </a>
           </div>
         ),
-      }
+      };
     case HELPTEXT.DTI:
       return {
         title: "Debt to Income Ratio (DTI)",
@@ -200,7 +199,7 @@ function getContent(item: HELPTEXT) {
             </ul>
           </div>
         ),
-      }
+      };
     case HELPTEXT.MONTHLY_REPAYMENT:
       return {
         title: "Monthly Repayment",
@@ -223,7 +222,7 @@ function getContent(item: HELPTEXT) {
             </p>
           </div>
         ),
-      }
+      };
     case HELPTEXT.UPFRONT_CASH:
       return {
         title: "Upfront Cash Required",
@@ -233,7 +232,6 @@ function getContent(item: HELPTEXT) {
               The amount of cash on hand you will need to buy a property e.g. conveyancing fees, settlement costs. These
               costs can significantly vary depending on your choice of lender and conveyancer
             </p>
-
             <p className="py-2">
               This calculator adds a flat amount of $3000 to account for these costs when calculating cash on hand
               required for a purchase
@@ -291,17 +289,17 @@ function getContent(item: HELPTEXT) {
             </p>
           </div>
         ),
-      }
+      };
     case HELPTEXT.FHBC:
       return {
         title: "First Home Buyer Choice (FHBC)",
         body: propertyTaxBody,
-      }
+      };
     case HELPTEXT.PROPERTY_TAX:
       return {
         title: "Property Tax",
         body: propertyTaxBody,
-      }
+      };
     case HELPTEXT.TRANSFER_DUTY:
       return {
         title: "Transfer Duty",
@@ -343,7 +341,7 @@ function getContent(item: HELPTEXT) {
             </ul>
           </div>
         ),
-      }
+      };
     case HELPTEXT.LMI:
       return {
         title: "Lender's Mortgage Insurance (LMI)",
@@ -386,7 +384,7 @@ function getContent(item: HELPTEXT) {
             </ul>
           </div>
         ),
-      }
+      };
     case HELPTEXT.LVR:
       return {
         title: "Loan to Value Ratio (LVR)",
@@ -400,7 +398,7 @@ function getContent(item: HELPTEXT) {
             <p className="mx-auto my-4 p-2 border w-fit font-mono">LVR = (Loan Principal / Purchase Price) * 100</p>
           </div>
         ),
-      }
+      };
     case HELPTEXT.LOAN_PRINCIPAL:
       return {
         title: "Loan Principal",
@@ -428,7 +426,7 @@ function getContent(item: HELPTEXT) {
             <p className="mx-auto my-4 p-2 border w-fit font-mono">Loan Principal = Purchase Price - Deposit + LMI</p>
           </div>
         ),
-      }
+      };
     case HELPTEXT.PURCHASE_PRICE:
       return {
         title: "Purchase Price",
@@ -437,52 +435,30 @@ function getContent(item: HELPTEXT) {
             <p>The price of a property sold at auction or via direct offer</p>
           </div>
         ),
-      }
+      };
     default:
-      return { title: "Help", body: null }
+      return { title: "Help", body: null };
   }
 }
-
-// const Timer = ({ delayResend: initDelay = 60 }) => {
-//   const [delay, setDelay] = useState(initDelay)
-//   const minutes = Math.floor(delay / 60)
-//   const seconds = Math.floor(delay % 60)
-
-//   useEffect(() => {
-//     const timer = setInterval(() => {
-//       setDelay(delay - 1)
-//     }, 20)
-
-//     if (delay === 0) {
-//       clearInterval(timer)
-//     }
-
-//     return () => {
-//       clearInterval(timer)
-//     }
-//   })
-
-//   return <div className="bg-blue-400 h-1 transition-all" style={{ width: `${(seconds / 60) * 100 || 100}%` }} />
-// }
 
 export default function AssistanceArea({
   focusedItem,
   clearFocusedItem,
 }: {
-  focusedItem?: { item: HELPTEXT; x: number; y: number }
-  clearFocusedItem: () => void
+  focusedItem?: { item: HELPTEXT; x: number; y: number };
+  clearFocusedItem: () => void;
 }) {
   if (!focusedItem) {
-    return null
+    return null;
   }
 
-  const { title, body } = getContent(focusedItem.item)
+  const { title, body } = getContent(focusedItem.item);
 
   return (
     <div
       className={`${
         focusedItem.x > window.innerWidth / 2 - 100 ? "sm:ml-10 sm:mr-auto" : "sm:mr-10 sm:ml-auto"
-      } h-min max-h-full fixed sm:mb-10 rounded-lg mt-auto inset-0 bg-white z-30 border-blue-300 border-t-8 shadow-xl px-4 pt-3 w-fit max-sm:w-full max-sm:rounded-none text-zinc-700 max-w-xl`}
+      } h-min max-h-full fixed sm:mb-10  mt-auto inset-0 bg-white z-30 border-[#516472] border-t-8 shadow-xl shadow-zinc-300 px-4 pt-3 w-fit max-sm:w-full max-sm:rounded-none text-zinc-700 max-w-xl`}
     >
       <div className="flex flex-row justify-between items-center gap-4">
         <div className="flex flex-row gap-2 items-center mb-1">
@@ -491,12 +467,12 @@ export default function AssistanceArea({
         </div>
         <div
           onClick={clearFocusedItem}
-          className="mb-1 hover:bg-zinc-200  hover:text-zinc-50 cursor-pointer border p-1 rounded-lg"
+          className="mb-1 hover:bg-zinc-300 group hover:text-zinc-50 rounded-full cursor-pointer border p-1 border-zinc-400 hover:border-zinc-800"
         >
-          <XLg size="1em" className="" />
+          <XLg size="1em" className="group-hover:text-zinc-900" />
         </div>
       </div>
       <div className="text-sm max-h-[80vh] overflow-y-auto pb-4 mb-4">{body}</div>
     </div>
-  )
+  );
 }

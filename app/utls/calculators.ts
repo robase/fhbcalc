@@ -1,232 +1,92 @@
-import type { FormResponse } from "./defaults"
+import type { FormResponse } from "./defaults";
 
 export interface EligibilityResult {
-  eligible: boolean
-  type?: string
-  reason?: string
+  eligible: boolean;
+  type?: string;
+  reason?: string;
 }
 
-// https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/new-homes
-export function qualifiesForFHOG(
-  { propertyBuild }: Pick<FormResponse, "propertyBuild">,
-  purchasePrice: number
-): EligibilityResult {
-  if (!["vacant-land", "new-property"].includes(propertyBuild)) {
-    return {
-      eligible: false,
-      reason: "FHOG: Only available for newly built, off the plan or substantially renovated properties",
-    }
-  }
-
-  if (propertyBuild === "vacant-land" && purchasePrice > 750_000) {
-    return {
-      eligible: false,
-      reason:
-        "FHOG: Property value (house and land) must not exceed $750,000. Applies to Owner builders and Comprehensive home building contracts",
-    }
-  }
-
-  if (propertyBuild === "new-property" && purchasePrice > 600_000) {
-    return {
-      eligible: false,
-      reason: "FHOG: The purchase price must not exceed $600,000",
-    }
-  }
-
-  return { eligible: true }
-}
-
-// https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/assistance-scheme
-export function qualifiesForFHBAS(
-  { propertyBuild, purpose }: Pick<FormResponse, "propertyBuild" | "purpose">,
-  purchasePrice: number
-): EligibilityResult {
-  //   if (purpose === "investor") {
-  //     return {
-  //       eligible: false,
-  //       type: "amber",
-  //       reason: "you must live in the property for at least 6 continuous months, you must move in within 12 months",
-  //     }
-  //   }
-  if (propertyBuild === "new-property" || propertyBuild === "existing") {
-    if (purchasePrice >= 800_000) {
-      return {
-        eligible: false,
-        reason: "FHBAS: Purchase price can not exceed $800,000 for new or existing home purchases",
-      }
-    }
-    if (purchasePrice >= 650_000 && purchasePrice < 800_000) {
-      return { eligible: true, type: "concessional" }
-    }
-  }
-
-  if (propertyBuild === "vacant-land") {
-    if (purchasePrice >= 450_000) {
-      return { eligible: false, reason: "FHBAS: Purchase price can not exceed $450,000 for vacant land purchases" }
-    }
-    if (purchasePrice >= 350_000 && purchasePrice < 450_000) {
-      return { eligible: true, type: "concessional" }
-    }
-  }
-
-  return { eligible: true, type: "full" }
-}
-
+// 1 July 2023 FHBC removed
 // https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/first-home-buyer-choice#heading3
-export function qualifiesForFHBC(
-  { propertyBuild }: Pick<FormResponse, "propertyBuild">,
-  purchasePrice: number
-): EligibilityResult {
-  if (purchasePrice > 1_500_000 && ["existing", "new-property"].includes(propertyBuild)) {
-    return { eligible: false, reason: "FHBC: New or existing home purchases must not exceed $1.5m" }
-  }
-
-  if (propertyBuild === "vacant-land" && purchasePrice > 800_000) {
-    return { eligible: false, reason: "FHBC: Vacant land purchases must not exceed $800,000" }
-  }
-
-  return { eligible: true }
-}
 
 // https://www.nhfic.gov.au/support-buy-home/property-price-caps
 // https://www.nhfic.gov.au/support-buy-home/first-home-guarantee#eligibility-and-how-to-apply
-export function qualifiesForFHBG(
-  {
-    participants,
-    income,
-    purpose,
-    deposit,
-    location,
-    state,
-  }: Pick<FormResponse, "participants" | "income" | "purpose" | "deposit" | "location" | "state">,
-  purchasePrice: number
-): EligibilityResult {
-  if (purpose === "investor") {
-    return { eligible: false, reason: "FHBG: You must be intending to be an owner-occupier of the purchased property" }
-  }
 
-  if (location === "city") {
-    if (state === "NSW" && purchasePrice > 900_000) {
-      return {
-        eligible: false,
-        reason:
-          "FHBG: Purchase price must not exceed $900,000 for properties in Sydney, Newcastle, Lake Macquarie or Illawarra",
-      }
-    }
-  }
-
-  if (location === "regional") {
-    if (state === "NSW" && purchasePrice > 750_000) {
-      return {
-        eligible: false,
-        reason:
-          "FHBG: Purchase price must not exceed $750,000 for properties outside of Sydney, Newcastle, Lake Macquarie or Illawarra",
-      }
-    }
-  }
-
-  const lvr = calcLVR(purchasePrice, deposit)
-
-  if (lvr > 95) {
-    return { eligible: false, reason: "FHBG: The minimum deposit required is 5%" }
-  }
-
-  if (lvr < 80) {
-    return {
-      eligible: false,
-      reason: "FHBG: Your LVR is less than 80%",
-    }
-  }
-
-  if (participants === "couple") {
-    if (income > 200_000) {
-      return { eligible: false, reason: "FHBG: your income is over the 200k threshold for couples" }
-    }
-  } else {
-    if (income > 125_000) {
-      return { eligible: false, reason: "FHBG: your income is over the 125k threshold for individuals" }
-    }
-  }
-
-  return { eligible: true }
+export enum State {
+  NSW = "NSW",
+  VIC = "VIC",
+  QLD = "QLD",
+  WA = "WA",
+  ACT = "ACT",
+  NT = "NT",
 }
 
 export function calcFHBASConcession(purchasePrice: number) {
-  const res = 0.20727 * purchasePrice - 134723.33391
-  return res < 0 ? 0 : res
+  return Math.max(0.20727 * purchasePrice - 134723.33391, 0);
 }
 
 // https://www.revenue.nsw.gov.au/taxes-duties-levies-royalties/transfer-duty#heading4
 export function calcTransferDuty(purchasePrice: number, { eligible, type }: EligibilityResult) {
   if (eligible) {
     if (type === "full") {
-      return 0
+      return 0;
     }
 
-    return calcFHBASConcession(purchasePrice)
+    return calcFHBASConcession(purchasePrice);
   }
 
-  if (purchasePrice <= 15_000) return (purchasePrice / 100) * 1.25
-  if (purchasePrice <= 32_000) return ((purchasePrice - 15_000) / 100) * 1.5 + 187
-  if (purchasePrice <= 87_000) return ((purchasePrice - 32_000) / 100) * 1.75 + 442
-  if (purchasePrice <= 327_000) return ((purchasePrice - 87_000) / 100) * 3.5 + 1405
-  if (purchasePrice <= 1_089_000) return ((purchasePrice - 327_000) / 100) * 4.5 + 9805
-  if (purchasePrice <= 3_268_000) return ((purchasePrice - 1_089_000) / 100) * 5.5 + 44_095
+  if (purchasePrice <= 15_000) return (purchasePrice / 100) * 1.25;
+  if (purchasePrice <= 32_000) return ((purchasePrice - 15_000) / 100) * 1.5 + 187;
+  if (purchasePrice <= 87_000) return ((purchasePrice - 32_000) / 100) * 1.75 + 442;
+  if (purchasePrice <= 327_000) return ((purchasePrice - 87_000) / 100) * 3.5 + 1405;
+  if (purchasePrice <= 1_089_000) return ((purchasePrice - 327_000) / 100) * 4.5 + 9805;
+  if (purchasePrice <= 3_268_000) return ((purchasePrice - 1_089_000) / 100) * 5.5 + 44_095;
 
-  return ((purchasePrice - 3_268_000) / 100) * 7.0 + 163_940
+  return ((purchasePrice - 3_268_000) / 100) * 7.0 + 163_940;
 }
 
 // https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/first-home-buyer-choice#heading10
 export function calcPropertyTax(landValue: number, purpose: FormResponse["purpose"]) {
-  return purpose === "occupier" ? 400 + 0.003 * landValue : 1500 + 0.011 * landValue
+  const base = purpose === "occupier" ? 400 : 1500;
+  const rate = purpose === "occupier" ? 0.003 : 0.011;
+  return base + rate * landValue;
 }
 
+// Debt to income ratio
 export function calcDTI(monthlyExpenses: number, monthlyIncome: number) {
-  return monthlyExpenses / monthlyIncome
-}
-
-// DTI * 6
-export function estimateLoanAmount(DTI: number) {
-  return DTI * 6
+  return monthlyExpenses / monthlyIncome;
 }
 
 export function calcLVR(purchasePrice: number, depositPlusLMI: number) {
-  const lvr = ((purchasePrice - depositPlusLMI) / purchasePrice) * 100
-  return lvr > 0 ? lvr : 0
+  return Math.max(((purchasePrice - depositPlusLMI) / purchasePrice) * 100, 0);
 }
 
 // https://www.homeloanexperts.com.au/lenders-mortgage-insurance/lmi-premium-rates/
-export function calcLMI(purchasePrice: number, deposit: number, { eligible }: EligibilityResult) {
+export function calcLMI(purchasePrice: number, deposit: number, FHBGEligibility: EligibilityResult) {
   // Get LVR, lookup LVR vs purchase price in table
   // get premium % from table, multiply by loan amount
 
-  if (eligible) {
-    return 0
+  if (FHBGEligibility.eligible) {
+    return 0;
   }
-  const lvr = Math.ceil(calcLVR(purchasePrice, deposit))
+  const lvr = Math.ceil(calcLVR(purchasePrice, deposit));
 
   if (lvr < 81) {
-    return 0
+    return 0;
   }
 
   if (lvr > 95) {
-    return -1
+    // FIXME: don't have lookup table available for LVR > 95
+    return -1;
   }
 
-  const priceBuckets = [300000, 500000, 600000, 750000, 1000000]
+  const priceBuckets = [300000, 500000, 600000, 750000, 1000000];
 
-  let bucketIndex
+  const bucketIndex = priceBuckets.findIndex((bucket) => purchasePrice <= bucket);
 
-  for (let i = 0; i < priceBuckets.length; i++) {
-    if (purchasePrice <= priceBuckets[i]) {
-      bucketIndex = i
-      break
-    }
-  }
-
-  if (bucketIndex === null || bucketIndex === undefined) {
-    // console.log("price too high for lvr")
-    return -1
+  if (bucketIndex === -1) {
+    // FIXME: don't have lookup table available for price > 1000000
+    return -1;
   }
 
   const lookup: Record<number, number[]> = {
@@ -245,11 +105,11 @@ export function calcLMI(purchasePrice: number, deposit: number, { eligible }: El
     93: [2.33, 3.028, 3.802, 4.081, 4.156],
     94: [2.376, 3.028, 3.802, 4.286, 4.324],
     95: [2.609, 3.345, 3.998, 4.613, 4.603],
-  }
+  };
 
-  const premium = lookup[Math.ceil(lvr)][bucketIndex]
+  const premium = lookup[lvr][bucketIndex];
 
-  return purchasePrice * (premium / 100)
+  return purchasePrice * (premium / 100);
 }
 
 export function cashOnHandRequired(
@@ -259,59 +119,57 @@ export function cashOnHandRequired(
   lmi: number,
   FHOGeligible: boolean
 ) {
-  return deposit + fees + taxOrTransferDuty + lmi - (FHOGeligible ? 10000 : 0)
+  return deposit + fees + taxOrTransferDuty + lmi - (FHOGeligible ? 10000 : 0);
 }
 
 export function calcPrincipalFromRepayment(m: number, rPA?: number) {
-  const r = (rPA || 0) / 100 / 12
-  const n = 12 * 30
-  const res = (m * (1 - Math.pow(1 + r, -n))) / r
+  const r = (rPA || 0) / 100 / 12;
+  const n = 12 * 30;
 
-  return res > 0 ? res : 0
+  return Math.max((m * (1 - Math.pow(1 + r, -n))) / r, 0);
 }
 
 export function calcMonthlyRepayment(principal: number, rPA?: number) {
-  const r = (rPA || 0) / 100 / 12
-  const numMonths = 12 * 30
-  const P = principal
+  const r = (rPA || 0) / 100 / 12;
+  const numMonths = 12 * 30;
+  const P = principal;
 
-  const res = (r * P) / (1 - Math.pow(1 + r, -numMonths))
-  return res > 0 ? res : 0
+  return Math.max((r * P) / (1 - Math.pow(1 + r, -numMonths)), 0);
 }
 
 // https://www.ato.gov.au/Rates/HELP,-TSL-and-SFSS-repayment-thresholds-and-rates/
 function calcHecsYearlyRepayment(income: number, hecs: number) {
-  if (income < 48361) return 0
-  if (income < 55836) return income * 0.01 > hecs ? hecs : income * 0.01
-  if (income < 59186) return income * 0.02 > hecs ? hecs : income * 0.02
-  if (income < 62738) return income * 0.025 > hecs ? hecs : income * 0.025
-  if (income < 66502) return income * 0.03 > hecs ? hecs : income * 0.03
-  if (income < 70492) return income * 0.035 > hecs ? hecs : income * 0.035
-  if (income < 74722) return income * 0.04 > hecs ? hecs : income * 0.04
-  if (income < 79206) return income * 0.045 > hecs ? hecs : income * 0.045
-  if (income < 83958) return income * 0.05 > hecs ? hecs : income * 0.05
-  if (income < 88996) return income * 0.055 > hecs ? hecs : income * 0.055
-  if (income < 94336) return income * 0.06 > hecs ? hecs : income * 0.06
-  if (income < 99996) return income * 0.065 > hecs ? hecs : income * 0.065
-  if (income < 105996) return income * 0.07 > hecs ? hecs : income * 0.07
-  if (income < 112355) return income * 0.075 > hecs ? hecs : income * 0.075
-  if (income < 119097) return income * 0.08 > hecs ? hecs : income * 0.08
-  if (income < 126243) return income * 0.085 > hecs ? hecs : income * 0.085
-  if (income < 133818) return income * 0.09 > hecs ? hecs : income * 0.09
-  if (income < 141847) return income * 0.095 > hecs ? hecs : income * 0.095
-  return income * 0.1 > hecs ? hecs : income * 0.1
+  if (income < 48361) return 0;
+  if (income < 55836) return income * 0.01 > hecs ? hecs : income * 0.01;
+  if (income < 59186) return income * 0.02 > hecs ? hecs : income * 0.02;
+  if (income < 62738) return income * 0.025 > hecs ? hecs : income * 0.025;
+  if (income < 66502) return income * 0.03 > hecs ? hecs : income * 0.03;
+  if (income < 70492) return income * 0.035 > hecs ? hecs : income * 0.035;
+  if (income < 74722) return income * 0.04 > hecs ? hecs : income * 0.04;
+  if (income < 79206) return income * 0.045 > hecs ? hecs : income * 0.045;
+  if (income < 83958) return income * 0.05 > hecs ? hecs : income * 0.05;
+  if (income < 88996) return income * 0.055 > hecs ? hecs : income * 0.055;
+  if (income < 94336) return income * 0.06 > hecs ? hecs : income * 0.06;
+  if (income < 99996) return income * 0.065 > hecs ? hecs : income * 0.065;
+  if (income < 105996) return income * 0.07 > hecs ? hecs : income * 0.07;
+  if (income < 112355) return income * 0.075 > hecs ? hecs : income * 0.075;
+  if (income < 119097) return income * 0.08 > hecs ? hecs : income * 0.08;
+  if (income < 126243) return income * 0.085 > hecs ? hecs : income * 0.085;
+  if (income < 133818) return income * 0.09 > hecs ? hecs : income * 0.09;
+  if (income < 141847) return income * 0.095 > hecs ? hecs : income * 0.095;
+  return income * 0.1 > hecs ? hecs : income * 0.1;
 }
 
 export function calcHecsMonthlyRepayment(income: number, hecs: number) {
-  return calcHecsYearlyRepayment(income, hecs) / 12
+  return calcHecsYearlyRepayment(income, hecs) / 12;
 }
 
 export function calcMaxLoan(monthlyIncome: number, staticExpenses: number, interestRate: number) {
   return (
     Math.round(calcPrincipalFromRepayment(0.7 * monthlyIncome - staticExpenses, interestRate as number) / 10000) * 10000
-  )
+  );
 }
 
 export function calcMonthlyIncome(income: number) {
-  return income / 12
+  return income / 12;
 }

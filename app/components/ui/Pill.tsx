@@ -5,11 +5,11 @@ export default function Pill({
   reason,
   onMouseEnter,
 }: {
-  text: string
-  status: "R" | "A" | "G"
-  url?: string
-  reason?: string
-  onMouseEnter?: React.MouseEventHandler<HTMLDivElement>
+  text: string;
+  status: "R" | "A" | "G";
+  url?: string;
+  reason?: string;
+  onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
 }) {
   return (
     <div
@@ -31,5 +31,5 @@ export default function Pill({
         {text}
       </p>
     </div>
-  )
+  );
 }

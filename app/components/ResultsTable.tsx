@@ -1,38 +1,40 @@
-import type { EligibilityResult } from "~/utls/calculators"
-import type { CalcSettings, FormResponse } from "~/utls/defaults"
-import { fmtAUD } from "~/utls/formatters"
-import Pill from "./ui/Pill"
-import { HELPTEXT } from "./AssistanceArea"
-import type { NSWResult } from "./MainView"
+import type { CalcSettings } from "~/utls/defaults";
+import { fmtAUD } from "~/utls/formatters";
+import Pill from "./ui/Pill";
+import { HELPTEXT } from "./AssistanceArea";
+import type { NSWResult } from "~/routes";
 
-const urlFHBAS = "https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/assistance-scheme"
-const urlFHBG = "https://www.nhfic.gov.au/support-buy-home/first-home-guarantee"
-const urlFHOG = "https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/new-homes"
-const urlFHBC = "https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/first-home-buyer-choice"
+const urlFHBAS = "https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/assistance-scheme";
+const urlFHBG = "https://www.nhfic.gov.au/support-buy-home/first-home-guarantee";
+const urlFHOG = "https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/new-homes";
 
 export default function ResultsTable({
   data,
   settings,
   onItemHover,
-  setCalcSettings,
 }: {
-  data: NSWResult[]
-  settings: CalcSettings
-  onItemHover: (e: React.MouseEvent<HTMLDivElement | HTMLAnchorElement, MouseEvent>, focusedItem: HELPTEXT) => void
-  setCalcSettings: React.Dispatch<React.SetStateAction<CalcSettings>>
+  data: NSWResult[];
+  settings: CalcSettings;
+  onItemHover: (e: React.MouseEvent<HTMLDivElement | HTMLAnchorElement, MouseEvent>, focusedItem: HELPTEXT) => void;
 }) {
   return (
     <div className="text-sm">
-      <div className="overflow-x-auto w-full">
-        <table className="w-full text-sm text-left border overflow-visible">
-          <thead className="text-zinc-700 uppercase bg-zinc-100 dark:bg-gray-700 dark:text-gray-400 font-semibold font-spartan">
-            <tr className="uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400  [&>td]:select-none">
-              <td className="px-3 py-2" onMouseEnter={(e) => onItemHover(e, HELPTEXT.PURCHASE_PRICE)}>
+      <div className="overflow-x-auto w-full xl:px-6 xl:pb-6 bg-[#ebf0f3c7]">
+        <table className="w-full text-left overflow-visible">
+          <thead className="text-[#24282b] uppercase bg-[#ebf0f3c7] text-base font-medium font-spartan">
+            <tr className="uppercase [&>td]:select-none [&>td]:pb-3 [&>td]:pt-4 border-b-0">
+              <td
+                className="hover:text-zinc-400 px-3 cursor-pointer "
+                onClick={(e) => onItemHover(e, HELPTEXT.PURCHASE_PRICE)}
+              >
                 Purchase Price
               </td>
-              <td className="px-3 py-2" onMouseEnter={(e) => onItemHover(e, HELPTEXT.LOAN_PRINCIPAL)}>
+              <td
+                className="hover:text-zinc-400 px-3 cursor-pointer"
+                onClick={(e) => onItemHover(e, HELPTEXT.LOAN_PRINCIPAL)}
+              >
                 Loan Amount
-                <div className="flex flex-row text-[12px] normal-case tracking-normal font-normal text-zinc-400 whitespace-nowrap  -mb-2 gap-2">
+                <div className="flex flex-row text-[14px] normal-case tracking-normal font-normal text-zinc-500 whitespace-nowrap gap-2">
                   <span>Principal</span>
                   <span>+</span>
                   <span>Interest</span>
@@ -40,69 +42,48 @@ export default function ResultsTable({
                   <span>Total</span>
                 </div>
               </td>
-              {/* <td className="px-3 py-2" onMouseEnter={(e) => onItemHover(e, HELPTEXT.LOAN_INTEREST)}>
-                Loan Interest
-              </td> */}
-              <td className="pl-3 pr-5 py-2" onMouseEnter={(e) => onItemHover(e, HELPTEXT.DTI)}>
+              <td
+                className="hover:text-zinc-400 pl-3 pr-5 cursor-pointer"
+                onClick={(e) => onItemHover(e, HELPTEXT.DTI)}
+              >
                 DTI
               </td>
-              <td className="px-3 py-2" onMouseEnter={(e) => onItemHover(e, HELPTEXT.LVR)}>
+              <td className="hover:text-zinc-400 px-3 cursor-pointer" onClick={(e) => onItemHover(e, HELPTEXT.LVR)}>
                 LVR
               </td>
-              <td className="px-3 py-2" onMouseEnter={(e) => onItemHover(e, HELPTEXT.LMI)}>
+              <td className="hover:text-zinc-400 px-3 cursor-pointer" onClick={(e) => onItemHover(e, HELPTEXT.LMI)}>
                 LMI*
               </td>
+
               <td
-                className="cursor-pointer whitespace-nowrap"
-                onClick={() => setCalcSettings((prev) => ({ ...prev, transferOrTax: "TRANSFER" }))}
-                onMouseEnter={(e) => onItemHover(e, HELPTEXT.TRANSFER_DUTY)}
+                className="hover:text-zinc-400 px-3 cursor-pointer"
+                onClick={(e) => onItemHover(e, HELPTEXT.TRANSFER_DUTY)}
               >
-                {settings.transferOrTax === "TRANSFER" ? (
-                  <div className="w-full h-full px-4 py-1 border border-zinc-500  items-center hover:bg-zinc-100 rounded-l-xl text-center">
-                    <span>Transfer Duty</span>
-                  </div>
-                ) : (
-                  <div className="text-zinc-300 w-full h-full px-4 py-1 border border-zinc-200  items-center hover:bg-zinc-200 hover:border-zinc-300 hover:text-zinc-500 rounded-l-xl text-center">
-                    <span>Transfer Duty</span>
-                  </div>
-                )}
+                Transfer Duty
               </td>
               <td
-                className="cursor-pointer whitespace-nowrap"
-                onClick={() => setCalcSettings((prev) => ({ ...prev, transferOrTax: "TAX" }))}
-                onMouseEnter={(e) => onItemHover(e, HELPTEXT.PROPERTY_TAX)}
+                className="hover:text-zinc-400 px-3 cursor-pointer "
+                onClick={(e) => onItemHover(e, HELPTEXT.UPFRONT_CASH)}
               >
-                {settings.transferOrTax === "TAX" ? (
-                  <div className="w-full h-full px-4 py-1 border border-zinc-500  items-center hover:bg-zinc-100  rounded-r-xl text-center ">
-                    <span>Property Tax</span>
-                  </div>
-                ) : (
-                  <div className="text-zinc-300 w-full h-full px-4 py-1 border border-zinc-200  items-center hover:bg-zinc-200 hover:border-zinc-300 hover:text-zinc-500 rounded-r-xl text-center">
-                    <span>Property Tax</span>
-                  </div>
-                )}
+                Upfront Cash
               </td>
-              <td className="px-3 py-2" onMouseEnter={(e) => onItemHover(e, HELPTEXT.UPFRONT_CASH)}>
-                Upfront Cash Required
-              </td>
-              <td className="px-3 py-2" onMouseEnter={(e) => onItemHover(e, HELPTEXT.MONTHLY_REPAYMENT)}>
+              <td
+                className="hover:text-zinc-400 px-3 cursor-pointer "
+                onClick={(e) => onItemHover(e, HELPTEXT.MONTHLY_REPAYMENT)}
+              >
                 Monthly Repayment
-                <p className="text-xs  py-1 normal-case tracking-normal font-normal text-zinc-400 whitespace-nowrap">
+                <p className="text-xs py-1 normal-case tracking-normal font-normal text-zinc-500 whitespace-nowrap">
                   30 years @ {((settings.interestRate || 0) as number).toFixed(2)}% p.a.
                 </p>
               </td>
-              <td className="px-3 py-2">Gov Scheme Eligibility</td>
+              <td className="select-none px-3">Scheme Eligibility</td>
             </tr>
           </thead>
           <tbody>
             {data.map((row, i) => (
               <tr
                 key={`${row.purchasePrice}-${i}`}
-                className={
-                  row.dti > 0.71 || row.dti < 0
-                    ? "bg-white border-b dark:bg-gray-900 dark:border-gray-700 text-zinc-400 font-roboto hover:bg-zinc-50"
-                    : "bg-white border-b dark:bg-gray-900 dark:border-gray-700 font-roboto hover:bg-zinc-50"
-                }
+                className="bg-white border-b border-t font-roboto hover:bg-zinc-50 last:border-b-0 first:border-t-0"
               >
                 <td className="px-3 py-2">{fmtAUD(row.purchasePrice)}</td>
                 <td className="pl-3 pr-5 ">
@@ -165,26 +146,6 @@ export default function ResultsTable({
                       )}
                     </div>
                   )}
-                </td>
-                <td className="px-3 py-2">
-                  <div className="flex flex-col">
-                    <div>
-                      <span
-                        className={settings.transferOrTax === "TRANSFER" ? "line-through text-zinc-200 text-xs" : ""}
-                      >
-                        {fmtAUD(row.propertyTax)}
-                      </span>{" "}
-                      <span
-                        className={
-                          settings.transferOrTax === "TRANSFER"
-                            ? "text-[11px] text-zinc-200"
-                            : "text-[11px] text-zinc-400"
-                        }
-                      >
-                        p.a.
-                      </span>
-                    </div>
-                  </div>
                 </td>
                 <td className="px-3 py-2">
                   <div className="flex flex-row gap-2 items-center">
@@ -270,25 +231,6 @@ export default function ResultsTable({
                         />
                       </>
                     )}
-                    {row.FHBCResult.eligible ? (
-                      <Pill
-                        onMouseEnter={(e) => onItemHover(e, HELPTEXT.FHBC)}
-                        status="G"
-                        text="FHBC"
-                        url={urlFHBC}
-                        reason={row.FHBCResult.reason}
-                      />
-                    ) : (
-                      <>
-                        <Pill
-                          onMouseEnter={(e) => onItemHover(e, HELPTEXT.FHBC)}
-                          status="R"
-                          text="FHBC"
-                          url={urlFHBC}
-                          reason={row.FHBCResult.reason}
-                        />
-                      </>
-                    )}
                   </div>
                 </td>
               </tr>
@@ -296,7 +238,7 @@ export default function ResultsTable({
           </tbody>
         </table>
       </div>
-      <p>* estimate only</p>
+      <p className="pt-2">* estimate only</p>
     </div>
-  )
+  );
 }

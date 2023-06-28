@@ -6,6 +6,9 @@
     "dev": "remix dev",
     "typecheck": "tsc"
   },
+  "prettier": {
+    "printWidth": 120
+  },
   "dependencies": {
     "@remix-run/node": "^1.13.0",
     "@remix-run/react": "^1.13.0",

@@ -10,7 +10,5 @@ module.exports = {
   // assetsBuildDirectory: "public/build",
   // publicPath: "/build/",
   serverMinify: true,
-  future: {
-    unstable_tailwind: true,
-  },
+  tailwind: true,
 }
