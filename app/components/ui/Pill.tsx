@@ -1,18 +1,16 @@
 export default function Pill({
   text,
   status,
-  url,
   reason,
-  onMouseEnter,
+  onClick,
 }: {
   text: string;
   status: "R" | "A" | "G";
-  url?: string;
   reason?: string;
-  onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
 }) {
   return (
-    <div title={reason} onMouseEnter={onMouseEnter}>
+    <div title={reason} onClick={onClick}>
       <p
         className={`${
           status === "R"

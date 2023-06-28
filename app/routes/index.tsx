@@ -20,7 +20,7 @@ import {
 import { qualifiesForFHBAS } from "~/utls/calculators/FHBAS";
 import { qualifiesForFHBG } from "~/utls/calculators/FHBG";
 import { qualifiesForFHOG } from "~/utls/calculators/FHOG";
-import type { HELPTEXT } from "~/components/AssistanceArea";
+import type { HelpText } from "~/components/AssistanceArea";
 import AssistanceArea from "~/components/AssistanceArea";
 import InfoForm from "~/components/InfoForm";
 import ResultsTable from "~/components/ResultsTable";
@@ -152,9 +152,9 @@ export default function MainView() {
   const [priceInterval, setPriceInterval] = useState<number | string>(calcSettings.priceInterval);
 
   // Assistance area
-  const [focusedItem, setFocusedItem] = useState<{ item: HELPTEXT; x: number; y: number }>();
+  const [focusedItem, setFocusedItem] = useState<{ item: HelpText; x: number; y: number }>();
 
-  const handleItemFocus = (e: React.MouseEvent<HTMLDivElement | HTMLAnchorElement, MouseEvent>, item: HELPTEXT) => {
+  const handleItemFocus = (e: React.MouseEvent<HTMLDivElement | HTMLAnchorElement, MouseEvent>, item: HelpText) => {
     const rect = e.currentTarget.getBoundingClientRect();
     setFocusedItem({ item, x: rect.left, y: rect.top + rect.height + 40 });
   };

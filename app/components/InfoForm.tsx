@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import type { FormResponse } from "~/utls/defaults";
 import CurrencyInput from "react-currency-input-field";
-import type { HELPTEXT } from "./AssistanceArea";
+import type { HelpText } from "./AssistanceArea";
 import { useEffect, useRef, useState } from "react";
 import { Link45deg, X } from "react-bootstrap-icons";
 
@@ -44,7 +44,7 @@ export default function InfoForm({
 }: {
   values: FormResponse;
   onValueChange: (values: FormResponse) => void;
-  onItemHover: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, focusedItem: HELPTEXT) => void;
+  onItemHover: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, focusedItem: HelpText) => void;
 }) {
   const { register, getValues } = useForm();
 
