@@ -1,28 +1,6 @@
 import { useForm } from "react-hook-form";
 import type { FormResponse } from "~/utls/defaults";
 import CurrencyInput from "react-currency-input-field";
-import type { HelpText } from "./AssistanceArea";
-import { useEffect, useRef, useState } from "react";
-import { Link45deg, X } from "react-bootstrap-icons";
-
-function useOutsideAlerter(ref: React.MutableRefObject<any>, cb: () => void) {
-  useEffect(() => {
-    /**
-     * Alert if clicked on outside of element
-     */
-    function handleClickOutside(event: any) {
-      if (ref.current && !ref.current.contains(event.target)) {
-        cb();
-      }
-    }
-    // Bind the event listener
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      // Unbind the event listener on clean up
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [cb, ref]);
-}
 
 function locationCapitals(values: FormResponse) {
   switch (values.state) {
@@ -40,21 +18,11 @@ function locationCapitals(values: FormResponse) {
 export default function InfoForm({
   values,
   onValueChange,
-  onItemHover,
 }: {
   values: FormResponse;
   onValueChange: (values: FormResponse) => void;
-  onItemHover: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, focusedItem: HelpText) => void;
 }) {
   const { register, getValues } = useForm();
-
-  const [open, setOpen] = useState(false);
-
-  const wrapperRef = useRef(null);
-
-  useOutsideAlerter(wrapperRef, () => {
-    setOpen(false);
-  });
 
   return (
     <form
@@ -321,78 +289,6 @@ export default function InfoForm({
           {...register("hecs", { setValueAs: (v) => Number(v.replace(/[^0-9.-]+/g, "")) })}
         />
       </div>
-      <div
-        // onMouseEnter={() => onItemHover("land-value")}
-        className="flex flex-col justify-between "
-      >
-        <label htmlFor="form-land-value" className="block font-bold  mr-2 select-none">
-          What is the land value of the property?
-        </label>
-        <div
-          onClick={() => {
-            setOpen(true);
-          }}
-          className="flex flex-row gap-1 items-center hover:text-zinc-400 text-zinc-600 cursor-pointer"
-        >
-          <p className="text-xs py-2 underline">How to get land value</p>
-          <Link45deg />
-        </div>
-        <CurrencyInput
-          className="max-w-fit border-[#24282b]"
-          // onFocus={(e) => e.target.select()}
-          id="form-land-value"
-          intlConfig={{ locale: "en-AU", currency: "AUD" }}
-          placeholder="Please enter a number"
-          defaultValue={values.landValue}
-          decimalsLimit={2}
-          {...register("landValue", { setValueAs: (v) => Number(v.replace(/[^0-9.-]+/g, "")) })}
-        />
-      </div>
-      {open && (
-        <div
-          ref={wrapperRef}
-          className="fixed m-auto inset-0 bg-white z-30 border border-zinc-400 p-4 pb-6 h-fit shadow-xl text-zinc-700 max-w-lg border-[#24282b]"
-        >
-          <div className="mx-auto">
-            <div className="flex justify-between">
-              <p className="font-bold text-lg pb-4">Find the land value of a property in NSW</p>
-              <X
-                className="border hover:bg-zinc-300 border-[#24282b] cursor-pointer"
-                onClick={() => setOpen(false)}
-                size="24px"
-              />
-            </div>
-            <ol className="list-outside list-decimal pl-4 text-normal [&>li]:py-2">
-              <li>
-                Find the NSW property number via the{" "}
-                <a
-                  rel="noreferrer"
-                  target="_blank"
-                  className="underline hover:text-zinc-400"
-                  href="https://www.valuergeneral.nsw.gov.au/services/addr-inquiry.htm"
-                >
-                  property address enquiry tool
-                </a>
-              </li>
-              <li>
-                Input the property number to the{" "}
-                <a
-                  rel="noreferrer"
-                  target="_blank"
-                  className="underline hover:text-zinc-400"
-                  href="https://www.valuergeneral.nsw.gov.au/services/lvs.htm"
-                >
-                  land value search tool
-                </a>
-              </li>
-              <li>
-                If it's a unit/apartment, divide the total land value by the number of apartments on the property
-                overall
-              </li>
-            </ol>
-          </div>
-        </div>
-      )}
     </form>
   );
 }

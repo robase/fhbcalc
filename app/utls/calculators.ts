@@ -45,13 +45,6 @@ export function calcTransferDuty(purchasePrice: number, { eligible, type }: Elig
   return ((purchasePrice - 3_268_000) / 100) * 7.0 + 163_940;
 }
 
-// https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/first-home-buyer-choice#heading10
-export function calcPropertyTax(landValue: number, purpose: FormResponse["purpose"]) {
-  const base = purpose === "occupier" ? 400 : 1500;
-  const rate = purpose === "occupier" ? 0.003 : 0.011;
-  return base + rate * landValue;
-}
-
 // Debt to income ratio
 export function calcDTI(monthlyExpenses: number, monthlyIncome: number) {
   return monthlyExpenses / monthlyIncome;
@@ -115,11 +108,11 @@ export function calcLMI(purchasePrice: number, deposit: number, FHBGEligibility:
 export function cashOnHandRequired(
   deposit: number,
   fees: number,
-  taxOrTransferDuty: number,
+  transferDuty: number,
   lmi: number,
   FHOGeligible: boolean
 ) {
-  return deposit + fees + taxOrTransferDuty + lmi - (FHOGeligible ? 10000 : 0);
+  return deposit + fees + transferDuty + lmi - (FHOGeligible ? 10000 : 0);
 }
 
 export function calcPrincipalFromRepayment(m: number, rPA?: number) {

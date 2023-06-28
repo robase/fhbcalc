@@ -159,16 +159,16 @@ export default function ResultsTable({
                       }
                     />
                     <Pill
-                      onClick={(e) => onItemHover(e, HelpText.FHOG)}
-                      status={row.FHOGResult.eligible ? "G" : "R"}
-                      text="FHOG"
-                      reason={row.FHOGResult.reason}
-                    />
-                    <Pill
                       onClick={(e) => onItemHover(e, HelpText.FHBG)}
                       status={row.FHBGResult.eligible ? "G" : "R"}
                       text="FHBG"
                       reason={row.FHBGResult.reason}
+                    />
+                    <Pill
+                      onClick={(e) => onItemHover(e, HelpText.FHOG)}
+                      status={row.FHOGResult.eligible ? "G" : "R"}
+                      text="FHOG"
+                      reason={row.FHOGResult.reason}
                     />
                   </div>
                 </td>

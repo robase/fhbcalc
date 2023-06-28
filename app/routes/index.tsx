@@ -13,7 +13,6 @@ import {
   calcLVR,
   calcMaxLoan,
   calcMonthlyRepayment,
-  calcPropertyTax,
   calcTransferDuty,
   cashOnHandRequired,
 } from "~/utls/calculators";
@@ -56,7 +55,6 @@ export interface NSWResult {
   dti: number;
 
   transferDuty: number;
-  propertyTax: number;
 
   FHBASResult: EligibilityResult;
   FHBGResult: EligibilityResult;
@@ -74,7 +72,7 @@ function calcTableData(formValues: FormResponse, calcSettings: CalcSettings): NS
   const loanPrincipals = new Array(15).fill(0).map((_, i) => Math.max(maxPrice - calcSettings.priceInterval * i, 0));
 
   return loanPrincipals.map((loanPrincipal) => {
-    const { deposit, income, location, participants, purpose, state, propertyBuild, landValue } = formValues;
+    const { deposit, income, location, participants, purpose, state, propertyBuild } = formValues;
     const purchasePrice = loanPrincipal + deposit;
     const FHBGResult = qualifiesForFHBG(
       {
@@ -94,7 +92,6 @@ function calcTableData(formValues: FormResponse, calcSettings: CalcSettings): NS
     const lmi = calcLMI(purchasePrice, deposit, FHBGResult);
 
     const transferDuty = calcTransferDuty(purchasePrice, FHBASResult);
-    const propertyTax = calcPropertyTax(landValue, purpose);
 
     return {
       monthlyIncome,
@@ -108,7 +105,6 @@ function calcTableData(formValues: FormResponse, calcSettings: CalcSettings): NS
       dti: calcDTI(staticExpenses + monthlyRepayment, monthlyIncome),
 
       transferDuty,
-      propertyTax: calcPropertyTax(landValue, purpose),
 
       FHBASResult,
       FHBGResult,
@@ -117,7 +113,7 @@ function calcTableData(formValues: FormResponse, calcSettings: CalcSettings): NS
       cashOnHand: cashOnHandRequired(
         formValues.deposit,
         calcSettings.transactionFee,
-        calcSettings.transferOrTax === "TAX" ? propertyTax : transferDuty,
+        transferDuty,
         lmi,
         FHOGResult.eligible
       ),
@@ -180,7 +176,6 @@ export default function MainView() {
 
         <div className="flex flex-col gap-20 mt-20 xl:flex-col mb-8 2xl:max-w-screen-4xl">
           <InfoForm
-            onItemHover={handleItemFocus}
             onValueChange={(values: FormResponse) => {
               setFormValues(values);
             }}
@@ -192,7 +187,7 @@ export default function MainView() {
         <InfoCircle size="20px" />
         <p className="text-xs">Tap table headings for calculation explanations</p>
       </div>
-      <div className="max-w-7xl lg:mx-auto sm:mt-24">
+      <div className="max-w-[90em] lg:mx-auto sm:mt-24">
         <div className="flex flex-row gap-4 justify-between items-end pb-4 max-sm:px-8 2xl:max-w-screen-4xl text-zinc-700 overflow-x-auto">
           <div className="flex flex-row gap-4">
             <div>
