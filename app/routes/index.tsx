@@ -311,7 +311,7 @@ export default function MainView() {
               <br /> No data is collected, retained or stored anywhere from this site, it never leaves your browser.
               <br />
               <br />
-              v0.0.1 - last updated 14/03/23
+              v0.0.2 - last updated 29/06/23
             </p>
           </div>
         </div>

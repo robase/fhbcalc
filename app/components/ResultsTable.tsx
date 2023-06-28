@@ -15,7 +15,7 @@ export default function ResultsTable({
 }) {
   return (
     <div className="text-sm">
-      <div className="overflow-x-auto w-full xl:px-6 xl:pb-6 bg-[#ebf0f3c7]">
+      <div className="overflow-x-auto w-full xl:px-6 xl:pb-6 bg-gradient-to-b from-[#ebf0f3c7] to-[#f6f8fa]">
         <table className="w-full text-left overflow-visible">
           <thead className="text-[#24282b] uppercase bg-[#ebf0f3c7] text-base font-medium font-spartan">
             <tr className="uppercase [&>td]:select-none [&>td]:pb-3 [&>td]:pt-4 border-b-0">
