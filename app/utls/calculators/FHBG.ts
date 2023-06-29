@@ -1,5 +1,5 @@
-import { calcLVR, type EligibilityResult, type State } from "../calculators";
-import type { FormResponse } from "../defaults";
+import { calcLVR, type EligibilityResult } from "../calculators";
+import type { FormResponse, State } from "../defaults";
 
 const FHBGconfig: {
   location: Record<State, { city: number; regional: number } | { default: number }>;
@@ -20,6 +20,10 @@ const FHBGconfig: {
       regional: 550_000,
     },
     WA: {
+      city: 600_000,
+      regional: 450_000,
+    },
+    SA: {
       city: 600_000,
       regional: 450_000,
     },

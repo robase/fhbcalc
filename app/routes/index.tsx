@@ -5,27 +5,15 @@ import { SETTINGS_DEFAULT } from "~/utls/defaults";
 import { FORM_DEFAULT } from "~/utls/defaults";
 import LZString from "lz-string";
 import { BoxArrowUpRight, InfoCircle } from "react-bootstrap-icons";
-import type { EligibilityResult } from "~/utls/calculators";
-import {
-  calcDTI,
-  calcHecsMonthlyRepayment,
-  calcLMI,
-  calcLVR,
-  calcMaxLoan,
-  calcMonthlyRepayment,
-  calcTransferDuty,
-  cashOnHandRequired,
-} from "~/utls/calculators";
-import { qualifiesForFHBAS } from "~/utls/calculators/FHBAS";
-import { qualifiesForFHBG } from "~/utls/calculators/FHBG";
-import { qualifiesForFHOG } from "~/utls/calculators/FHOG";
+import { calcTableData } from "~/utls/calculators";
 import type { HelpText } from "~/components/AssistanceArea";
 import AssistanceArea from "~/components/AssistanceArea";
-import InfoForm from "~/components/InfoForm";
+
 import ResultsTable from "~/components/ResultsTable";
-import CopyResultsButton from "~/components/ui/CopyResultsButton";
+import CopyResultsButton from "~/components/CopyResultsButton";
 
 import logoSVG from "../images/logo.svg";
+import InputForm from "~/components/Form";
 
 interface URLParamData {
   form: FormResponse;
@@ -41,84 +29,6 @@ function getDefaultValues(paramData: string) {
     settingsDefaults: Object.assign(SETTINGS_DEFAULT, parsedData?.settings),
     formDefaults: Object.assign(FORM_DEFAULT, parsedData?.form),
   };
-}
-
-export interface NSWResult {
-  monthlyIncome: number;
-  purchasePrice: number;
-  loanPrincipal: number;
-  totalInterest: number;
-  monthlyRepayment: number;
-
-  lmi: number;
-  lvr: number;
-  dti: number;
-
-  transferDuty: number;
-
-  FHBASResult: EligibilityResult;
-  FHBGResult: EligibilityResult;
-  FHOGResult: EligibilityResult;
-
-  cashOnHand: number;
-}
-
-function calcTableData(formValues: FormResponse, calcSettings: CalcSettings): NSWResult[] {
-  const monthlyIncome = formValues.income / 12;
-  const staticExpenses = formValues.expenses + calcHecsMonthlyRepayment(formValues.income, formValues.hecs);
-
-  const maxPrice = calcMaxLoan(monthlyIncome, staticExpenses, calcSettings.interestRate);
-
-  const loanPrincipals = new Array(15).fill(0).map((_, i) => Math.max(maxPrice - calcSettings.priceInterval * i, 0));
-
-  return loanPrincipals.map((loanPrincipal) => {
-    const { deposit, income, location, participants, purpose, state, propertyBuild } = formValues;
-    const purchasePrice = loanPrincipal + deposit;
-    const FHBGResult = qualifiesForFHBG(
-      {
-        deposit,
-        income,
-        location,
-        participants,
-        purpose,
-        state,
-      },
-      purchasePrice
-    );
-
-    const FHBASResult = qualifiesForFHBAS(propertyBuild, purchasePrice);
-    const FHOGResult = qualifiesForFHOG(propertyBuild, purchasePrice);
-    const monthlyRepayment = calcMonthlyRepayment(loanPrincipal, calcSettings.interestRate as number);
-    const lmi = calcLMI(purchasePrice, deposit, FHBGResult);
-
-    const transferDuty = calcTransferDuty(purchasePrice, FHBASResult);
-
-    return {
-      monthlyIncome,
-      purchasePrice,
-      loanPrincipal,
-      totalInterest: monthlyRepayment * 12 * 30 - loanPrincipal,
-      monthlyRepayment: monthlyRepayment,
-
-      lmi,
-      lvr: calcLVR(purchasePrice, deposit),
-      dti: calcDTI(staticExpenses + monthlyRepayment, monthlyIncome),
-
-      transferDuty,
-
-      FHBASResult,
-      FHBGResult,
-      FHOGResult,
-
-      cashOnHand: cashOnHandRequired(
-        formValues.deposit,
-        calcSettings.transactionFee,
-        transferDuty,
-        lmi,
-        FHOGResult.eligible
-      ),
-    } as NSWResult;
-  });
 }
 
 export default function MainView() {
@@ -140,6 +50,7 @@ export default function MainView() {
 
   const { formDefaults, settingsDefaults } = getDefaultValues(params.get(PARAM_CHAR) || "");
 
+  // Form state
   const [formValues, setFormValues] = useState<FormResponse>(formDefaults);
   const [calcSettings, setCalcSettings] = useState<CalcSettings>(settingsDefaults);
 
@@ -173,9 +84,8 @@ export default function MainView() {
             </h1>
           </div>
         </div>
-
         <div className="flex flex-col gap-20 mt-20 xl:flex-col mb-8 2xl:max-w-screen-4xl">
-          <InfoForm
+          <InputForm
             onValueChange={(values: FormResponse) => {
               setFormValues(values);
             }}

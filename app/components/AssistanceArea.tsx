@@ -1,4 +1,4 @@
-import { QuestionCircleFill, XLg } from "react-bootstrap-icons";
+import { QuestionCircle, XLg } from "react-bootstrap-icons";
 
 import DTI from "../markdown/dti.md";
 import LMI from "../markdown/lmi.md";
@@ -61,7 +61,7 @@ const helpContent: Record<HelpText, { title: string; body: JSX.Element }> = {
   },
   [HelpText.FHBG]: {
     title: "First Home Buyer's Grant (FHBG)",
-    body: <FHBG />,
+    body: <FHBG state="NSW" />,
   },
   [HelpText.MONTHLY_REPAYMENT]: {
     title: "Monthly Repayment",
@@ -93,8 +93,8 @@ export default function AssistanceArea({
       } h-min max-h-full fixed sm:mb-10  mt-auto inset-0 bg-white z-30 border-[#516472] border-t-8 shadow-xl shadow-zinc-300 px-4 pt-3 w-fit max-sm:w-full max-sm:rounded-none text-zinc-700 max-w-xl`}
     >
       <div className="flex flex-row justify-between items-center gap-4">
-        <div className="flex flex-row gap-2 items-center mb-1">
-          <QuestionCircleFill />
+        <div className="flex flex-row gap-3 items-center mb-1">
+          <QuestionCircle className="h-6 w-6 mb-2 mt-1" />
           <h3 className="font-spartan font-bold py-1">{title}</h3>
         </div>
         <div

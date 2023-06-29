@@ -1,13 +1,23 @@
+export enum State {
+  NSW = "NSW",
+  VIC = "VIC",
+  QLD = "QLD",
+  WA = "WA",
+  ACT = "ACT",
+  NT = "NT",
+  SA = "SA",
+}
+
 export const FORM_DEFAULT: FormResponse = {
   income: 100_000,
   expenses: 1700,
   deposit: 65_000,
   purpose: "occupier",
   participants: "single",
-  state: "NSW",
+  state: State.NSW,
   hecs: 0,
   location: "city",
-  propertyBuild: "existing",
+  propertyType: "existing",
 };
 
 export interface FormResponse {
@@ -16,10 +26,10 @@ export interface FormResponse {
   deposit: number;
   purpose: "occupier" | "investor";
   participants: "single" | "couple";
-  state: "NSW" | "VIC" | "QLD" | "SA" | "WA" | "TAS" | "ACT" | "NT";
+  state: State;
   hecs: number;
   location: "city" | "regional";
-  propertyBuild: "existing" | "new-property" | "vacant-land";
+  propertyType: "existing" | "new-property" | "vacant-land";
   minPrice?: number;
 }
 

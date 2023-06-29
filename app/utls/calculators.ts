@@ -1,4 +1,7 @@
-import type { FormResponse } from "./defaults";
+import type { CalcSettings, FormResponse, State } from "./defaults";
+import { qualifiesForFHBAS } from "./calculators/FHBAS";
+import { qualifiesForFHBG } from "./calculators/FHBG";
+import { qualifiesForFHOG } from "./calculators/FHOG";
 
 export interface EligibilityResult {
   eligible: boolean;
@@ -6,19 +9,83 @@ export interface EligibilityResult {
   reason?: string;
 }
 
-// 1 July 2023 FHBC removed
-// https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/first-home-buyer-choice#heading3
+export interface NSWResult {
+  monthlyIncome: number;
+  purchasePrice: number;
+  loanPrincipal: number;
+  totalInterest: number;
+  monthlyRepayment: number;
 
-// https://www.nhfic.gov.au/support-buy-home/property-price-caps
-// https://www.nhfic.gov.au/support-buy-home/first-home-guarantee#eligibility-and-how-to-apply
+  lmi: number;
+  lvr: number;
+  dti: number;
 
-export enum State {
-  NSW = "NSW",
-  VIC = "VIC",
-  QLD = "QLD",
-  WA = "WA",
-  ACT = "ACT",
-  NT = "NT",
+  transferDuty: number;
+
+  FHBASResult: EligibilityResult;
+  FHBGResult: EligibilityResult;
+  FHOGResult: EligibilityResult;
+
+  cashOnHand: number;
+}
+
+export function calcTableData(formValues: FormResponse, calcSettings: CalcSettings): NSWResult[] {
+  const monthlyIncome = formValues.income / 12;
+  const staticExpenses = formValues.expenses + calcHecsMonthlyRepayment(formValues.income, formValues.hecs);
+
+  const maxPrice = calcMaxLoan(monthlyIncome, staticExpenses, calcSettings.interestRate);
+
+  const loanPrincipals = new Array(15).fill(0).map((_, i) => Math.max(maxPrice - calcSettings.priceInterval * i, 0));
+
+  return loanPrincipals.map((loanPrincipal) => {
+    const { deposit, income, location, participants, purpose, state, propertyType } = formValues;
+
+    const purchasePrice = loanPrincipal + deposit;
+    const FHBGResult = qualifiesForFHBG(
+      {
+        deposit,
+        income,
+        location,
+        participants,
+        purpose,
+        state,
+      },
+      purchasePrice
+    );
+
+    const FHBASResult = qualifiesForFHBAS(propertyType, purchasePrice, state as State);
+    const FHOGResult = qualifiesForFHOG(propertyType, purchasePrice, state as State);
+    const monthlyRepayment = calcMonthlyRepayment(loanPrincipal, calcSettings.interestRate as number);
+    const lmi = calcLMI(purchasePrice, deposit, FHBGResult);
+
+    const transferDuty = calcTransferDuty(purchasePrice, FHBASResult);
+
+    return {
+      monthlyIncome,
+      purchasePrice,
+      loanPrincipal,
+      totalInterest: monthlyRepayment * 12 * 30 - loanPrincipal,
+      monthlyRepayment: monthlyRepayment,
+
+      lmi,
+      lvr: calcLVR(purchasePrice, deposit),
+      dti: calcDTI(staticExpenses + monthlyRepayment, monthlyIncome),
+
+      transferDuty,
+
+      FHBASResult,
+      FHBGResult,
+      FHOGResult,
+
+      cashOnHand: cashOnHandRequired(
+        formValues.deposit,
+        calcSettings.transactionFee,
+        transferDuty,
+        lmi,
+        FHOGResult.eligible
+      ),
+    } as NSWResult;
+  });
 }
 
 export function calcFHBASConcession(purchasePrice: number) {

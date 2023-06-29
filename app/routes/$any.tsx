@@ -1,5 +1,6 @@
-import { redirect } from "react-router"
+import { redirect } from "@remix-run/node";
+import { State } from "~/utls/defaults";
 
 export const loader = () => {
-  return redirect("/")
-}
+  return redirect("/");
+};

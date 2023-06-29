@@ -1,16 +1,16 @@
 import type { EligibilityResult } from "../calculators";
-import type { FormResponse } from "../defaults";
+import type { FormResponse, State } from "../defaults";
 
 const FHBASconfig = {
-  propertyBuild: {
+  propertyType: {
     "new-property": {
-      max: 800_000,
-      concessional: 650_000,
+      max: 1_000_000,
+      concessional: 800_000,
       text: "new or off-the-plan homes",
     },
     existing: {
-      max: 800_000,
-      concessional: 650_000,
+      max: 1_000_000,
+      concessional: 800_000,
       text: "existing homes",
     },
     "vacant-land": {
@@ -23,8 +23,9 @@ const FHBASconfig = {
 
 // https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/assistance-scheme
 export function qualifiesForFHBAS(
-  propertyBuild: FormResponse["propertyBuild"],
-  purchasePrice: number
+  propertyType: FormResponse["propertyType"],
+  purchasePrice: number,
+  state: State
 ): EligibilityResult {
   // TODO: add warning state to EligibilityResult
   //   if (purpose === "investor") {
@@ -35,18 +36,18 @@ export function qualifiesForFHBAS(
   //     }
   //   }
 
-  if (purchasePrice >= FHBASconfig.propertyBuild[propertyBuild].max) {
+  if (purchasePrice >= FHBASconfig.propertyType[propertyType].max) {
     return {
       eligible: false,
-      reason: `FHBAS: Purchase price can not exceed $${FHBASconfig.propertyBuild[
-        propertyBuild
-      ].max.toLocaleString()} for ${FHBASconfig.propertyBuild[propertyBuild].text}`,
+      reason: `FHBAS: Purchase price can not exceed $${FHBASconfig.propertyType[
+        propertyType
+      ].max.toLocaleString()} for ${FHBASconfig.propertyType[propertyType].text}`,
     };
   }
 
   if (
-    purchasePrice >= FHBASconfig.propertyBuild[propertyBuild].concessional &&
-    purchasePrice < FHBASconfig.propertyBuild[propertyBuild].max
+    purchasePrice >= FHBASconfig.propertyType[propertyType].concessional &&
+    purchasePrice < FHBASconfig.propertyType[propertyType].max
   ) {
     return { eligible: true, type: "concessional" };
   }

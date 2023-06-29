@@ -1,8 +1,8 @@
 import type { CalcSettings } from "~/utls/defaults";
 import { fmtAUD } from "~/utls/formatters";
-import Pill from "./ui/Pill";
+import Pill from "./Pill";
 import { HelpText } from "./AssistanceArea";
-import type { NSWResult } from "~/routes";
+import type { NSWResult } from "~/utls/calculators";
 
 export default function ResultsTable({
   data,
@@ -50,7 +50,6 @@ export default function ResultsTable({
               <td className="hover:text-zinc-400 px-3 cursor-pointer" onClick={(e) => onItemHover(e, HelpText.LMI)}>
                 LMI*
               </td>
-
               <td
                 className="hover:text-zinc-400 px-3 cursor-pointer"
                 onClick={(e) => onItemHover(e, HelpText.TRANSFER_DUTY)}
