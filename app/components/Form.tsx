@@ -3,7 +3,7 @@ import type { FieldValues, UseFormRegister } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import type { FormResponse } from "~/services/defaults";
 import { State } from "~/services/defaults";
-import { getQuestions } from "~/services/formgen/config";
+import { getQuestions } from "~/services/formSchema";
 
 export default function InputForm({
   values,

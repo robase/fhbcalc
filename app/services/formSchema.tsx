@@ -1,9 +1,9 @@
-import type { CalculationResult, EligibilityResult } from "../calculators";
-import { qualifiesForFHBAS } from "../calculators/FHBAS";
-import { qualifiesForFHBG } from "../calculators/FHBG";
-import { qualifiesForFHOG } from "../calculators/FHOG";
-import { State } from "../defaults";
-import type { FormResponse } from "../defaults";
+import type { CalculationResult, EligibilityResult } from "./calculators";
+import { qualifiesForFHBAS } from "./calculators/FHBAS";
+import { qualifiesForFHBG } from "./calculators/FHBG";
+import { qualifiesForFHOG } from "./calculators/FHOG";
+import { State } from "./defaults";
+import type { FormResponse } from "./defaults";
 
 type Question = { name: string; label: string; helpText?: string } & (
   | { type: "money" }
