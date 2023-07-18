@@ -10,9 +10,9 @@
     "printWidth": 120
   },
   "dependencies": {
-    "@remix-run/node": "^1.13.0",
-    "@remix-run/react": "^1.13.0",
-    "@remix-run/vercel": "^1.13.0",
+    "@remix-run/node": "^1.18.1",
+    "@remix-run/react": "^1.18.1",
+    "@remix-run/vercel": "^1.18.1",
     "@vercel/analytics": "^0.1.11",
     "@vercel/node": "^2.6.2",
     "lz-string": "^1.5.0",
@@ -23,17 +23,17 @@
     "react-hook-form": "^7.43.2"
   },
   "devDependencies": {
-    "@remix-run/dev": "^1.13.0",
-    "@remix-run/eslint-config": "^1.13.0",
-    "@remix-run/serve": "^1.13.0",
+    "@remix-run/dev": "^1.18.1",
+    "@remix-run/eslint-config": "^1.18.1",
+    "@remix-run/serve": "^1.18.1",
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/typography": "^0.5.9",
     "@types/jsdom": "^21.1.0",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.8",
     "eslint": "^8.27.0",
-    "tailwindcss": "^3.2.7",
-    "typescript": "^4.8.4"
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.1.6"
   },
   "engines": {
     "node": ">=14"

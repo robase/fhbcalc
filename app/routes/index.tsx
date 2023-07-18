@@ -1,23 +1,20 @@
 import { useNavigate, useSearchParams } from "@remix-run/react";
-import { useState } from "react";
-import type { CalcSettings, FormResponse } from "~/utls/defaults";
-import { SETTINGS_DEFAULT } from "~/utls/defaults";
-import { FORM_DEFAULT } from "~/utls/defaults";
+import { useCallback, useState } from "react";
 import LZString from "lz-string";
 import { BoxArrowUpRight, InfoCircle } from "react-bootstrap-icons";
-import { calcTableData } from "~/utls/calculators";
 import type { HelpText } from "~/components/AssistanceArea";
 import AssistanceArea from "~/components/AssistanceArea";
-
 import ResultsTable from "~/components/ResultsTable";
 import CopyResultsButton from "~/components/CopyResultsButton";
-
 import logoSVG from "../images/logo.svg";
 import InputForm from "~/components/Form";
+import { calcTableData } from "~/services/calculators";
+import type { FormResponse, CalcSettings } from "~/services/defaults";
+import { SETTINGS_DEFAULT, FORM_DEFAULT } from "~/services/defaults";
 
 interface URLParamData {
-  form: FormResponse;
-  settings: CalcSettings;
+  f: FormResponse;
+  s: CalcSettings;
 }
 
 const PARAM_CHAR = "d";
@@ -26,33 +23,36 @@ function getDefaultValues(paramData: string) {
   const parsedData = JSON.parse(LZString.decompressFromEncodedURIComponent(paramData)) as URLParamData | undefined;
 
   return {
-    settingsDefaults: Object.assign(SETTINGS_DEFAULT, parsedData?.settings),
-    formDefaults: Object.assign(FORM_DEFAULT, parsedData?.form),
+    settingsDefaults: Object.assign(SETTINGS_DEFAULT, parsedData?.s),
+    formDefaults: Object.assign(FORM_DEFAULT, parsedData?.f),
   };
 }
 
-export default function MainView() {
+export default function BaseRoute() {
   // Get calc state from url param if provided
   const [params] = useSearchParams();
   const navigate = useNavigate();
-
-  const valuesToURLParam = () => {
-    const paramData: URLParamData = {
-      form: formValues,
-      settings: calcSettings,
-    };
-
-    const compressed = LZString.compressToEncodedURIComponent(JSON.stringify(paramData));
-
-    navigator.clipboard.writeText(window.location.href.split("?")[0] + `?${PARAM_CHAR}=` + compressed);
-    navigate(`./?d=${compressed}`, { replace: true });
-  };
 
   const { formDefaults, settingsDefaults } = getDefaultValues(params.get(PARAM_CHAR) || "");
 
   // Form state
   const [formValues, setFormValues] = useState<FormResponse>(formDefaults);
   const [calcSettings, setCalcSettings] = useState<CalcSettings>(settingsDefaults);
+
+  const valuesToURLParam = useCallback(() => {
+    const paramData: URLParamData = {
+      f: formValues,
+      s: calcSettings,
+    };
+
+    const compressed = LZString.compressToEncodedURIComponent(JSON.stringify(paramData));
+
+    if (typeof document !== "undefined") {
+      navigator.clipboard.writeText(window.location.href.split("?")[0] + `?${PARAM_CHAR}=` + compressed);
+    }
+
+    navigate(`./?d=${compressed}`, { replace: true });
+  }, [calcSettings, formValues, navigate]);
 
   // Input controllers
   const [interestRate, setInterestRate] = useState<number | string>(calcSettings.interestRate);

@@ -1,15 +1,15 @@
-import type { CalcSettings } from "~/utls/defaults";
-import { fmtAUD } from "~/utls/formatters";
 import Pill from "./Pill";
 import { HelpText } from "./AssistanceArea";
-import type { NSWResult } from "~/utls/calculators";
+import type { CalculationResult } from "~/services/calculators";
+import type { CalcSettings } from "~/services/defaults";
+import { fmtAUD } from "~/services/formatters";
 
 export default function ResultsTable({
   data,
   settings,
   onItemHover,
 }: {
-  data: NSWResult[];
+  data: CalculationResult[];
   settings: CalcSettings;
   onItemHover: (e: React.MouseEvent<HTMLDivElement | HTMLAnchorElement>, focusedItem: HelpText) => void;
 }) {
@@ -106,10 +106,10 @@ export default function ResultsTable({
                 <td className="px-3 py-2">{row.lvr.toFixed(2)}%</td>
                 <td className="px-3 py-2">
                   {row.lmi === -1 ? "No data" : fmtAUD(row.lmi)}{" "}
-                  {row.FHBGResult.eligible && <span className="text-[10px] text-zinc-400">FHBG</span>}
+                  {row.schemeResults.lmi?.eligible && <span className="text-[10px] text-zinc-400">FHBG</span>}
                 </td>
                 <td className="px-3 py-2">
-                  {row.FHBASResult.type === "full" ? (
+                  {row.schemeResults.transferDuty?.type === "full" ? (
                     <p>
                       <span>{fmtAUD(row.transferDuty)}</span>{" "}
                       <span className={"text-[10px] text-zinc-400"}>FHBAS exempt</span>
@@ -117,7 +117,7 @@ export default function ResultsTable({
                   ) : (
                     <div className="flex flex-row items-center gap-2">
                       <p>{fmtAUD(row.transferDuty)} </p>
-                      {row.FHBASResult.type === "concessional" && (
+                      {row.schemeResults.transferDuty?.type === "concessional" && (
                         <span className="text-[10px] leading-3 text-zinc-400">
                           FHBAS <br />
                           concession
@@ -131,7 +131,9 @@ export default function ResultsTable({
                     <span>
                       {fmtAUD(row.cashOnHand)} {row.lmi === -1 && "+ LMI"}
                     </span>
-                    {row.FHOGResult.eligible && <span className="text-zinc-400 text-[10px] leading-3">inc. FHOG</span>}
+                    {row.schemeResults.cashOnHand?.eligible && (
+                      <span className="text-zinc-400 text-[10px] leading-3">inc. FHOG</span>
+                    )}
                   </div>
                 </td>
                 <td className="px-3 py-2">
@@ -145,30 +147,31 @@ export default function ResultsTable({
                 </td>
                 <td>
                   <div className="flex flex-row gap-2 px-4 py-3 items-center">
-                    <Pill
-                      onClick={(e) => onItemHover(e, HelpText.FHBAS)}
-                      status={row.FHBASResult.eligible ? (row.FHBASResult.type === "full" ? "G" : "A") : "R"}
-                      text="FHBAS"
-                      reason={
-                        row.FHBASResult.eligible
-                          ? row.FHBASResult.type === "full"
-                            ? "Full exemption"
-                            : "Concessional discount"
-                          : row.FHBASResult.reason
-                      }
-                    />
-                    <Pill
-                      onClick={(e) => onItemHover(e, HelpText.FHBG)}
-                      status={row.FHBGResult.eligible ? "G" : "R"}
-                      text="FHBG"
-                      reason={row.FHBGResult.reason}
-                    />
-                    <Pill
-                      onClick={(e) => onItemHover(e, HelpText.FHOG)}
-                      status={row.FHOGResult.eligible ? "G" : "R"}
-                      text="FHOG"
-                      reason={row.FHOGResult.reason}
-                    />
+                    {Object.values(row.schemeResults).map((eligibility, j) =>
+                      eligibility.type ? (
+                        <Pill
+                          key={`${eligibility.scheme}-${i}-${j}}`}
+                          onClick={(e) => onItemHover(e, HelpText[eligibility.scheme])}
+                          status={eligibility.eligible ? (eligibility.type === "full" ? "G" : "A") : "R"}
+                          text={eligibility.scheme}
+                          reason={
+                            eligibility?.eligible
+                              ? eligibility.type === "full"
+                                ? "Full exemption"
+                                : "Concessional discount"
+                              : eligibility?.reason
+                          }
+                        />
+                      ) : (
+                        <Pill
+                          key={`${eligibility.scheme}-${i}-${j}}`}
+                          onClick={(e) => onItemHover(e, HelpText[eligibility.scheme])}
+                          status={eligibility?.eligible ? "G" : "R"}
+                          text={eligibility.scheme}
+                          reason={eligibility?.reason}
+                        />
+                      )
+                    )}
                   </div>
                 </td>
               </tr>

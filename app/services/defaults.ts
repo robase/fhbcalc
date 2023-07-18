@@ -1,24 +1,12 @@
 export enum State {
-  NSW = "NSW",
-  VIC = "VIC",
-  QLD = "QLD",
-  WA = "WA",
   ACT = "ACT",
+  NSW = "NSW",
   NT = "NT",
+  QLD = "QLD",
   SA = "SA",
+  VIC = "VIC",
+  WA = "WA",
 }
-
-export const FORM_DEFAULT: FormResponse = {
-  income: 100_000,
-  expenses: 1700,
-  deposit: 65_000,
-  purpose: "occupier",
-  participants: "single",
-  state: State.NSW,
-  hecs: 0,
-  location: "city",
-  propertyType: "existing",
-};
 
 export interface FormResponse {
   income: number;
@@ -33,10 +21,16 @@ export interface FormResponse {
   minPrice?: number;
 }
 
-export const SETTINGS_DEFAULT: CalcSettings = {
-  priceInterval: 30_000,
-  interestRate: 6.01,
-  transactionFee: 3000,
+export const FORM_DEFAULT: FormResponse = {
+  income: 100_000,
+  expenses: 1700,
+  deposit: 65_000,
+  purpose: "occupier",
+  participants: "single",
+  state: State.NSW,
+  hecs: 0,
+  location: "city",
+  propertyType: "existing",
 };
 
 export interface CalcSettings {
@@ -44,3 +38,9 @@ export interface CalcSettings {
   interestRate: number;
   transactionFee: number;
 }
+
+export const SETTINGS_DEFAULT: CalcSettings = {
+  priceInterval: 30_000,
+  interestRate: 6.01,
+  transactionFee: 3000,
+};

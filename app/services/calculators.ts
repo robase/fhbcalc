@@ -1,64 +1,61 @@
-import type { CalcSettings, FormResponse, State } from "./defaults";
-import { qualifiesForFHBAS } from "./calculators/FHBAS";
-import { qualifiesForFHBG } from "./calculators/FHBG";
-import { qualifiesForFHOG } from "./calculators/FHOG";
+import type { CalcSettings, FormResponse } from "./defaults";
+import { calcStampDuty } from "./calculators/stampDuty";
+import { getSchemes } from "./formgen/config";
 
 export interface EligibilityResult {
+  scheme: "FHBG" | "FHOG" | "FHBAS";
   eligible: boolean;
-  type?: string;
+  type?: "full" | "concessional";
   reason?: string;
 }
 
-export interface NSWResult {
+export interface CalculationResult {
   monthlyIncome: number;
   purchasePrice: number;
   loanPrincipal: number;
   totalInterest: number;
   monthlyRepayment: number;
 
-  lmi: number;
   lvr: number;
   dti: number;
 
+  lmi: number;
   transferDuty: number;
-
-  FHBASResult: EligibilityResult;
-  FHBGResult: EligibilityResult;
-  FHOGResult: EligibilityResult;
-
   cashOnHand: number;
+
+  schemeResults: Partial<Record<keyof CalculationResult, EligibilityResult>>;
 }
 
-export function calcTableData(formValues: FormResponse, calcSettings: CalcSettings): NSWResult[] {
-  const monthlyIncome = formValues.income / 12;
-  const staticExpenses = formValues.expenses + calcHecsMonthlyRepayment(formValues.income, formValues.hecs);
+export function calcTableData(formData: FormResponse, calcSettings: CalcSettings): CalculationResult[] {
+  const { deposit, expenses, hecs, income, state } = formData;
+  const monthlyIncome = income / 12;
+  const staticExpenses = expenses + calcHecsMonthlyRepayment(income, hecs);
 
   const maxPrice = calcMaxLoan(monthlyIncome, staticExpenses, calcSettings.interestRate);
 
   const loanPrincipals = new Array(15).fill(0).map((_, i) => Math.max(maxPrice - calcSettings.priceInterval * i, 0));
 
+  const schemes = getSchemes(state);
+
   return loanPrincipals.map((loanPrincipal) => {
-    const { deposit, income, location, participants, purpose, state, propertyType } = formValues;
-
     const purchasePrice = loanPrincipal + deposit;
-    const FHBGResult = qualifiesForFHBG(
-      {
-        deposit,
-        income,
-        location,
-        participants,
-        purpose,
-        state,
-      },
-      purchasePrice
-    );
 
-    const FHBASResult = qualifiesForFHBAS(propertyType, purchasePrice, state as State);
-    const FHOGResult = qualifiesForFHOG(propertyType, purchasePrice, state as State);
     const monthlyRepayment = calcMonthlyRepayment(loanPrincipal, calcSettings.interestRate as number);
-    const lmi = calcLMI(purchasePrice, deposit, FHBGResult);
 
-    const transferDuty = calcTransferDuty(purchasePrice, FHBASResult);
+    const schemeResults = schemes.reduce((acc, scheme) => {
+      acc[scheme.affects] = scheme.getEligibility(purchasePrice, formData);
+      return acc;
+    }, {} as Record<keyof CalculationResult, EligibilityResult>);
+
+    const lmi = calcLMI(purchasePrice, deposit, schemeResults?.lmi);
+    const transferDuty = calcStampDuty(purchasePrice, state, schemeResults?.transferDuty);
+    const cashOnHand = cashOnHandRequired(
+      deposit,
+      calcSettings.transactionFee,
+      transferDuty,
+      lmi,
+      schemeResults?.cashOnHand
+    );
 
     return {
       monthlyIncome,
@@ -67,49 +64,16 @@ export function calcTableData(formValues: FormResponse, calcSettings: CalcSettin
       totalInterest: monthlyRepayment * 12 * 30 - loanPrincipal,
       monthlyRepayment: monthlyRepayment,
 
-      lmi,
       lvr: calcLVR(purchasePrice, deposit),
       dti: calcDTI(staticExpenses + monthlyRepayment, monthlyIncome),
 
+      lmi,
       transferDuty,
+      cashOnHand,
 
-      FHBASResult,
-      FHBGResult,
-      FHOGResult,
-
-      cashOnHand: cashOnHandRequired(
-        formValues.deposit,
-        calcSettings.transactionFee,
-        transferDuty,
-        lmi,
-        FHOGResult.eligible
-      ),
-    } as NSWResult;
+      schemeResults,
+    } as CalculationResult;
   });
-}
-
-export function calcFHBASConcession(purchasePrice: number) {
-  return Math.max(0.20727 * purchasePrice - 134723.33391, 0);
-}
-
-// https://www.revenue.nsw.gov.au/taxes-duties-levies-royalties/transfer-duty#heading4
-export function calcTransferDuty(purchasePrice: number, { eligible, type }: EligibilityResult) {
-  if (eligible) {
-    if (type === "full") {
-      return 0;
-    }
-
-    return calcFHBASConcession(purchasePrice);
-  }
-
-  if (purchasePrice <= 15_000) return (purchasePrice / 100) * 1.25;
-  if (purchasePrice <= 32_000) return ((purchasePrice - 15_000) / 100) * 1.5 + 187;
-  if (purchasePrice <= 87_000) return ((purchasePrice - 32_000) / 100) * 1.75 + 442;
-  if (purchasePrice <= 327_000) return ((purchasePrice - 87_000) / 100) * 3.5 + 1405;
-  if (purchasePrice <= 1_089_000) return ((purchasePrice - 327_000) / 100) * 4.5 + 9805;
-  if (purchasePrice <= 3_268_000) return ((purchasePrice - 1_089_000) / 100) * 5.5 + 44_095;
-
-  return ((purchasePrice - 3_268_000) / 100) * 7.0 + 163_940;
 }
 
 // Debt to income ratio
@@ -122,13 +86,14 @@ export function calcLVR(purchasePrice: number, depositPlusLMI: number) {
 }
 
 // https://www.homeloanexperts.com.au/lenders-mortgage-insurance/lmi-premium-rates/
-export function calcLMI(purchasePrice: number, deposit: number, FHBGEligibility: EligibilityResult) {
+export function calcLMI(purchasePrice: number, deposit: number, FHBGEligibility?: EligibilityResult) {
   // Get LVR, lookup LVR vs purchase price in table
   // get premium % from table, multiply by loan amount
 
-  if (FHBGEligibility.eligible) {
+  if (FHBGEligibility?.eligible) {
     return 0;
   }
+
   const lvr = Math.ceil(calcLVR(purchasePrice, deposit));
 
   if (lvr < 81) {
@@ -177,9 +142,9 @@ export function cashOnHandRequired(
   fees: number,
   transferDuty: number,
   lmi: number,
-  FHOGeligible: boolean
+  FHOGeligible: EligibilityResult
 ) {
-  return deposit + fees + transferDuty + lmi - (FHOGeligible ? 10000 : 0);
+  return deposit + fees + transferDuty + lmi - (FHOGeligible.eligible ? 10000 : 0);
 }
 
 export function calcPrincipalFromRepayment(m: number, rPA?: number) {

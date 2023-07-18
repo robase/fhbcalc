@@ -43,20 +43,22 @@ const FHBGconfig: {
 // https://www.nhfic.gov.au/support-buy-home/property-price-caps
 // https://www.nhfic.gov.au/support-buy-home/first-home-guarantee#eligibility-and-how-to-apply
 export function qualifiesForFHBG(
-  {
-    participants,
-    income,
-    purpose,
-    deposit,
-    location,
-    state,
-  }: Pick<FormResponse, "participants" | "income" | "purpose" | "deposit" | "location" | "state">,
-  purchasePrice: number
+  purchasePrice: number,
+  { participants, income, purpose, deposit, location, state }: FormResponse
 ): EligibilityResult {
+  const result: EligibilityResult = {
+    scheme: "FHBG",
+    reason: "",
+    eligible: false,
+  };
+
   const locationThresholds = FHBGconfig.location[state as State];
 
   if (purpose === "investor") {
-    return { eligible: false, reason: "FHBG: You must be intending to be an owner-occupier of the purchased property" };
+    return {
+      ...result,
+      reason: "FHBG: You must be intending to be an owner-occupier of the purchased property",
+    };
   }
 
   if ("default" in locationThresholds) {
@@ -64,7 +66,7 @@ export function qualifiesForFHBG(
 
     if (purchasePrice > threshold) {
       return {
-        eligible: false,
+        ...result,
         reason: `FHBG: Purchase price must not exceed $${threshold.toLocaleString()} for ${state} properties.`,
       };
     }
@@ -74,7 +76,7 @@ export function qualifiesForFHBG(
     if (purchasePrice > threshold) {
       const regionDescription = location === "city" ? `properties in ${state}` : `properties outside ${state}`;
       return {
-        eligible: false,
+        ...result,
         reason: `FHBG: Purchase price must not exceed $${threshold.toLocaleString()} for ${regionDescription}`,
       };
     }
@@ -84,25 +86,25 @@ export function qualifiesForFHBG(
 
   if (lvr > FHBGconfig.lvr.max) {
     return {
-      eligible: false,
+      ...result,
       reason: `FHBG: The minimum deposit required is ${100 - FHBGconfig.lvr.max}% of purchase price`,
     };
   }
 
   if (lvr < FHBGconfig.lvr.min) {
-    return { eligible: false, reason: `FHBG: Your LVR is less than ${FHBGconfig.lvr.min}%` };
+    return { ...result, reason: `FHBG: Your LVR is less than ${FHBGconfig.lvr.min}%`, scheme: "FHBG" };
   }
 
   const incomeThreshold = FHBGconfig.income[participants];
 
   if (income > incomeThreshold) {
     return {
-      eligible: false,
+      ...result,
       reason: `FHBG: Your income is over the $${incomeThreshold.toLocaleString()} threshold for ${
         participants === "couple" ? "couples" : "individuals"
       }`,
     };
   }
 
-  return { eligible: true };
+  return { eligible: true, scheme: "FHBG" };
 }

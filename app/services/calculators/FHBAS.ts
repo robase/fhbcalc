@@ -1,5 +1,5 @@
 import type { EligibilityResult } from "../calculators";
-import type { FormResponse, State } from "../defaults";
+import type { FormResponse } from "../defaults";
 
 const FHBASconfig = {
   propertyType: {
@@ -22,22 +22,16 @@ const FHBASconfig = {
 };
 
 // https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/assistance-scheme
-export function qualifiesForFHBAS(
-  propertyType: FormResponse["propertyType"],
-  purchasePrice: number,
-  state: State
-): EligibilityResult {
-  // TODO: add warning state to EligibilityResult
-  //   if (purpose === "investor") {
-  //     return {
-  //       eligible: false,
-  //       type: "amber",
-  //       reason: "you must live in the property for at least 6 continuous months, you must move in within 12 months",
-  //     }
-  //   }
+export function qualifiesForFHBAS(purchasePrice: number, { propertyType }: FormResponse): EligibilityResult {
+  const result: EligibilityResult = {
+    scheme: "FHBAS",
+    reason: "",
+    eligible: false,
+  };
 
   if (purchasePrice >= FHBASconfig.propertyType[propertyType].max) {
     return {
+      ...result,
       eligible: false,
       reason: `FHBAS: Purchase price can not exceed $${FHBASconfig.propertyType[
         propertyType
@@ -49,8 +43,8 @@ export function qualifiesForFHBAS(
     purchasePrice >= FHBASconfig.propertyType[propertyType].concessional &&
     purchasePrice < FHBASconfig.propertyType[propertyType].max
   ) {
-    return { eligible: true, type: "concessional" };
+    return { ...result, eligible: true, type: "concessional" };
   }
 
-  return { eligible: true, type: "full" };
+  return { ...result, eligible: true, type: "full" };
 }

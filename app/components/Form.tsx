@@ -1,8 +1,9 @@
 import CurrencyInput from "react-currency-input-field";
 import type { FieldValues, UseFormRegister } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import type { FormResponse } from "~/utls/defaults";
-import { getQuestions, schema } from "~/utls/formgen/config";
+import type { FormResponse } from "~/services/defaults";
+import { State } from "~/services/defaults";
+import { getQuestions } from "~/services/formgen/config";
 
 export default function InputForm({
   values,
@@ -28,17 +29,13 @@ export default function InputForm({
           {...register("state")}
           className="max-w-fit border-[#24282b]"
         >
-          <option>ACT</option>
-          <option>NSW</option>
-          <option>NT</option>
-          <option>QLD</option>
-          <option>SA</option>
-          <option>TAS</option>
-          <option>VIC</option>
-          <option>WA</option>
+          {Object.values(State)
+            .sort()
+            .map((state, i) => (
+              <option key={`${i}-${state}`}>{state}</option>
+            ))}
         </select>
       </div>
-
       {getQuestions(values.state).map((question) =>
         question.type === "select" ? (
           <SwitchInput
