@@ -63,9 +63,9 @@ export function qualifiesForDutyConcession(
     return {
       ...result,
       eligible: false,
-      reason: `FHBAS: Purchase price can not exceed $${dutyConcessionConfig[state][
-        propertyType
-      ].max.toLocaleString()} for ${dutyConcessionConfig[state][propertyType].text}`,
+      reason: `Purchase price can not exceed $${dutyConcessionConfig[state][propertyType].max.toLocaleString()} for ${
+        dutyConcessionConfig[state][propertyType].text
+      }`,
     };
   }
 

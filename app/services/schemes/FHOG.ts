@@ -37,14 +37,14 @@ export function qualifiesForFHOG(purchasePrice: number, { propertyType, state }:
   if (propertyType === "existing") {
     return {
       ...result,
-      reason: "FHOG: Only available for new properties",
+      reason: "Only available for new properties",
     };
   }
 
   if (purchasePrice > FHOGconfig[state][propertyType].max) {
     return {
       ...result,
-      reason: `FHOG: Property value must not exceed $${FHOGconfig[state][propertyType].max.toLocaleString()}.`,
+      reason: `Property value must not exceed $${FHOGconfig[state][propertyType].max.toLocaleString()}.`,
     };
   }
 

@@ -57,7 +57,7 @@ export function qualifiesForFHBG(
   if (purpose === "investor") {
     return {
       ...result,
-      reason: "FHBG: You must be intending to be an owner-occupier of the purchased property",
+      reason: "You must be intending to be an owner-occupier of the purchased property",
     };
   }
 
@@ -67,7 +67,7 @@ export function qualifiesForFHBG(
     if (purchasePrice > threshold) {
       return {
         ...result,
-        reason: `FHBG: Purchase price must not exceed $${threshold.toLocaleString()} for ${state} properties.`,
+        reason: `Purchase price must not exceed $${threshold.toLocaleString()} for ${state} properties.`,
       };
     }
   } else {
@@ -77,7 +77,7 @@ export function qualifiesForFHBG(
       const regionDescription = location === "city" ? `properties in ${state}` : `properties outside ${state}`;
       return {
         ...result,
-        reason: `FHBG: Purchase price must not exceed $${threshold.toLocaleString()} for ${regionDescription}`,
+        reason: `Purchase price must not exceed $${threshold.toLocaleString()} for ${regionDescription}`,
       };
     }
   }
@@ -87,12 +87,12 @@ export function qualifiesForFHBG(
   if (lvr > FHBGconfig.lvr.max) {
     return {
       ...result,
-      reason: `FHBG: The minimum deposit required is ${100 - FHBGconfig.lvr.max}% of purchase price`,
+      reason: `The minimum deposit required is ${100 - FHBGconfig.lvr.max}% of purchase price`,
     };
   }
 
   if (lvr < FHBGconfig.lvr.min) {
-    return { ...result, reason: `FHBG: Your LVR is less than ${FHBGconfig.lvr.min}%`, scheme: "FHBG" };
+    return { ...result, reason: `Your LVR is less than ${FHBGconfig.lvr.min}%`, scheme: "FHBG" };
   }
 
   const incomeThreshold = FHBGconfig.income[participants];
@@ -100,7 +100,7 @@ export function qualifiesForFHBG(
   if (income > incomeThreshold) {
     return {
       ...result,
-      reason: `FHBG: Your income is over the $${incomeThreshold.toLocaleString()} threshold for ${
+      reason: `Your income is over the $${incomeThreshold.toLocaleString()} threshold for ${
         participants === "couple" ? "couples" : "individuals"
       }`,
     };
