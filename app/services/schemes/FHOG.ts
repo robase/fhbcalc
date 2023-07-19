@@ -1,20 +1,33 @@
 import type { EligibilityResult } from "../calculators";
 import type { FormResponse } from "../defaults";
+import { State } from "../defaults";
 
-const FHOGconfig = {
-  "new-property": {
-    max: 600_000,
+const FHOGconfig: Record<State, any> = {
+  NSW: {
+    "new-property": {
+      max: 600000,
+    },
+    "vacant-land": {
+      max: 750000,
+    },
   },
-  "vacant-land": {
-    max: 750_000,
+  VIC: {
+    "new-property": {
+      max: 750000,
+    },
+    "vacant-land": {
+      max: 750000,
+    },
   },
-  existing: {
-    max: 0,
-  },
+  [State.ACT]: undefined,
+  [State.NT]: undefined,
+  [State.QLD]: undefined,
+  [State.SA]: undefined,
+  [State.WA]: undefined,
 };
 
 // https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/new-homes
-export function qualifiesForFHOG(purchasePrice: number, { propertyType }: FormResponse): EligibilityResult {
+export function qualifiesForFHOG(purchasePrice: number, { propertyType, state }: FormResponse): EligibilityResult {
   const result: EligibilityResult = {
     scheme: "FHOG",
     reason: "",
@@ -24,14 +37,14 @@ export function qualifiesForFHOG(purchasePrice: number, { propertyType }: FormRe
   if (propertyType === "existing") {
     return {
       ...result,
-      reason: "FHOG: Only available for newly built, off the plan or substantially renovated properties",
+      reason: "FHOG: Only available for new properties",
     };
   }
 
-  if (purchasePrice > FHOGconfig[propertyType].max) {
+  if (purchasePrice > FHOGconfig[state][propertyType].max) {
     return {
       ...result,
-      reason: `FHOG: Property value must not exceed $${FHOGconfig[propertyType].max.toLocaleString()}.`,
+      reason: `FHOG: Property value must not exceed $${FHOGconfig[state][propertyType].max.toLocaleString()}.`,
     };
   }
 
