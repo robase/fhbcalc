@@ -225,7 +225,7 @@ export default function BaseRoute() {
               <br /> No data is collected, retained or stored anywhere from this site, it never leaves your browser.
               <br />
               <br />
-              v0.0.2 - last updated 29/06/23
+              v0.0.3 - last updated 19/07/23
             </p>
           </div>
         </div>
