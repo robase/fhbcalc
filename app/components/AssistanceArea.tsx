@@ -3,14 +3,22 @@ import { QuestionCircle, XLg } from "react-bootstrap-icons";
 import DTI from "../markdown/dti.md";
 import LMI from "../markdown/lmi.md";
 import LVR from "../markdown/lvr.md";
-import FHBG from "../markdown/fhbg.md";
-import FHBAS from "../markdown/fhbas.md";
-import FHOG from "../markdown/fhog.md";
+
+import DutyNsw from "../markdown/dutyConcession/nsw.md";
+import DutyVIC from "../markdown/dutyConcession/vic.md";
+
+import FHBGNsw from "../markdown/fhbg/nsw.md";
+import FHBGVic from "../markdown/fhbg/vic.md";
+
+import FHOGNsw from "../markdown/fhog/nsw.md";
+import FHOGVic from "../markdown/fhog/vic.md";
+
 import UpfrontCash from "../markdown/upfront_cash.md";
 import LoanPrincipal from "../markdown/loan_principal.md";
 import TransferDuty from "../markdown/transfer_duty.md";
 import PurchasePrice from "../markdown/purchase_price.md";
 import MonthlyRepayment from "../markdown/monthly_repayment.md";
+import type { State } from "~/services/defaults";
 
 export enum HelpText {
   PURCHASE_PRICE = "purchase-price",
@@ -26,57 +34,81 @@ export enum HelpText {
   DTI = "dti",
 }
 
-const helpContent: Record<HelpText, { title: string; body: JSX.Element }> = {
-  [HelpText.PURCHASE_PRICE]: {
-    title: "Purchase Price",
-    body: <PurchasePrice />,
-  },
-  [HelpText.LOAN_PRINCIPAL]: {
-    title: "Loan Principal",
-    body: <LoanPrincipal />,
-  },
-  [HelpText.LVR]: {
-    title: "Loan to Value Ratio (LVR)",
-    body: <LVR />,
-  },
-  [HelpText.LMI]: {
-    title: "Lender's Mortgage Insurance (LMI)",
-    body: <LMI />,
-  },
-  [HelpText.TRANSFER_DUTY]: {
-    title: "Transfer Duty",
-    body: <TransferDuty />,
-  },
-  [HelpText.UPFRONT_CASH]: {
-    title: "Upfront Cash Required",
-    body: <UpfrontCash />,
-  },
-  [HelpText.FHBAS]: {
-    title: "First Home Buyer's Assistance Scheme (FHBAS)",
-    body: <FHBAS />,
-  },
-  [HelpText.FHOG]: {
-    title: "First Home Owner's Grant (FHOG)",
-    body: <FHOG />,
-  },
-  [HelpText.FHBG]: {
-    title: "First Home Buyer's Grant (FHBG)",
-    body: <FHBG state="NSW" />,
-  },
-  [HelpText.MONTHLY_REPAYMENT]: {
-    title: "Monthly Repayment",
-    body: <MonthlyRepayment />,
-  },
-  [HelpText.DTI]: {
-    title: "Debt to Income Ratio (DTI)",
-    body: <DTI />,
-  },
-};
+// There must be a better way
+// MDX doesn't seem to support conditional rendering
+// nunjucks templates seem to break remix
+// maybe its easiest to have a doc for each state?
+function selectContent(state: State, item: HelpText): { title: string; element: JSX.Element } {
+  switch (item) {
+    case HelpText.PURCHASE_PRICE:
+      return {
+        title: "Purchase Price",
+        element: <PurchasePrice />,
+      };
+    case HelpText.LOAN_PRINCIPAL:
+      return {
+        title: "Loan Principal",
+        element: <LoanPrincipal />,
+      };
+    case HelpText.LVR:
+      return {
+        title: "Loan to Value Ratio (LVR)",
+        element: <LVR />,
+      };
+    case HelpText.LMI:
+      return {
+        title: "Lender's Mortgage Insurance (LMI)",
+        element: <LMI />,
+      };
+    case HelpText.TRANSFER_DUTY:
+      return {
+        title: "Transfer Duty",
+        element: <TransferDuty />,
+      };
+    case HelpText.UPFRONT_CASH:
+      return {
+        title: "Upfront Cash Required",
+        element: <UpfrontCash />,
+      };
+    case HelpText.FHBAS:
+      return {
+        title: state === "NSW" ? "First Home Buyer's Assistance Scheme (FHBAS)" : "First Home Buyer Duty Concession",
+        element: state === "NSW" ? <DutyNsw /> : <DutyVIC />,
+      };
+    case HelpText.FHOG:
+      return {
+        title: "First Home Owner's Grant (FHOG)",
+        element: state === "NSW" ? <FHOGNsw /> : <FHOGVic />,
+      };
+    case HelpText.FHBG:
+      return {
+        title: "First Home Buyer's Grant (FHBG)",
+        element: state === "NSW" ? <FHBGNsw /> : <FHBGVic />,
+      };
+    case HelpText.MONTHLY_REPAYMENT:
+      return {
+        title: "Monthly Repayment",
+        element: <MonthlyRepayment />,
+      };
+    case HelpText.DTI:
+      return {
+        title: "Debt to Income Ratio (DTI)",
+        element: <DTI />,
+      };
+    default:
+      return {
+        title: "Woops",
+        element: <p>Failed to load help information</p>,
+      };
+  }
+}
 
 export default function AssistanceArea({
+  state,
   focusedItem,
   clearFocusedItem,
 }: {
+  state: State;
   focusedItem?: { item: HelpText; x: number; y: number };
   clearFocusedItem: () => void;
 }) {
@@ -84,7 +116,7 @@ export default function AssistanceArea({
     return null;
   }
 
-  const { title, body } = helpContent[focusedItem.item];
+  const { title, element } = selectContent(state, focusedItem.item);
 
   return (
     <div
@@ -104,7 +136,9 @@ export default function AssistanceArea({
           <XLg size="1em" className="group-hover:text-zinc-900" />
         </div>
       </div>
-      <div className="text-sm max-h-[80vh] overflow-y-auto pb-4 mb-4 prose">{body}</div>
+      <div className="text-sm max-h-[80vh] overflow-y-auto mb-4 prose prose-neutral prose-pre:bg-[#f6f8fa] prose-code:text-neutral-800">
+        {element}
+      </div>
     </div>
   );
 }

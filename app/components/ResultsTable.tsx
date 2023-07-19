@@ -112,16 +112,13 @@ export default function ResultsTable({
                   {row.schemeResults.transferDuty?.type === "full" ? (
                     <p>
                       <span>{fmtAUD(row.transferDuty)}</span>{" "}
-                      <span className={"text-[10px] text-zinc-400"}>FHBAS exempt</span>
+                      <span className={"text-[10px] text-zinc-400"}>exempt</span>
                     </p>
                   ) : (
-                    <div className="flex flex-row items-center gap-2">
-                      <p>{fmtAUD(row.transferDuty)} </p>
+                    <div className="flex flex-row items-baseline gap-2">
+                      {fmtAUD(row.transferDuty)}
                       {row.schemeResults.transferDuty?.type === "concessional" && (
-                        <span className="text-[10px] leading-3 text-zinc-400">
-                          FHBAS <br />
-                          concession
-                        </span>
+                        <span className="text-[10px] text-zinc-400">concession</span>
                       )}
                     </div>
                   )}
@@ -153,7 +150,7 @@ export default function ResultsTable({
                           key={`${eligibility.scheme}-${i}-${j}}`}
                           onClick={(e) => onItemHover(e, HelpText[eligibility.scheme])}
                           status={eligibility.eligible ? (eligibility.type === "full" ? "G" : "A") : "R"}
-                          text={eligibility.scheme}
+                          text={eligibility.scheme === "FHBAS" && data[0].state !== "NSW" ? "DUTY" : eligibility.scheme}
                           reason={
                             eligibility?.eligible
                               ? eligibility.type === "full"
@@ -167,7 +164,7 @@ export default function ResultsTable({
                           key={`${eligibility.scheme}-${i}-${j}}`}
                           onClick={(e) => onItemHover(e, HelpText[eligibility.scheme])}
                           status={eligibility?.eligible ? "G" : "R"}
-                          text={eligibility.scheme}
+                          text={eligibility.scheme === "FHBAS" && data[0].state !== "NSW" ? "DUTY" : eligibility.scheme}
                           reason={eligibility?.reason}
                         />
                       )

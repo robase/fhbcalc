@@ -1,7 +1,7 @@
 import { calcLVR, type EligibilityResult } from "../calculators";
 import type { FormResponse, State } from "../defaults";
 
-const FHBGconfig: {
+export const FHBGconfig: {
   location: Record<State, { city: number; regional: number } | { default: number }>;
   income: Record<FormResponse["participants"], number>;
   lvr: { max: number; min: number };

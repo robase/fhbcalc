@@ -1,9 +1,9 @@
 import type { CalculationResult, EligibilityResult } from "./calculators";
-import { qualifiesForFHBAS } from "./calculators/FHBAS";
-import { qualifiesForFHBG } from "./calculators/FHBG";
-import { qualifiesForFHOG } from "./calculators/FHOG";
-import { State } from "./defaults";
-import type { FormResponse } from "./defaults";
+import { qualifiesForDutyConcession } from "./schemes/FHBAS";
+
+import type { State, FormResponse } from "./defaults";
+import { qualifiesForFHBG } from "./schemes/FHBG";
+import { qualifiesForFHOG } from "./schemes/FHOG";
 
 type Question = { name: string; label: string; helpText?: string } & (
   | { type: "money" }
@@ -112,7 +112,7 @@ const schema: Record<State, { questions: Question[]; schemes: Scheme[] }> = {
         link: "https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/assistance-scheme",
         helpDoc: "fhbas.md",
         affects: "transferDuty",
-        getEligibility: qualifiesForFHBAS,
+        getEligibility: qualifiesForDutyConcession,
       },
       {
         name: "First Home Owner's Grant",
@@ -136,7 +136,24 @@ const schema: Record<State, { questions: Question[]; schemes: Scheme[] }> = {
         ],
       },
     ],
-    schemes: [],
+    schemes: [
+      {
+        name: "FHB Duty Concession",
+        short: "FHB Duty",
+        link: "https://www.sro.vic.gov.au/fhbduty",
+        helpDoc: "fhbas.md",
+        affects: "transferDuty",
+        getEligibility: qualifiesForDutyConcession,
+      },
+      {
+        name: "First Home Owner's Grant",
+        short: "FHOG",
+        link: "https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/new-homes",
+        helpDoc: "fhog.md",
+        affects: "cashOnHand",
+        getEligibility: qualifiesForFHOG,
+      },
+    ],
   },
   QLD: {
     questions: [

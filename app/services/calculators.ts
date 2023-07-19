@@ -1,4 +1,4 @@
-import type { CalcSettings, FormResponse } from "./defaults";
+import type { CalcSettings, FormResponse, State } from "./defaults";
 import { calcStampDuty } from "./calculators/stampDuty";
 import { getSchemes } from "./formSchema";
 import { calcLMI } from "./calculators/lmi";
@@ -26,6 +26,7 @@ export interface CalculationResult {
   cashOnHand: number;
 
   schemeResults: Partial<Record<keyof CalculationResult, EligibilityResult>>;
+  state: State;
 }
 
 export function calcTableData(formData: FormResponse, calcSettings: CalcSettings): CalculationResult[] {
@@ -74,7 +75,8 @@ export function calcTableData(formData: FormResponse, calcSettings: CalcSettings
       cashOnHand,
 
       schemeResults,
-    } as CalculationResult;
+      state,
+    };
   });
 }
 
@@ -92,9 +94,9 @@ export function cashOnHandRequired(
   fees: number,
   transferDuty: number,
   lmi: number,
-  FHOGeligible: EligibilityResult
+  FHOGEligiblity: EligibilityResult
 ) {
-  return deposit + fees + transferDuty + lmi - (FHOGeligible.eligible ? 10000 : 0);
+  return deposit + fees + transferDuty + lmi - (FHOGEligiblity.eligible ? 10000 : 0);
 }
 
 export function calcPrincipalFromRepayment(m: number, rPA?: number) {

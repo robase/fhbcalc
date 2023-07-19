@@ -28,10 +28,7 @@ export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 export default function App() {
   console.log("Hi 👋, follow me on github: https://github.com/robase");
   return (
-    <html
-      className="bg-gradient-to-br from-[#f6f8fa] to-[#f6f8fa] w-full min-h-full text-[#24282b] font-roboto"
-      lang="en"
-    >
+    <html className="bg-[#f6f8fa] w-full min-h-full text-[#24282b] font-roboto" lang="en">
       <head>
         <Meta />
         <Links />

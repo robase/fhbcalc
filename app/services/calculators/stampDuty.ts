@@ -8,7 +8,7 @@ const calcDuty = (offset: number, rate: number, additional: number) => (purchase
 
 type QldFHBConcessionBand = { min: number; max: number; concession: number };
 
-const homeConcessionBands: QldFHBConcessionBand[] = [
+const qldConcessionBands: QldFHBConcessionBand[] = [
   { min: 0, max: 504_999.99, concession: 8_750 },
   { min: 505_000, max: 509_999.99, concession: 7_875 },
   { min: 510_000, max: 514_999.99, concession: 7_000 },
@@ -76,16 +76,20 @@ const config: Record<State, { default: RateBand[]; concession?: RateBand[] }> = 
 };
 
 const calcQldFHBConcession = (purchasePrice: number): number => {
-  const applicableBand = homeConcessionBands.find((band) => purchasePrice <= band.max);
+  const applicableBand = qldConcessionBands.find((band) => purchasePrice <= band.max);
   return applicableBand ? applicableBand.concession : 0;
 };
 
 // linear approx based on vals pulled from NSW calc
-export function calcNswFHBConcession(purchasePrice: number) {
-  return Math.max(0.20727 * purchasePrice - 134723.33391, 0);
+function calcNswConcession(purchasePrice: number) {
+  return Math.max(0.19863 * purchasePrice - 158895.20811, 0);
 }
 
-// FIXME: calcs look broken
+// quadratic approx based on vals pulled from VIC calc
+function calcVicConcession(purchasePrice: number) {
+  return 19_776 + -0.273035 * purchasePrice + 0.000000400125 * Math.pow(purchasePrice, 2);
+}
+
 export function calcStampDuty(purchasePrice: number, state: State, eligibility?: EligibilityResult) {
   if (eligibility?.eligible) {
     if (eligibility.type === "full") {
@@ -93,7 +97,9 @@ export function calcStampDuty(purchasePrice: number, state: State, eligibility?:
     }
 
     if (state === "NSW") {
-      return calcNswFHBConcession(purchasePrice);
+      return calcNswConcession(purchasePrice);
+    } else if (state === "VIC") {
+      return calcVicConcession(purchasePrice);
     }
   }
 

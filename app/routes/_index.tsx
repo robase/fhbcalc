@@ -72,7 +72,11 @@ export default function BaseRoute() {
 
   return (
     <>
-      <AssistanceArea focusedItem={focusedItem} clearFocusedItem={() => setFocusedItem(undefined)} />
+      <AssistanceArea
+        state={formValues.state}
+        focusedItem={focusedItem}
+        clearFocusedItem={() => setFocusedItem(undefined)}
+      />
       <div className=" xl:container xl:mx-auto transition-all ease-in-out">
         <div className="flex sm:flex-row  flex-col gap-6 px-8 mt-10 mb-8 items-center justify-start">
           <div className="pt-2">
