@@ -19,8 +19,7 @@ export const meta: V2_MetaFunction = () => [
   },
   { "og:url": "https://firsthomebuyer.help" },
   {
-    "og:image":
-      process.env.NODE_ENV === "development" ? `http://localhost:3000${cover}` : `https://firsthomebuyer.help${cover}`,
+    "og:image": `https://firsthomebuyer.help${cover}`,
   },
 ];
 
