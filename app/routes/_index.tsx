@@ -183,41 +183,6 @@ export default function BaseRoute() {
               <li>you or your partner have never previously owned a home</li>
             </ul>
           </div>
-          <div>
-            <p>Sources:</p>
-            <ul className="list-inside list-disc pl-2 pt-2">
-              <li>
-                <a
-                  rel="noreferrer"
-                  className="underline"
-                  target="_blank"
-                  href="https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/assistance-scheme"
-                >
-                  First Home Buyer Assistance Scheme (FHBAS)
-                </a>
-              </li>
-              <li>
-                <a
-                  rel="noreferrer"
-                  target="_blank"
-                  className="underline"
-                  href="https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/new-homes"
-                >
-                  First Home Owner's Grant (FHOG)
-                </a>
-              </li>
-              <li>
-                <a
-                  rel="noreferrer"
-                  className="underline"
-                  target="_blank"
-                  href="https://www.nhfic.gov.au/support-buy-home/first-home-guarantee"
-                >
-                  First Home Buyer Guarantee (FHBG)
-                </a>
-              </li>
-            </ul>
-          </div>
           <div className="max-w-md">
             <p>
               Please note that this is a tool intended to compliment your own research, this is not financial advice.
