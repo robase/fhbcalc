@@ -10,6 +10,6 @@ LMI premium = function of (LVR, Loan principal)
 
 **Avoiding LMI**
 
-- If you qualify for the [First Home Guarantee (FHBG)](https://www.nhfic.gov.au/support-buy-home/first-home-guarantee), the government will act as a guarantor of your home loan and you will not need to pay LMI.
+- If you qualify for the <a target="_blank" rel="noopener noreferrer" href="https://www.nhfic.gov.au/support-buy-home/first-home-guarantee">First Home Guarantee (FHBG)</a>, the government will act as a guarantor of your home loan and you will not need to pay LMI.
 
 - You can qualify to have LMI waived with some lenders based on your profession - typically legal, medical, and accounting professionals will qualify.

@@ -13,9 +13,11 @@ import FHBGVic from "../markdown/fhbg/vic.md";
 import FHOGNsw from "../markdown/fhog/nsw.md";
 import FHOGVic from "../markdown/fhog/vic.md";
 
+import TransferDutyNsw from "../markdown/transferDuty/nsw.md";
+import TransferDutyVic from "../markdown/transferDuty/vic.md";
+
 import UpfrontCash from "../markdown/upfront_cash.md";
 import LoanPrincipal from "../markdown/loan_principal.md";
-import TransferDuty from "../markdown/transfer_duty.md";
 import PurchasePrice from "../markdown/purchase_price.md";
 import MonthlyRepayment from "../markdown/monthly_repayment.md";
 import type { State } from "~/services/defaults";
@@ -63,7 +65,7 @@ function selectContent(state: State, item: HelpText): { title: string; element: 
     case HelpText.TRANSFER_DUTY:
       return {
         title: "Transfer Duty",
-        element: <TransferDuty />,
+        element: state === "NSW" ? <TransferDutyNsw /> : <TransferDutyVic />,
       };
     case HelpText.UPFRONT_CASH:
       return {

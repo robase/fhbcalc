@@ -12,4 +12,4 @@ If you qualify for a first home buyer transfer duty concession, you may be entit
 
 #### Full information:
 
-For more information, please visit the [website](https://www.sro.vic.gov.au/fhbduty).
+For more information, please visit the <a target="_blank" rel="noopener noreferrer" href="https://www.sro.vic.gov.au/fhbduty">website</a>.

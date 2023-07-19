@@ -8,4 +8,4 @@ Use the [vic gov calculator](https://www.sro.vic.gov.au/content/will-i-be-eligib
 
 #### Full information:
 
-For more information, please visit the [FHOG Website](https://www.sro.vic.gov.au/first-home-owner#fhog).
+For more information, please visit the <a target="_blank" rel="noopener noreferrer" href="https://www.sro.vic.gov.au/first-home-owner#fhog">FHOG Website</a>.

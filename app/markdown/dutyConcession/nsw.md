@@ -16,4 +16,4 @@ If you qualify for the First Home Buyers Assistance Scheme, you may be entitled 
 
 #### Full information:
 
-For more information, please visit the [website](https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/assistance-scheme).
+For more information, please visit the <a target="_blank" rel="noopener noreferrer" href="https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/assistance-scheme">website</a>.

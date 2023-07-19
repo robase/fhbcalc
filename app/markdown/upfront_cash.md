@@ -43,4 +43,4 @@ Example for a house bought for $818,500, no government scheme benefits applied:
   </tbody>
 </table>
 
-View a detailed [breakdown of costs associated with buying a property](https://www.nsw.gov.au/housing-and-construction/buying-and-selling-property/buying-residential-property-nsw/planning-your-finances/costs-when-buying-a-home).
+View a detailed <a target="_blank" rel="noopener noreferrer" href="https://www.nsw.gov.au/housing-and-construction/buying-and-selling-property/buying-residential-property-nsw/planning-your-finances/costs-when-buying-a-home">breakdown of costs associated with buying a property</a>.

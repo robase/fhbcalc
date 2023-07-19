@@ -9,4 +9,4 @@ First Home Owner's Grant (FHOG) gives you $10,000 when you build or buy your fir
 
 #### Full information:
 
-For more information, please visit the [FHOG Website](https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/new-homes).
+For more information, please visit the <a target="_blank" rel="noopener noreferrer" href="https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/new-homes">FHOG Website</a>.

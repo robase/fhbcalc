@@ -10,4 +10,4 @@ The FHBG scheme is delivered through participating lenders. Lenders have a limit
   - $900,000 if buying in Sydney, Newcastle, Lake Macquarie, or Illawarra.
   - $750,000 otherwise.
 
-For full information, please visit the [FHBG Website](https://www.nhfic.gov.au/support-buy-home/first-home-guarantee).
+For full information, please visit the <a target="_blank" rel="noopener noreferrer" href="https://www.nhfic.gov.au/support-buy-home/first-home-guarantee">FHBG Website</a>.
