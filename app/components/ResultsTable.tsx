@@ -1,44 +1,36 @@
-import type { EligibilityResult } from "~/utls/calculators"
-import type { CalcSettings, FormResponse } from "~/utls/defaults"
-import { fmtAUD } from "~/utls/formatters"
-import Pill from "./ui/Pill"
-import { HELPTEXT } from "./AssistanceArea"
-import type { NSWResult } from "./MainView"
-
-const urlFHBAS = "https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/assistance-scheme"
-const urlFHBG = "https://www.nhfic.gov.au/support-buy-home/first-home-guarantee"
-const urlFHOG = "https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/new-homes"
-const urlFHBC = "https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/first-home-buyer-choice"
+import Pill from "./Pill";
+import { HelpText } from "./AssistanceArea";
+import type { CalculationResult } from "~/services/calculators";
+import type { CalcSettings } from "~/services/defaults";
+import { fmtAUD } from "~/services/formatters";
 
 export default function ResultsTable({
   data,
   settings,
   onItemHover,
-  setCalcSettings,
 }: {
-  data: NSWResult[]
-  settings: CalcSettings
-  onItemHover: (e: React.MouseEvent<HTMLDivElement | HTMLAnchorElement, MouseEvent>, focusedItem: HELPTEXT) => void
-  setCalcSettings: React.Dispatch<React.SetStateAction<CalcSettings>>
+  data: CalculationResult[];
+  settings: CalcSettings;
+  onItemHover: (e: React.MouseEvent<HTMLDivElement | HTMLAnchorElement>, focusedItem: HelpText) => void;
 }) {
   return (
     <div className="text-sm">
-      <div className="overflow-x-auto w-full">
-        <table className="w-full text-sm text-left border overflow-visible">
-          <thead className="text-zinc-700 uppercase bg-zinc-100 font-semibold font-spartan">
-            <tr className="uppercase bg-gray-50  [&>td]:select-none">
+      <div className="overflow-x-auto w-full xl:px-6 xl:pb-6 bg-gradient-to-b from-[#ebf0f3c7] to-[#f6f8fa]">
+        <table className="w-full text-left overflow-visible">
+          <thead className="text-[#24282b] uppercase bg-[#ebf0f3c7] text-base font-medium font-spartan">
+            <tr className="uppercase [&>td]:select-none [&>td]:pb-3 [&>td]:pt-4 border-b-0">
               <td
-                className=" select-none hover:bg-white px-3 py-2 cursor-pointer"
-                onClick={(e) => onItemHover(e, HELPTEXT.PURCHASE_PRICE)}
+                className="hover:text-zinc-400 px-3 cursor-pointer "
+                onClick={(e) => onItemHover(e, HelpText.PURCHASE_PRICE)}
               >
                 Purchase Price
               </td>
               <td
-                className=" select-none hover:bg-white px-3 py-2 cursor-pointer"
-                onClick={(e) => onItemHover(e, HELPTEXT.LOAN_PRINCIPAL)}
+                className="hover:text-zinc-400 px-3 cursor-pointer"
+                onClick={(e) => onItemHover(e, HelpText.LOAN_PRINCIPAL)}
               >
                 Loan Amount
-                <div className="flex flex-row text-[12px] normal-case tracking-normal font-normal text-zinc-400 whitespace-nowrap  -mb-2 gap-2">
+                <div className="flex flex-row text-[14px] normal-case tracking-normal font-normal text-zinc-500 whitespace-nowrap gap-2">
                   <span>Principal</span>
                   <span>+</span>
                   <span>Interest</span>
@@ -46,91 +38,50 @@ export default function ResultsTable({
                   <span>Total</span>
                 </div>
               </td>
-              {/* <td className=" select-none hover:bg-white px-3 py-2 cursor-pointer" onClick={(e) => onItemHover(e, HELPTEXT.LOAN_INTEREST)}>
-                Loan Interest
-              </td> */}
               <td
-                className=" select-none hover:bg-white pl-3 pr-5 py-2 cursor-pointer"
-                onClick={(e) => onItemHover(e, HELPTEXT.DTI)}
+                className="hover:text-zinc-400 pl-3 pr-5 cursor-pointer"
+                onClick={(e) => onItemHover(e, HelpText.DTI)}
               >
                 DTI
               </td>
-              <td
-                className=" select-none hover:bg-white px-3 py-2 cursor-pointer"
-                onClick={(e) => onItemHover(e, HELPTEXT.LVR)}
-              >
+              <td className="hover:text-zinc-400 px-3 cursor-pointer" onClick={(e) => onItemHover(e, HelpText.LVR)}>
                 LVR
               </td>
-              <td
-                className=" select-none hover:bg-white px-3 py-2 cursor-pointer"
-                onClick={(e) => onItemHover(e, HELPTEXT.LMI)}
-              >
+              <td className="hover:text-zinc-400 px-3 cursor-pointer" onClick={(e) => onItemHover(e, HelpText.LMI)}>
                 LMI*
               </td>
               <td
-                className="cursor-pointer whitespace-nowrap "
-                onClick={(e) => {
-                  setCalcSettings((prev) => ({ ...prev, transferOrTax: "TRANSFER" }))
-                  onItemHover(e, HELPTEXT.TRANSFER_DUTY)
-                }}
+                className="hover:text-zinc-400 px-3 cursor-pointer"
+                onClick={(e) => onItemHover(e, HelpText.TRANSFER_DUTY)}
               >
-                {settings.transferOrTax === "TRANSFER" ? (
-                  <div className="w-full h-full px-4 py-1 border border-zinc-500  items-center hover:bg-zinc-100 rounded-l-xl text-center">
-                    <span>Transfer Duty</span>
-                  </div>
-                ) : (
-                  <div className="text-zinc-300 w-full h-full px-4 py-1 border border-zinc-200  items-center hover:bg-zinc-200 hover:border-zinc-300 hover:text-zinc-500 rounded-l-xl text-center">
-                    <span>Transfer Duty</span>
-                  </div>
-                )}
+                Transfer Duty
               </td>
               <td
-                className="cursor-pointer whitespace-nowrap "
-                onClick={(e) => {
-                  setCalcSettings((prev) => ({ ...prev, transferOrTax: "TAX" }))
-                  onItemHover(e, HELPTEXT.PROPERTY_TAX)
-                }}
+                className="hover:text-zinc-400 px-3 cursor-pointer "
+                onClick={(e) => onItemHover(e, HelpText.UPFRONT_CASH)}
               >
-                {settings.transferOrTax === "TAX" ? (
-                  <div className="w-full h-full px-4 py-1 border border-zinc-500  items-center hover:bg-zinc-100  rounded-r-xl text-center ">
-                    <span>Property Tax</span>
-                  </div>
-                ) : (
-                  <div className="text-zinc-300 w-full h-full px-4 py-1 border border-zinc-200  items-center hover:bg-zinc-200 hover:border-zinc-300 hover:text-zinc-500 rounded-r-xl text-center">
-                    <span>Property Tax</span>
-                  </div>
-                )}
+                Upfront Cash
               </td>
               <td
-                className=" select-none px-3 py-2 cursor-pointer hover:bg-white"
-                onClick={(e) => onItemHover(e, HELPTEXT.UPFRONT_CASH)}
-              >
-                Upfront Cash Required
-              </td>
-              <td
-                className=" select-none px-3 py-2 cursor-pointer hover:bg-white"
-                onClick={(e) => onItemHover(e, HELPTEXT.MONTHLY_REPAYMENT)}
+                className="hover:text-zinc-400 px-3 cursor-pointer "
+                onClick={(e) => onItemHover(e, HelpText.MONTHLY_REPAYMENT)}
               >
                 Monthly Repayment
-                <p className="text-xs  py-1 normal-case tracking-normal font-normal text-zinc-400 whitespace-nowrap">
+                <p className="text-xs py-1 normal-case tracking-normal font-normal text-zinc-500 whitespace-nowrap">
                   30 years @ {((settings.interestRate || 0) as number).toFixed(2)}% p.a.
                 </p>
               </td>
-              <td className=" select-none px-3 py-2">Gov Scheme Eligibility</td>
+              <td className="select-none px-3">Scheme Eligibility</td>
             </tr>
           </thead>
           <tbody>
             {data.map((row, i) => (
               <tr
                 key={`${row.purchasePrice}-${i}`}
-                className={
-                  row.dti > 0.71 || row.dti < 0
-                    ? "bg-white border-b text-zinc-400 font-roboto hover:bg-zinc-50"
-                    : "bg-white border-b font-roboto hover:bg-zinc-50"
-                }
+                className="bg-white border-b border-t font-roboto hover:bg-zinc-50 last:border-b-0 first:border-t-0"
               >
-                <td className=" px-3 py-2">{fmtAUD(row.purchasePrice)}</td>
-                <td className=" pl-3 pr-5 ">
+                <td className="px-3 py-2">{fmtAUD(row.purchasePrice)}</td>
+                <td className="pl-3 pr-5 ">
                   <div className="flex flex-row">
                     <div>
                       <span>{fmtAUD(row.loanPrincipal)}</span>
@@ -149,77 +100,40 @@ export default function ResultsTable({
                     </div>
                   </div>
                 </td>
-                <td className={`${row.dti > 0.6 ? "text-red-600" : row.dti > 0.55 ? "text-yellow-600" : ""} px-3 py-2`}>
+                <td className={`${row.dti > 0.6 ? "text-red-600" : row.dti > 0.55 && "text-yellow-600"} px-3 py-2`}>
                   {row.dti.toFixed(2)}
                 </td>
-                <td className=" px-3 py-2">{row.lvr.toFixed(2)}%</td>
-                <td className=" px-3 py-2">
+                <td className="px-3 py-2">{row.lvr.toFixed(2)}%</td>
+                <td className="px-3 py-2">
                   {row.lmi === -1 ? "No data" : fmtAUD(row.lmi)}{" "}
-                  {row.FHBGResult.eligible && <span className="text-[10px] text-zinc-400">FHBG</span>}
+                  {row.schemeResults.lmi?.eligible && <span className="text-[10px] text-zinc-400">FHBG</span>}
                 </td>
-                <td className=" px-3 py-2">
-                  {row.FHBASResult.type === "full" ? (
+                <td className="px-3 py-2">
+                  {row.schemeResults.transferDuty?.type === "full" ? (
                     <p>
-                      <span className={settings.transferOrTax === "TAX" ? "line-through text-zinc-200" : ""}>
-                        {fmtAUD(row.transferDuty)}
-                      </span>{" "}
-                      <span
-                        className={
-                          settings.transferOrTax === "TAX" ? "text-[10px] text-zinc-200" : "text-[10px] text-zinc-400"
-                        }
-                      >
-                        FHBAS exempt
-                      </span>
+                      <span>{fmtAUD(row.transferDuty)}</span>{" "}
+                      <span className={"text-[10px] text-zinc-400"}>exempt</span>
                     </p>
                   ) : (
-                    <div className="flex flex-row items-center gap-2">
-                      <p className={settings.transferOrTax === "TAX" ? "line-through text-zinc-200" : ""}>
-                        {fmtAUD(row.transferDuty)}{" "}
-                      </p>
-                      {row.FHBASResult.type === "concessional" && (
-                        <span
-                          className={
-                            settings.transferOrTax === "TAX"
-                              ? "text-[10px] text-zinc-200 leading-3"
-                              : "text-[10px] text-zinc-400 leading-3"
-                          }
-                        >
-                          FHBAS <br />
-                          concession
-                        </span>
+                    <div className="flex flex-row items-baseline gap-2">
+                      {fmtAUD(row.transferDuty)}
+                      {row.schemeResults.transferDuty?.type === "concessional" && (
+                        <span className="text-[10px] text-zinc-400">concession</span>
                       )}
                     </div>
                   )}
                 </td>
-                <td className=" px-3 py-2">
-                  <div className="flex flex-col">
-                    <div>
-                      <span
-                        className={settings.transferOrTax === "TRANSFER" ? "line-through text-zinc-200 text-xs" : ""}
-                      >
-                        {fmtAUD(row.propertyTax)}
-                      </span>{" "}
-                      <span
-                        className={
-                          settings.transferOrTax === "TRANSFER"
-                            ? "text-[11px] text-zinc-200"
-                            : "text-[11px] text-zinc-400"
-                        }
-                      >
-                        p.a.
-                      </span>
-                    </div>
-                  </div>
-                </td>
-                <td className=" px-3 py-2">
+                <td className="px-3 py-2">
                   <div className="flex flex-row gap-2 items-center">
                     <span>
                       {fmtAUD(row.cashOnHand)} {row.lmi === -1 && "+ LMI"}
                     </span>
-                    {row.FHOGResult.eligible && <span className="text-zinc-400 text-[10px] leading-3">inc. FHOG</span>}
+                    {row.schemeResults.cashOnHand?.eligible && (
+                      <span className="text-zinc-400 text-[10px] leading-3">inc. FHOG</span>
+                    )}
                   </div>
                 </td>
-                <td className=" px-3 py-2">
+                <td className="px-3 py-2">
                   <div className="flex flex-row gap-2">
                     <span>{fmtAUD(row.monthlyRepayment)}</span>
                     <span className="text-zinc-400 text-[10px] leading-3">
@@ -230,89 +144,30 @@ export default function ResultsTable({
                 </td>
                 <td>
                   <div className="flex flex-row gap-2 px-4 py-3 items-center">
-                    {row.FHBASResult.eligible ? (
-                      row.FHBASResult.type === "full" ? (
+                    {Object.values(row.schemeResults).map((eligibility, j) =>
+                      eligibility.type ? (
                         <Pill
-                          onClick={(e) => onItemHover(e, HELPTEXT.FHBAS)}
-                          status="G"
-                          text="FHBAS"
-                          url={urlFHBAS}
-                          reason={"Full exemption"}
+                          key={`${eligibility.scheme}-${i}-${j}}`}
+                          onClick={(e) => onItemHover(e, HelpText[eligibility.scheme])}
+                          status={eligibility.eligible ? (eligibility.type === "full" ? "G" : "A") : "R"}
+                          text={eligibility.scheme === "FHBAS" && data[0].state !== "NSW" ? "DUTY" : eligibility.scheme}
+                          reason={
+                            eligibility?.eligible
+                              ? eligibility.type === "full"
+                                ? "Full exemption"
+                                : "Concessional discount"
+                              : eligibility?.reason
+                          }
                         />
                       ) : (
                         <Pill
-                          onClick={(e) => onItemHover(e, HELPTEXT.FHBAS)}
-                          status="A"
-                          text="FHBAS"
-                          url={urlFHBAS}
-                          reason={"Concessional discount"}
+                          key={`${eligibility.scheme}-${i}-${j}}`}
+                          onClick={(e) => onItemHover(e, HelpText[eligibility.scheme])}
+                          status={eligibility?.eligible ? "G" : "R"}
+                          text={eligibility.scheme === "FHBAS" && data[0].state !== "NSW" ? "DUTY" : eligibility.scheme}
+                          reason={eligibility?.reason}
                         />
                       )
-                    ) : (
-                      <Pill
-                        onClick={(e) => onItemHover(e, HELPTEXT.FHBAS)}
-                        status="R"
-                        text="FHBAS"
-                        url={urlFHBAS}
-                        reason={row.FHBASResult.reason}
-                      />
-                    )}
-                    {row.FHOGResult.eligible ? (
-                      <Pill
-                        onClick={(e) => onItemHover(e, HELPTEXT.FHOG)}
-                        status="G"
-                        text="FHOG"
-                        url={urlFHOG}
-                        reason={row.FHOGResult.reason}
-                      />
-                    ) : (
-                      <>
-                        <Pill
-                          onClick={(e) => onItemHover(e, HELPTEXT.FHOG)}
-                          status="R"
-                          text="FHOG"
-                          url={urlFHOG}
-                          reason={row.FHOGResult.reason}
-                        />
-                      </>
-                    )}
-                    {row.FHBGResult.eligible ? (
-                      <Pill
-                        onClick={(e) => onItemHover(e, HELPTEXT.FHBG)}
-                        status="G"
-                        text="FHBG"
-                        url={urlFHBG}
-                        reason={row.FHBGResult.reason}
-                      />
-                    ) : (
-                      <>
-                        <Pill
-                          onClick={(e) => onItemHover(e, HELPTEXT.FHBG)}
-                          status="R"
-                          text="FHBG"
-                          url={urlFHBG}
-                          reason={row.FHBGResult.reason}
-                        />
-                      </>
-                    )}
-                    {row.FHBCResult.eligible ? (
-                      <Pill
-                        onClick={(e) => onItemHover(e, HELPTEXT.FHBC)}
-                        status="G"
-                        text="FHBC"
-                        url={urlFHBC}
-                        reason={row.FHBCResult.reason}
-                      />
-                    ) : (
-                      <>
-                        <Pill
-                          onClick={(e) => onItemHover(e, HELPTEXT.FHBC)}
-                          status="R"
-                          text="FHBC"
-                          url={urlFHBC}
-                          reason={row.FHBCResult.reason}
-                        />
-                      </>
                     )}
                   </div>
                 </td>
@@ -321,7 +176,7 @@ export default function ResultsTable({
           </tbody>
         </table>
       </div>
-      <p>* estimate only</p>
+      <p className="pt-2">* estimate only</p>
     </div>
-  )
+  );
 }

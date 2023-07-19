@@ -1,4 +1,0 @@
-- [ ] Fix LMI for properties > $1m
-- [ ] Assistance section
-  - [ ] Add Transfer
-- [ ] Table highlighting
