@@ -1,5 +1,5 @@
-import type { EligibilityResult } from "../calculators";
-import { calcLVR } from "../calculators";
+import type { EligibilityResult } from "./loan";
+import { calcLVR } from "./loan";
 
 // https://www.homeloanexperts.com.au/lenders-mortgage-insurance/lmi-premium-rates/
 export function calcLMI(purchasePrice: number, deposit: number, FHBGEligibility?: EligibilityResult) {

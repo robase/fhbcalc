@@ -1,4 +1,4 @@
-import type { CalculationResult, EligibilityResult } from "./calculators";
+import type { CalculationResult, EligibilityResult } from "./calculators/loan";
 import { qualifiesForDutyConcession } from "./schemes/FHBAS";
 
 import type { State, FormResponse } from "./defaults";

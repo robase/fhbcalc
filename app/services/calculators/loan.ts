@@ -1,8 +1,8 @@
-import type { CalcSettings, FormResponse, State } from "./defaults";
-import { calcStampDuty } from "./calculators/stampDuty";
-import { getSchemes } from "./formSchema";
-import { calcLMI } from "./calculators/lmi";
-import { calcHecsMonthlyRepayment } from "./calculators/hecs";
+import type { CalcSettings, FormResponse, State } from "../defaults";
+import { calcStampDuty } from "./stampDuty";
+import { getSchemes } from "../formSchema";
+import { calcLMI } from "./lmi";
+import { calcHecsMonthlyRepayment } from "./hecs";
 
 export interface EligibilityResult {
   scheme: "FHBG" | "FHOG" | "FHBAS";

@@ -1,6 +1,6 @@
 import Pill from "./Pill";
 import { HelpText } from "./AssistanceArea";
-import type { CalculationResult } from "~/services/calculators";
+import type { CalculationResult } from "~/services/loan";
 import type { CalcSettings } from "~/services/defaults";
 import { fmtAUD } from "~/services/formatters";
 
