@@ -17,6 +17,7 @@ export interface CalculationResult {
   loanPrincipal: number;
   totalInterest: number;
   monthlyRepayment: number;
+  monthlyHECSRepayment: number;
 
   lvr: number;
   dti: number;
@@ -32,7 +33,9 @@ export interface CalculationResult {
 export function calcTableData(formData: FormResponse, calcSettings: CalcSettings): CalculationResult[] {
   const { deposit, expenses, hecs, income, state } = formData;
   const monthlyIncome = income / 12;
-  const staticExpenses = expenses + calcHecsMonthlyRepayment(income, hecs);
+  const monthlyHECSRepayment = calcHecsMonthlyRepayment(income, hecs);
+
+  const staticExpenses = expenses + monthlyHECSRepayment;
 
   const maxPrice = calcMaxLoan(monthlyIncome, staticExpenses, calcSettings.interestRate);
 
@@ -73,6 +76,7 @@ export function calcTableData(formData: FormResponse, calcSettings: CalcSettings
       lmi,
       transferDuty,
       cashOnHand,
+      monthlyHECSRepayment,
 
       schemeResults,
       state,
@@ -94,9 +98,9 @@ export function cashOnHandRequired(
   fees: number,
   transferDuty: number,
   lmi: number,
-  FHOGEligiblity: EligibilityResult
+  FHOGEligibility: EligibilityResult
 ) {
-  return deposit + fees + transferDuty + lmi - (FHOGEligiblity.eligible ? 10000 : 0);
+  return deposit + fees + transferDuty + lmi - (FHOGEligibility.eligible ? 10000 : 0);
 }
 
 export function calcPrincipalFromRepayment(m: number, rPA?: number) {
@@ -117,7 +121,5 @@ export function calcMonthlyRepayment(principal: number, rPA?: number) {
 // Calculates the maximum loan amount (first table row) from a DTI val of 0.7
 // 0.7 chosen because it would be near or would exceed the max amount a lender would lend
 export function calcMaxLoan(monthlyIncome: number, staticExpenses: number, interestRate: number) {
-  return (
-    Math.round(calcPrincipalFromRepayment(0.7 * monthlyIncome - staticExpenses, interestRate as number) / 10000) * 10000
-  );
+  return Math.round(calcPrincipalFromRepayment(0.7 * monthlyIncome - staticExpenses, interestRate) / 10000) * 10000;
 }

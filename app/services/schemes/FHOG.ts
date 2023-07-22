@@ -4,6 +4,7 @@ import { State } from "../defaults";
 
 const FHOGconfig: Record<State, any> = {
   NSW: {
+    // https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/new-homes
     "new-property": {
       max: 600000,
     },
@@ -26,7 +27,6 @@ const FHOGconfig: Record<State, any> = {
   [State.WA]: undefined,
 };
 
-// https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/new-homes
 export function qualifiesForFHOG(purchasePrice: number, { propertyType, state }: FormResponse): EligibilityResult {
   const result: EligibilityResult = {
     scheme: "FHOG",

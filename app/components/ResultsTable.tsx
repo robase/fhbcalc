@@ -1,8 +1,8 @@
 import Pill from "./Pill";
 import { HelpText } from "./AssistanceArea";
-import type { CalculationResult } from "~/services/loan";
 import type { CalcSettings } from "~/services/defaults";
 import { fmtAUD } from "~/services/formatters";
+import type { CalculationResult } from "~/services/calculators/loan";
 
 export default function ResultsTable({
   data,
@@ -137,7 +137,8 @@ export default function ResultsTable({
                   <div className="flex flex-row gap-2">
                     <span>{fmtAUD(row.monthlyRepayment)}</span>
                     <span className="text-zinc-400 text-[10px] leading-3">
-                      {((row.monthlyRepayment / row.monthlyIncome) * 100).toFixed(2)}%<br />
+                      {((row.monthlyRepayment / (row.monthlyIncome - row.monthlyHECSRepayment)) * 100).toFixed(2)}%
+                      <br />
                       of income
                     </span>
                   </div>

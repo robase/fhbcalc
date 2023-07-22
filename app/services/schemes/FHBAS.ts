@@ -3,6 +3,7 @@ import type { FormResponse, State } from "../defaults";
 
 export const dutyConcessionConfig: Record<State, any> = {
   NSW: {
+    // https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/assistance-scheme
     "new-property": {
       max: 1_000_000,
       concessional: 800_000,
@@ -43,12 +44,6 @@ export const dutyConcessionConfig: Record<State, any> = {
   WA: {},
 };
 
-// VIC FHB Your home has a dutiable value of:
-
-// $600,000 or less to receive the first home buyer duty exemption,
-// $600,001 to $750,000 to receive the first home buyer duty concession.
-
-// https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/assistance-scheme
 export function qualifiesForDutyConcession(
   purchasePrice: number,
   { propertyType, state }: FormResponse
