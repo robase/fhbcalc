@@ -173,7 +173,7 @@ export default function BaseRoute() {
             </div>
           </a>
         </div>
-        <div className="flex flex-row flex-wrap justify-between gap-4 font-roboto text-sm px-8 mb-8 text-zinc-500">
+        <div className="flex flex-row flex-wrap justify-between gap-x-4 gap-y-12 font-roboto text-sm px-8 mb-8 text-zinc-500">
           <div>
             <p>Assumptions:</p>
             <ul className="list-inside list-disc pl-2 pt-2">
