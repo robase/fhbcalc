@@ -8,18 +8,21 @@ export const meta: V2_MetaFunction = () => [
   { charset: "utf-8" },
   { title: "First Home Buyer Calculator" },
   {
-    description:
+    name: "description",
+    content:
       "Navigate the journey of buying your first home with ease. Discover your government scheme eligibility and the benefits to your home loan as a first home buyer",
   },
-  { viewport: "width=device-width,initial-scale=1" },
-  { "og:title": "First Home Buyer Calculator" },
+  { name: "viewport", content: "width=device-width,initial-scale=1" },
+  { property: "og:title", content: "First Home Buyer Calculator" },
   {
-    "og:description":
+    property: "og:description",
+    content:
       "Navigate the journey of buying your first home with ease. Discover your government scheme eligibility and the benefits to your home loan as a first home buyer",
   },
-  { "og:url": "https://firsthomebuyer.help" },
+  { property: "og:url", content: "https://firsthomebuyer.help" },
   {
-    "og:image": `https://firsthomebuyer.help${cover}`,
+    property: "og:image",
+    content: `https://firsthomebuyer.help${cover}`,
   },
 ];
 
