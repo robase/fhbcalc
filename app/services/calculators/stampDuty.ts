@@ -1,4 +1,4 @@
-import type { EligibilityResult } from "../calculators";
+import type { EligibilityResult } from "./loan";
 import type { State } from "../defaults";
 
 type RateBand = { min: number; max: number; calc: (purchasePrice: number) => number };

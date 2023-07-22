@@ -1,16 +1,16 @@
 import { useNavigate, useSearchParams } from "@remix-run/react";
 import { useCallback, useState } from "react";
 import LZString from "lz-string";
-import { BoxArrowUpRight, InfoCircle } from "react-bootstrap-icons";
+import { BoxArrowUpRight, Github, InfoCircle } from "react-bootstrap-icons";
 import type { HelpText } from "~/components/AssistanceArea";
 import AssistanceArea from "~/components/AssistanceArea";
 import ResultsTable from "~/components/ResultsTable";
 import CopyResultsButton from "~/components/CopyResultsButton";
 import logoSVG from "../images/logo.svg";
 import InputForm from "~/components/Form";
-import { calcTableData } from "~/services/calculators";
 import type { FormResponse, CalcSettings } from "~/services/defaults";
 import { SETTINGS_DEFAULT, FORM_DEFAULT } from "~/services/defaults";
+import { calcTableData } from "~/services/calculators/loan";
 
 interface URLParamData {
   f: FormResponse;
@@ -183,6 +183,22 @@ export default function BaseRoute() {
               <li>you or your partner have never previously owned a home</li>
             </ul>
           </div>
+          <div>
+            <p>This calculator is open source</p>
+            <div className="mt-4">
+              <a
+                href="https://github.com/robase/fhbcalc"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:underline hover:text-zinc-800"
+              >
+                <div className="max-w-md flex gap-2 items-center">
+                  <Github className="h-6 w-6" />
+                  View GitHub repo
+                </div>
+              </a>
+            </div>
+          </div>
           <div className="max-w-md">
             <p>
               Please note that this is a tool intended to compliment your own research, this is not financial advice.
@@ -190,7 +206,7 @@ export default function BaseRoute() {
               <br /> No data is collected, retained or stored anywhere from this site, it never leaves your browser.
               <br />
               <br />
-              v0.0.3 - last updated 19/07/23
+              Last updated 19/07/23
             </p>
           </div>
         </div>

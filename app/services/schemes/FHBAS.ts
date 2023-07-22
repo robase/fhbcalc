@@ -1,4 +1,4 @@
-import type { EligibilityResult } from "../calculators";
+import type { EligibilityResult } from "../calculators/loan";
 import type { FormResponse, State } from "../defaults";
 
 export const dutyConcessionConfig: Record<State, any> = {

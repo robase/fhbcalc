@@ -1,4 +1,4 @@
-import { calcLVR, type EligibilityResult } from "../calculators";
+import { calcLVR, type EligibilityResult } from "../calculators/loan";
 import type { FormResponse, State } from "../defaults";
 
 export const FHBGconfig: {

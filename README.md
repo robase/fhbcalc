@@ -10,11 +10,19 @@
 <h4 align="center">A government scheme eligibility & loan calculator for australian first home buyers</h4>
 
 <p align="center">
-  <a href="#information-sources">Information sources</a> •
+  <a href="#features">Features</a> •
+  <a href="#sources">Sources</a> •
   <a href="#development">Development</a>
 </p>
 
 ![fhb calc screenshot](https://raw.githubusercontent.com/robase/fhbcalc/dev/app/images/screenshot.png)
+
+## Features
+
+- Shows all your loan options across a range of property prices in one view, including your eligibility for government schemes for first home buyers
+- Calculates your loan stats including LVR, LMI, estimated monthly repayments, and more
+- Generates a sharable link which you can send to lenders to avoid having to reexplain your circumstances over and over again
+- No data is captured or stored, it never leaves your browser
 
 ## Sources
 
@@ -30,7 +38,6 @@
 - [First home owner's grant (FHOG)](https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/first-home-owner-new-homes-grant)
 - [Transfer duty rates](https://www.revenue.nsw.gov.au/taxes-duties-levies-royalties/transfer-duty#heading4)
 
-
 </details>
 
 <details>
@@ -40,11 +47,28 @@
 - [First home buyer duty concession](https://www.sro.vic.gov.au/fhbduty)
 - Transfer duty rates
   - [PPOR](https://www.sro.vic.gov.au/principal-place-residence-current-rates)
-  - [General](https://www.sro.vic.gov.au/non-principal-place-residence-dutiable-property-current-rates) 
+  - [General](https://www.sro.vic.gov.au/non-principal-place-residence-dutiable-property-current-rates)
 
 </details>
 
 #### ... more states coming soon
+
+## How to contribute
+
+To add a scheme or update eligibility or calculation details for a state:
+
+- Form questions for each state are defined in [`app/services/formSchema.tsx`](/app/services/formSchema.tsx)
+- Eligibility functions for government schemes are defined in [`app/services/schemes`](/app/services/schemes)
+- Loan calculations are defined in [`app/services/calculators`](/app/services/calculators)
+- Help info content is defined in [`app/markdown`](/app/markdown)
+
+General flow:
+
+1. Form question UI inputs are generated from the questions defined for each state in the `formSchema.tsx` file.
+2. For each table row:
+   1. Check eligibility for schemes
+   2. Calculate loan data
+3. Render table, help info for each column & scheme
 
 ## Development
 
@@ -63,5 +87,3 @@ npm run dev
 
 # runs on http://localhost:3000
 ```
-
-
