@@ -3,6 +3,7 @@ import { Links, LiveReload, Meta, Outlet, Scripts } from "@remix-run/react";
 import { Analytics } from "@vercel/analytics/react";
 import cover from "./images/ogimage.jpg";
 import styles from "./tailwind.css";
+import {} from "module";
 
 export const meta: V2_MetaFunction = () => [
   { charset: "utf-8" },
@@ -26,7 +27,10 @@ export const meta: V2_MetaFunction = () => [
   },
 ];
 
-export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
+export const links: LinksFunction = () => [
+  { rel: "stylesheet", href: styles },
+  { rel: "icon", href: "/favicon.ico?v=2" },
+];
 
 export default function App() {
   return (
