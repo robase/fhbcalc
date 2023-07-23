@@ -124,7 +124,7 @@ export default function BaseRoute() {
               />
             </div>
             <div>
-              <label htmlFor="min-price" className="block text-xs font-light font-roboto text-zinc-500 select-none">
+              <label htmlFor="interestRate" className="block text-xs font-light font-roboto text-zinc-500 select-none">
                 Interest rate %
               </label>
               <input

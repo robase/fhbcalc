@@ -17,15 +17,15 @@ export default function ResultsTable({
     <div className="text-sm">
       <div className="overflow-x-auto w-full xl:px-6 xl:pb-6 bg-gradient-to-b from-[#ebf0f3c7] to-[#f6f8fa]">
         <table className="w-full text-left overflow-visible">
-          <thead className="text-[#24282b] uppercase bg-[#ebf0f3c7] text-base font-medium font-spartan">
-            <tr className="uppercase [&>td]:select-none [&>td]:pb-3 [&>td]:pt-4 border-b-0">
-              <td
-                className="hover:text-zinc-400 px-3 cursor-pointer "
+          <thead className="text-[#24282b] uppercase  text-base font-medium font-spartan">
+            <tr className="uppercase [&>th]:select-none [&>th]:pb-3 [&>th]:pt-4 border-b-0 [&>th]:font-medium">
+              <th
+                className="hover:text-zinc-400 px-3 cursor-pointer"
                 onClick={(e) => onItemHover(e, HelpText.PURCHASE_PRICE)}
               >
                 Purchase Price
-              </td>
-              <td
+              </th>
+              <th
                 className="hover:text-zinc-400 px-3 cursor-pointer"
                 onClick={(e) => onItemHover(e, HelpText.LOAN_PRINCIPAL)}
               >
@@ -37,40 +37,40 @@ export default function ResultsTable({
                   <span>=</span>
                   <span>Total</span>
                 </div>
-              </td>
-              <td
+              </th>
+              <th
                 className="hover:text-zinc-400 pl-3 pr-5 cursor-pointer"
                 onClick={(e) => onItemHover(e, HelpText.DTI)}
               >
                 DTI
-              </td>
-              <td className="hover:text-zinc-400 px-3 cursor-pointer" onClick={(e) => onItemHover(e, HelpText.LVR)}>
+              </th>
+              <th className="hover:text-zinc-400 px-3 cursor-pointer" onClick={(e) => onItemHover(e, HelpText.LVR)}>
                 LVR
-              </td>
-              <td className="hover:text-zinc-400 px-3 cursor-pointer" onClick={(e) => onItemHover(e, HelpText.LMI)}>
+              </th>
+              <th className="hover:text-zinc-400 px-3 cursor-pointer" onClick={(e) => onItemHover(e, HelpText.LMI)}>
                 LMI*
-              </td>
-              <td
+              </th>
+              <th
                 className="hover:text-zinc-400 px-3 cursor-pointer"
                 onClick={(e) => onItemHover(e, HelpText.TRANSFER_DUTY)}
               >
                 Transfer Duty
-              </td>
-              <td
-                className="hover:text-zinc-400 px-3 cursor-pointer "
+              </th>
+              <th
+                className="hover:text-zinc-400 px-3 cursor-pointer"
                 onClick={(e) => onItemHover(e, HelpText.UPFRONT_CASH)}
               >
                 Upfront Cash
-              </td>
-              <td
-                className="hover:text-zinc-400 px-3 cursor-pointer "
+              </th>
+              <th
+                className="hover:text-zinc-400 px-3 cursor-pointer"
                 onClick={(e) => onItemHover(e, HelpText.MONTHLY_REPAYMENT)}
               >
                 Monthly Repayment
                 <p className="text-xs py-1 normal-case tracking-normal font-normal text-zinc-500 whitespace-nowrap">
                   30 years @ {((settings.interestRate || 0) as number).toFixed(2)}% p.a.
                 </p>
-              </td>
+              </th>
               <td className="select-none px-3">Scheme Eligibility</td>
             </tr>
           </thead>
@@ -129,7 +129,7 @@ export default function ResultsTable({
                       {fmtAUD(row.cashOnHand)} {row.lmi === -1 && "+ LMI"}
                     </span>
                     {row.schemeResults.cashOnHand?.eligible && (
-                      <span className="text-zinc-400 text-[10px] leading-3">inc. FHOG</span>
+                      <span className="text-[10px] text-zinc-400 leading-3">inc. FHOG</span>
                     )}
                   </div>
                 </td>
