@@ -80,7 +80,7 @@ export default function BaseRoute() {
       <div className=" xl:container xl:mx-auto transition-all ease-in-out">
         <div className="flex sm:flex-row  flex-col gap-6 px-8 mt-10 mb-8 items-center justify-start">
           <div className="pt-2">
-            <img src={logoSVG} alt="FHB Help logo" />
+            <img src={logoSVG} width="70" height="81" alt="FHB Help logo" />
           </div>
           <div>
             <h1 className="text-4xl text-center text-zinc-700 tracking-normal font-spartan font-semibold leading-relaxed sm:break-before-auto">
