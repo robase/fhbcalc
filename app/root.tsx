@@ -3,7 +3,6 @@ import { Links, LiveReload, Meta, Outlet, Scripts } from "@remix-run/react";
 import { Analytics } from "@vercel/analytics/react";
 import cover from "./images/ogimage.jpg";
 import styles from "./tailwind.css";
-import {} from "module";
 
 export const meta: V2_MetaFunction = () => [
   { charset: "utf-8" },
