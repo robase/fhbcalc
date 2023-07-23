@@ -41,6 +41,6 @@ export interface CalcSettings {
 
 export const SETTINGS_DEFAULT: CalcSettings = {
   priceInterval: 30_000,
-  interestRate: 6.01,
+  interestRate: 6.81,
   transactionFee: 3000,
 };

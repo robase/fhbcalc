@@ -1,5 +1,5 @@
 import { useNavigate, useSearchParams } from "@remix-run/react";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import LZString from "lz-string";
 import { BoxArrowUpRight, Github, InfoCircle } from "react-bootstrap-icons";
 import type { HelpText } from "~/components/AssistanceArea";
@@ -68,7 +68,7 @@ export default function BaseRoute() {
 
   const [linkButtonText, setLinkButtonText] = useState("Copy results link");
 
-  const tableData = calcTableData(formValues, calcSettings);
+  const tableData = useMemo(() => calcTableData(formValues, calcSettings), [calcSettings, formValues]);
 
   return (
     <>
