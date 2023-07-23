@@ -71,7 +71,7 @@ export default function ResultsTable({
                   30 years @ {((settings.interestRate || 0) as number).toFixed(2)}% p.a.
                 </p>
               </th>
-              <td className="select-none px-3">Scheme Eligibility</td>
+              <th className="select-none px-3">Scheme Eligibility</th>
             </tr>
           </thead>
           <tbody>
