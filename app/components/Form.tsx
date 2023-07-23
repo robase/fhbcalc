@@ -17,7 +17,8 @@ export default function InputForm({
   return (
     <form
       onChange={() => onValueChange(getValues() as FormResponse)}
-      className="text-zinc-700 grid gap-y-4 gap-x-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 font-roboto max-xl:pl-8 max-xl:py-8 bg-gradient-to-b from-[#f3f6f8] to-[#f6f8fa] xl:p-8 rounded-xl" // border-8 border-[#c7d4dd31] p-6
+      className="text-zinc-700 font-roboto grid gap-y-4 gap-x-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 xl:p-8
+        max-xl:pl-8 max-xl:py-8 bg-gradient-to-b from-[#f3f6f8] to-[#f6f8fa] rounded-xl"
     >
       <div className="flex flex-col gap-2 ">
         <label htmlFor="form-state" className="block font-bold select-none">
@@ -37,7 +38,7 @@ export default function InputForm({
       </div>
       {getQuestions(values.state).map((question) =>
         question.type === "select" ? (
-          <SwitchInput
+          <SelectInput
             key={question.label + question.name + question.type}
             label={question.label}
             name={question.name}
@@ -62,7 +63,7 @@ export default function InputForm({
   );
 }
 
-export function SwitchInput({
+export function SelectInput({
   name,
   label,
   options,
