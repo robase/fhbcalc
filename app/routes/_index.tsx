@@ -173,7 +173,7 @@ export default function BaseRoute() {
           </div>
         )}
         <p className="pt-2 pb-4 mx-6 text-sm">* estimate only</p>
-        <div className="flex flex-row justify-between gap-4 max-sm:justify-start max-sm:p-8 mx-6 mb-8">
+        <div className="flex flex-row justify-between gap-4 max-sm:justify-start max-sm:p-8 sm:mx-6 mb-8">
           <a rel="noreferrer" target="_blank" href="https://forms.gle/4vpH5Szigse9fq8v8" className="w-fit">
             <div className="px-4 text-sm py-2 border  bg-white w-46 flex gap-4 hover:bg-zinc-200 border-zinc-400 cursor-pointer items-center">
               <span className="whitespace-nowrap font-sans uppercase text-zinc-600">Provide Feedback</span>
