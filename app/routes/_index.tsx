@@ -1,7 +1,7 @@
 import { useNavigate, useSearchParams } from "@remix-run/react";
 import { useCallback, useMemo, useState } from "react";
 import LZString from "lz-string";
-import { BoxArrowUpRight, Github, InfoCircle } from "react-bootstrap-icons";
+import { BoxArrowUpRight, Github, InfoCircle, PlusCircle } from "react-bootstrap-icons";
 import type { HelpText } from "~/components/AssistanceArea";
 import AssistanceArea from "~/components/AssistanceArea";
 import ResultsTable from "~/components/ResultsTable";
@@ -39,6 +39,8 @@ export default function BaseRoute() {
   const [formValues, setFormValues] = useState<FormResponse>(formDefaults);
   const [calcSettings, setCalcSettings] = useState<CalcSettings>(settingsDefaults);
 
+  const [numberOfRows, setNumberOfRows] = useState(15);
+
   const valuesToURLParam = useCallback(() => {
     const paramData: URLParamData = {
       f: formValues,
@@ -68,7 +70,10 @@ export default function BaseRoute() {
 
   const [linkButtonText, setLinkButtonText] = useState("Copy results link");
 
-  const tableData = useMemo(() => calcTableData(formValues, calcSettings), [calcSettings, formValues]);
+  const tableData = useMemo(
+    () => calcTableData(formValues, calcSettings, numberOfRows),
+    [calcSettings, formValues, numberOfRows]
+  );
 
   return (
     <>
@@ -156,22 +161,30 @@ export default function BaseRoute() {
           </div>
         </div>
         <ResultsTable onItemHover={handleItemFocus} data={tableData} settings={calcSettings} />
-      </div>
-      <div className="flex flex-row justify-center max-sm:justify-start max-sm:p-8">
-        <CopyResultsButton
-          linkText={linkButtonText}
-          setLinkText={setLinkButtonText}
-          handleCopyLink={() => valuesToURLParam()}
-        />
-      </div>
-      <div className="xl:container xl:mx-auto transition-all ease-in-out">
-        <div className="w-fit mx-8 mb-8">
+        {numberOfRows < 100 && (
+          <div className="flex items-center justify-center">
+            <button
+              onClick={() => setNumberOfRows((rows) => rows + 10)}
+              className="flex p-4 gap-2 items-center text-zinc-500 hover:text-black rounded-md"
+            >
+              <PlusCircle className="h-4" />
+              <p className="text-xs">Add more rows</p>
+            </button>
+          </div>
+        )}
+        <p className="pt-2 pb-4 mx-6 text-sm">* estimate only</p>
+        <div className="flex flex-row justify-between gap-4 max-sm:justify-start max-sm:p-8 mx-6 mb-8">
           <a rel="noreferrer" target="_blank" href="https://forms.gle/4vpH5Szigse9fq8v8" className="w-fit">
-            <div className="px-4 text-sm py-2 border bg-white w-46 flex gap-4 hover:bg-zinc-100 border-zinc-300 cursor-pointer items-center">
+            <div className="px-4 text-sm py-2 border  bg-white w-46 flex gap-4 hover:bg-zinc-200 border-zinc-400 cursor-pointer items-center">
               <span className="whitespace-nowrap font-sans uppercase text-zinc-600">Provide Feedback</span>
               <BoxArrowUpRight aria-hidden size="1em" />
             </div>
           </a>
+          <CopyResultsButton
+            linkText={linkButtonText}
+            setLinkText={setLinkButtonText}
+            handleCopyLink={() => valuesToURLParam()}
+          />
         </div>
         <div className="flex flex-row flex-wrap justify-between gap-x-4 gap-y-12 font-roboto text-sm px-8 mb-8 text-zinc-500">
           <div>

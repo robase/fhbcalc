@@ -15,7 +15,7 @@ export default function ResultsTable({
 }) {
   return (
     <div className="text-sm">
-      <div className="overflow-x-auto w-full xl:px-6 xl:pb-6 bg-gradient-to-b from-[#ebf0f3c7] to-[#f6f8fa]">
+      <div className="overflow-x-auto w-full xl:px-6 bg-gradient-to-b from-[#ebf0f3c7] to-[#f6f8fa]">
         <table className="w-full text-left overflow-visible">
           <thead className="text-[#24282b] uppercase  text-base font-medium font-spartan">
             <tr className="uppercase [&>th]:select-none [&>th]:pb-3 [&>th]:pt-4 border-b-0 [&>th]:font-medium">
@@ -177,7 +177,6 @@ export default function ResultsTable({
           </tbody>
         </table>
       </div>
-      <p className="pt-2">* estimate only</p>
     </div>
   );
 }

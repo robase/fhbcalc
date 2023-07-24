@@ -33,7 +33,11 @@ export interface CalculationResult {
 // Use a 2% interest buffer for serviceability calculation
 const SERVICEABILITY_BUFFER = 2;
 
-export function calcTableData(formData: FormResponse, calcSettings: CalcSettings): CalculationResult[] {
+export function calcTableData(
+  formData: FormResponse,
+  calcSettings: CalcSettings,
+  numberOfRows: number
+): CalculationResult[] {
   const { deposit, expenses, hecs, income, state } = formData;
   const monthlyIncome = income / 12;
   const monthlyHECSRepayment = calcHecsMonthlyRepayment(income, hecs);
@@ -44,7 +48,9 @@ export function calcTableData(formData: FormResponse, calcSettings: CalcSettings
 
   const maxPrice = calcMaxLoan(monthlyIncome, staticExpenses, bufferedInterestRate);
 
-  const loanPrincipals = new Array(15).fill(0).map((_, i) => Math.max(maxPrice - calcSettings.priceInterval * i, 0));
+  const loanPrincipals = new Array(numberOfRows)
+    .fill(0)
+    .map((_, i) => Math.max(maxPrice - calcSettings.priceInterval * i, 0));
 
   const schemes = getSchemes(state);
 
