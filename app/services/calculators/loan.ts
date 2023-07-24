@@ -30,6 +30,9 @@ export interface CalculationResult {
   state: State;
 }
 
+// Use a 2% interest buffer for serviceability calculation
+const SERVICEABILITY_BUFFER = 2;
+
 export function calcTableData(formData: FormResponse, calcSettings: CalcSettings): CalculationResult[] {
   const { deposit, expenses, hecs, income, state } = formData;
   const monthlyIncome = income / 12;
@@ -37,7 +40,9 @@ export function calcTableData(formData: FormResponse, calcSettings: CalcSettings
 
   const staticExpenses = expenses + monthlyHECSRepayment;
 
-  const maxPrice = calcMaxLoan(monthlyIncome, staticExpenses, calcSettings.interestRate);
+  const bufferedInterestRate = calcSettings.interestRate + SERVICEABILITY_BUFFER;
+
+  const maxPrice = calcMaxLoan(monthlyIncome, staticExpenses, bufferedInterestRate);
 
   const loanPrincipals = new Array(15).fill(0).map((_, i) => Math.max(maxPrice - calcSettings.priceInterval * i, 0));
 
@@ -46,7 +51,7 @@ export function calcTableData(formData: FormResponse, calcSettings: CalcSettings
   return loanPrincipals.map((loanPrincipal) => {
     const purchasePrice = loanPrincipal + deposit;
 
-    const monthlyRepayment = calcMonthlyRepayment(loanPrincipal, calcSettings.interestRate as number);
+    const monthlyRepayment = calcMonthlyRepayment(loanPrincipal, bufferedInterestRate);
 
     const schemeResults = schemes.reduce((acc, scheme) => {
       acc[scheme.affects] = scheme.getEligibility(purchasePrice, formData);
@@ -103,19 +108,18 @@ export function cashOnHandRequired(
   return deposit + fees + transferDuty + lmi - (FHOGEligibility.eligible ? 10000 : 0);
 }
 
-export function calcPrincipalFromRepayment(m: number, rPA?: number) {
-  const r = (rPA || 0) / 100 / 12;
-  const n = 12 * 30;
+export function calcPrincipalFromRepayment(income: number, annualInterestRate: number) {
+  const rate = (annualInterestRate || 0) / 100 / 12;
+  const periods = 12 * 30;
 
-  return Math.max((m * (1 - Math.pow(1 + r, -n))) / r, 0);
+  return Math.max((income * (1 - Math.pow(1 + rate, -periods))) / rate, 0);
 }
 
-export function calcMonthlyRepayment(principal: number, rPA?: number) {
-  const r = (rPA || 0) / 100 / 12;
+export function calcMonthlyRepayment(principal: number, annualInterestRate?: number) {
+  const rate = (annualInterestRate || 0) / 100 / 12;
   const numMonths = 12 * 30;
-  const P = principal;
 
-  return Math.max((r * P) / (1 - Math.pow(1 + r, -numMonths)), 0);
+  return Math.max((rate * principal) / (1 - Math.pow(1 + rate, -numMonths)), 0);
 }
 
 // Calculates the maximum loan amount (first table row) from a DTI val of 0.7
