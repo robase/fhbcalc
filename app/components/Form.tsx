@@ -32,7 +32,14 @@ export default function InputForm({
         >
           {Object.values(State)
             .sort()
-            .map((state, i) => (state === "NSW" || state === "VIC") && <option key={`${i}-${state}`}>{state}</option>)}
+            .map(
+              (state, i) =>
+                (state === "NSW" || state === "VIC") && (
+                  <option value={state} key={`${i}-${state}`}>
+                    {state}
+                  </option>
+                )
+            )}
           <option disabled>More coming soon</option>
         </select>
       </div>

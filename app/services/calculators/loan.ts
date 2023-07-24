@@ -38,7 +38,7 @@ export function calcTableData(
   calcSettings: CalcSettings,
   numberOfRows: number
 ): CalculationResult[] {
-  const { deposit, expenses, hecs, income, state } = formData;
+  const { deposit, expenses, hecs, income, state, purpose } = formData;
   const monthlyIncome = income / 12;
   const monthlyHECSRepayment = calcHecsMonthlyRepayment(income, hecs);
 
@@ -65,7 +65,7 @@ export function calcTableData(
     }, {} as Record<keyof CalculationResult, EligibilityResult>);
 
     const lmi = calcLMI(purchasePrice, deposit, schemeResults?.lmi);
-    const transferDuty = calcStampDuty(purchasePrice, state, schemeResults?.transferDuty);
+    const transferDuty = calcStampDuty(purchasePrice, state, purpose, schemeResults?.transferDuty);
     const cashOnHand = cashOnHandRequired(
       deposit,
       calcSettings.transactionFee,
