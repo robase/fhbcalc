@@ -6,6 +6,15 @@ Calculated as:
 Loan Amount = Purchase Price - Deposit
 ```
 
+## 2% Serviceability Buffer
+
+This calculator takes into account a **2% serviceability buffer** on top of the loan interest rate. This is a common requirement for most lenders, and is used to ensure you can still afford your loan repayments if interest rates rise.
+
+```
+Interest rate with buffer = Interest Rate + Buffer
+e.g. 8.81% = 6.81% + 2%
+```
+
 **Note: LMI Capitalisation**
 
 - This calculator assumes that LMI is being paid in a lump sum as an upfront cost when you first begin your loan.
