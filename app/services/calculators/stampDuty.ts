@@ -122,7 +122,6 @@ export function calcStampDuty(
   // Victoria has a non-FHB concession for PPORs
   if (state === "VIC" && purpose === "occupier") {
     const vicPPORConcession = config[state].concession.find((band) => purchasePrice <= band.max);
-    console.log(purchasePrice, "occupier", vicPPORConcession, vicPPORConcession!.calc(purchasePrice));
     return vicPPORConcession!.calc(purchasePrice);
   }
 
