@@ -30,8 +30,8 @@ export interface CalculationResult {
   state: State;
 }
 
-// Use a 2% interest buffer for serviceability calculation
-const SERVICEABILITY_BUFFER = 2;
+// Use a 3% interest buffer for serviceability calculation
+const SERVICEABILITY_BUFFER = 3;
 
 export function calcTableData(
   formData: FormResponse,
