@@ -136,11 +136,12 @@ export default function ResultsTable({
                 <td className="px-3 py-2">
                   <div className="flex flex-row gap-2">
                     <span>{fmtAUD(row.monthlyRepayment)}</span>
-                    <span className="text-zinc-400 text-[10px] leading-3">
+                    {/* Remove income % as not accurate currently */}
+                    {/* <span className="text-zinc-400 text-[10px] leading-3">
                       {((row.monthlyRepayment / (row.monthlyIncome - row.monthlyHECSRepayment)) * 100).toFixed(2)}%
                       <br />
                       of income
-                    </span>
+                    </span> */}
                   </div>
                 </td>
                 <td>
