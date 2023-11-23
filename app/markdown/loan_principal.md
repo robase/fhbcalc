@@ -12,7 +12,7 @@ This calculator takes into account a **3% serviceability buffer** on top of the 
 
 ```
 Interest rate with buffer = Interest Rate + Buffer
-e.g. 9.81% = 6.81% + 3%
+e.g. 9.5% = 6.5% + 3%
 ```
 
 **Note: LMI Capitalisation**

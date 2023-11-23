@@ -68,7 +68,7 @@ export default function ResultsTable({
               >
                 Monthly Repayment
                 <p className="text-xs py-1 normal-case tracking-normal font-normal text-zinc-500 whitespace-nowrap">
-                  30 years @ {((settings.interestRate || 0) as number).toFixed(2)}% p.a.
+                  {settings.loanPeriod} years @ {((settings.interestRate || 0) as number).toFixed(2)}% p.a.
                 </p>
               </th>
               <th className="select-none px-3">Scheme Eligibility</th>
@@ -100,7 +100,7 @@ export default function ResultsTable({
                     </div>
                   </div>
                 </td>
-                <td className={`${row.dti > 0.6 ? "text-red-600" : row.dti > 0.55 && "text-yellow-600"} px-3 py-2`}>
+                <td className={`${row.dti > 0.55 ? "text-red-600" : row.dti > 0.5 && "text-yellow-600"} px-3 py-2`}>
                   {row.dti.toFixed(2)}
                 </td>
                 <td className="px-3 py-2">{row.lvr.toFixed(2)}%</td>

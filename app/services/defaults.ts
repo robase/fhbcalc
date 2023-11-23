@@ -11,6 +11,7 @@ export enum State {
 export interface FormResponse {
   income: number;
   expenses: number;
+  dependents: number;
   deposit: number;
   purpose: "occupier" | "investor";
   participants: "single" | "couple";
@@ -24,6 +25,7 @@ export interface FormResponse {
 export const FORM_DEFAULT: FormResponse = {
   income: 100_000,
   expenses: 1700,
+  dependents: 0,
   deposit: 65_000,
   purpose: "occupier",
   participants: "single",
@@ -37,10 +39,12 @@ export interface CalcSettings {
   priceInterval: number;
   interestRate: number;
   transactionFee: number;
+  loanPeriod: number;
 }
 
 export const SETTINGS_DEFAULT: CalcSettings = {
-  priceInterval: 30_000,
-  interestRate: 6.81,
+  priceInterval: 20_000,
+  interestRate: 6.5,
   transactionFee: 3000,
+  loanPeriod: 30,
 };

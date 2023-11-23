@@ -22,12 +22,23 @@ const FHOGconfig: Record<State, any> = {
   },
   [State.ACT]: undefined,
   [State.NT]: undefined,
-  [State.QLD]: undefined,
+  [State.QLD]: {
+    // https://qro.qld.gov.au/property-concessions-grants/first-home-grant/eligibility/
+    "new-property": {
+      max: 750000,
+    },
+    "vacant-land": {
+      max: 750000,
+    },
+  },
   [State.SA]: undefined,
   [State.WA]: undefined,
 };
 
-export function qualifiesForFHOG(purchasePrice: number, { propertyType, state }: FormResponse): EligibilityResult {
+export function qualifiesForFHOG(
+  purchasePrice: number,
+  { propertyType, state, purpose }: FormResponse
+): EligibilityResult {
   const result: EligibilityResult = {
     scheme: "FHOG",
     reason: "",
@@ -38,6 +49,13 @@ export function qualifiesForFHOG(purchasePrice: number, { propertyType, state }:
     return {
       ...result,
       reason: "Only available for new properties",
+    };
+  }
+
+  if (purpose === "investor" && state === State.QLD) {
+    return {
+      ...result,
+      reason: "Not available to purchase investment properties in QLD",
     };
   }
 

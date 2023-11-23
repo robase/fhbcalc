@@ -59,6 +59,7 @@ export default function BaseRoute() {
   // Input controllers
   const [interestRate, setInterestRate] = useState<number | string>(calcSettings.interestRate);
   const [priceInterval, setPriceInterval] = useState<number | string>(calcSettings.priceInterval);
+  const [loanPeriod, setLoanPeriod] = useState<number | string>(calcSettings.loanPeriod);
 
   // Assistance area
   const [focusedItem, setFocusedItem] = useState<{ item: HelpText; x: number; y: number }>();
@@ -93,7 +94,7 @@ export default function BaseRoute() {
             </h1>
           </div>
         </div>
-        <div className="flex flex-col gap-20 mt-20 xl:flex-col mb-8 2xl:max-w-screen-4xl">
+        <div className="flex flex-col gap-20 mt-16 xl:flex-col mb-8 2xl:max-w-screen-4xl">
           <InputForm
             onValueChange={(values: FormResponse) => {
               setFormValues(values);
@@ -147,6 +148,26 @@ export default function BaseRoute() {
                 }}
               />
             </div>
+            <div>
+              <label htmlFor="interestRate" className="block text-xs font-light font-roboto text-zinc-500 select-none">
+                Loan period (years)
+              </label>
+              <input
+                id="loanPeriod"
+                type="number"
+                className="block w-36 py-1.5 border-zinc-400"
+                min={1}
+                step={1}
+                max={40}
+                value={loanPeriod}
+                onChange={(e) => {
+                  if (e.target?.value) {
+                    setCalcSettings((prev) => ({ ...prev, loanPeriod: parseInt(e.target.value) }));
+                  }
+                  setLoanPeriod(e.target?.value);
+                }}
+              />
+            </div>
           </div>
           <div className="max-md:hidden p-2  pr-3 border bg-white rounded-full flex flex-row gap-2 items-center">
             <InfoCircle size="20px" className="fill-zinc-400 shadow-sm" />
@@ -175,7 +196,7 @@ export default function BaseRoute() {
         <p className="pt-2 pb-4 mx-6 text-sm">* estimate only</p>
         <div className="flex flex-row max-sm:flex-col max-sm:items-center justify-between gap-4 md:mx-6 max-sm:justify-start mb-8">
           <a rel="noreferrer" target="_blank" href="https://forms.gle/4vpH5Szigse9fq8v8" className="w-fit">
-            <div className="px-4 text-sm py-2 border  bg-white w-46 flex gap-4 hover:bg-zinc-200 border-zinc-400 cursor-pointer items-center">
+            <div className="px-4 text-sm py-2 border rounded-md bg-white w-46 flex gap-4 hover:bg-zinc-200 border-zinc-400 cursor-pointer items-center">
               <span className="whitespace-nowrap font-sans uppercase text-zinc-600">Provide Feedback</span>
               <BoxArrowUpRight aria-hidden size="1em" />
             </div>
@@ -197,15 +218,17 @@ export default function BaseRoute() {
             </ul>
           </div>
           <div>
-            <p>This calculator is open source</p>
-            <div className="mt-4">
+            <p className="max-w-xs">
+              This calculator is open source, keeping it updated takes time! Contributions welcome:
+            </p>
+            <div className="mt-4 max-w-fit">
               <a
                 href="https://github.com/robase/fhbcalc"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:underline hover:text-zinc-800"
+                className="hover:underline w-fit hover:text-zinc-800 "
               >
-                <div className="max-w-md flex gap-2 items-center">
+                <div className=" flex gap-2 max-w-fit items-center border rounded-md px-4 py-2 hover:bg-white">
                   <Github className="h-6 w-6" />
                   View GitHub repo
                 </div>
@@ -215,11 +238,21 @@ export default function BaseRoute() {
           <div className="max-w-md">
             <p>
               Please note that this is a tool intended to compliment your own research, this is not financial advice.
+              Please report errors via the{" "}
+              <a
+                href="https://forms.gle/4vpH5Szigse9fq8v8"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline w-fit hover:text-zinc-800 "
+              >
+                feedback form
+              </a>
+              .
               <br />
               <br /> No data is collected, retained or stored anywhere from this site, it never leaves your browser.
               <br />
               <br />
-              Last updated 19/07/23
+              Last updated 20/11/23
             </p>
           </div>
         </div>

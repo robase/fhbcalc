@@ -37,7 +37,18 @@ export const dutyConcessionConfig: Record<State, any> = {
       text: "vacant land",
     },
   },
-  QLD: {},
+  QLD: {
+    existing: {
+      max: 550_000,
+      concessional: 505_000,
+      text: "existing homes",
+    },
+    "vacant-land": {
+      max: 400_000,
+      concessional: 250_000,
+      text: "vacant land",
+    },
+  },
   ACT: {},
   NT: {},
   SA: {},
@@ -53,6 +64,13 @@ export function qualifiesForDutyConcession(
     reason: "",
     eligible: false,
   };
+
+  if (!dutyConcessionConfig[state][propertyType]) {
+    return {
+      ...result,
+      reason: `Not available for ${propertyType.replace("-", " ")} purchases in ${state}`,
+    };
+  }
 
   if (purchasePrice >= dutyConcessionConfig[state][propertyType].max) {
     return {

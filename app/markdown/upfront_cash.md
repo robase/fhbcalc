@@ -13,8 +13,8 @@ Example for a house bought for $818,500, no government scheme benefits applied:
   </thead>
   <tbody >
     <tr>
-      <td>Deposit</td>
-      <td>$65,000</td>
+      <td>Deposit + FHOG amount if applicable</td>
+      <td>$65,000 + FHOG</td>
     </tr>
     <tr>
       <td>LMI</td>
@@ -37,8 +37,8 @@ Example for a house bought for $818,500, no government scheme benefits applied:
       <td>$846</td>
     </tr>
     <tr>
-      <td>Total</td>
-      <td>$133,940</td>
+      <th>Total</th>
+      <td>$133,940 - FHOG</td>
     </tr>
   </tbody>
 </table>

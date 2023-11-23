@@ -4,17 +4,21 @@ import DTI from "../markdown/dti.md";
 import LMI from "../markdown/lmi.md";
 import LVR from "../markdown/lvr.md";
 
-import DutyNsw from "../markdown/dutyConcession/nsw.md";
+import DutyNSW from "../markdown/dutyConcession/nsw.md";
 import DutyVIC from "../markdown/dutyConcession/vic.md";
+import DutyQLD from "../markdown/dutyConcession/qld.md";
 
 import FHBGNsw from "../markdown/fhbg/nsw.md";
 import FHBGVic from "../markdown/fhbg/vic.md";
+import FHBGQld from "../markdown/fhbg/qld.md";
 
 import FHOGNsw from "../markdown/fhog/nsw.md";
 import FHOGVic from "../markdown/fhog/vic.md";
+import FHOGQld from "../markdown/fhog/qld.md";
 
 import TransferDutyNsw from "../markdown/transferDuty/nsw.md";
 import TransferDutyVic from "../markdown/transferDuty/vic.md";
+import TransferDutyQld from "../markdown/transferDuty/qld.md";
 
 import UpfrontCash from "../markdown/upfront_cash.md";
 import LoanPrincipal from "../markdown/loan_principal.md";
@@ -40,7 +44,7 @@ export enum HelpText {
 // MDX doesn't seem to support conditional rendering
 // nunjucks templates seem to break remix
 // maybe its easiest to have a doc for each state?
-function selectContent(state: State, item: HelpText): { title: string; element: JSX.Element } {
+function selectContent(state: State, item: HelpText): { title: string; element?: JSX.Element } {
   switch (item) {
     case HelpText.PURCHASE_PRICE:
       return {
@@ -65,7 +69,7 @@ function selectContent(state: State, item: HelpText): { title: string; element: 
     case HelpText.TRANSFER_DUTY:
       return {
         title: "Transfer Duty",
-        element: state === "NSW" ? <TransferDutyNsw /> : <TransferDutyVic />,
+        element: { NSW: <TransferDutyNsw />, VIC: <TransferDutyVic />, QLD: <TransferDutyQld /> }[state as string],
       };
     case HelpText.UPFRONT_CASH:
       return {
@@ -75,17 +79,17 @@ function selectContent(state: State, item: HelpText): { title: string; element: 
     case HelpText.FHBAS:
       return {
         title: state === "NSW" ? "First Home Buyer's Assistance Scheme (FHBAS)" : "First Home Buyer Duty Concession",
-        element: state === "NSW" ? <DutyNsw /> : <DutyVIC />,
+        element: { NSW: <DutyNSW />, VIC: <DutyVIC />, QLD: <DutyQLD /> }[state as string],
       };
     case HelpText.FHOG:
       return {
         title: "First Home Owner's Grant (FHOG)",
-        element: state === "NSW" ? <FHOGNsw /> : <FHOGVic />,
+        element: { NSW: <FHOGNsw />, VIC: <FHOGVic />, QLD: <FHOGQld /> }[state as string],
       };
     case HelpText.FHBG:
       return {
         title: "First Home Buyer's Grant (FHBG)",
-        element: state === "NSW" ? <FHBGNsw /> : <FHBGVic />,
+        element: { NSW: <FHBGNsw />, VIC: <FHBGVic />, QLD: <FHBGQld /> }[state as string],
       };
     case HelpText.MONTHLY_REPAYMENT:
       return {

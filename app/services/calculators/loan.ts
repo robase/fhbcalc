@@ -1,8 +1,9 @@
-import type { CalcSettings, FormResponse, State } from "../defaults";
+import { CalcSettings, FormResponse, State } from "../defaults";
 import { calcStampDuty } from "./stampDuty";
 import { getSchemes } from "../formSchema";
 import { calcLMI } from "./lmi";
 import { calcHecsMonthlyRepayment } from "./hecs";
+import { calculateExpensesMeasure } from "./expenses";
 
 export interface EligibilityResult {
   scheme: "FHBG" | "FHOG" | "FHBAS";
@@ -38,15 +39,19 @@ export function calcTableData(
   calcSettings: CalcSettings,
   numberOfRows: number
 ): CalculationResult[] {
-  const { deposit, expenses, hecs, income, state, purpose } = formData;
+  const { deposit, expenses, hecs, income, state, purpose, participants, dependents, propertyType } = formData;
   const monthlyIncome = income / 12;
   const monthlyHECSRepayment = calcHecsMonthlyRepayment(income, hecs);
 
-  const staticExpenses = expenses + monthlyHECSRepayment;
+  // Take max of self-reported expenses vs HEM stat
+  const staticExpenses = Math.max(
+    expenses + monthlyHECSRepayment,
+    calculateExpensesMeasure(income, participants, dependents)
+  );
 
   const bufferedInterestRate = calcSettings.interestRate + SERVICEABILITY_BUFFER;
 
-  const maxPrice = calcMaxLoan(monthlyIncome, staticExpenses, bufferedInterestRate);
+  const maxPrice = calcMaxLoan(monthlyIncome, staticExpenses, bufferedInterestRate, calcSettings.loanPeriod);
 
   const loanPrincipals = new Array(numberOfRows)
     .fill(0)
@@ -57,7 +62,7 @@ export function calcTableData(
   return loanPrincipals.map((loanPrincipal) => {
     const purchasePrice = loanPrincipal + deposit;
 
-    const monthlyRepayment = calcMonthlyRepayment(loanPrincipal, bufferedInterestRate);
+    const monthlyRepayment = calcMonthlyRepayment(loanPrincipal, calcSettings.loanPeriod, bufferedInterestRate);
 
     const schemeResults = schemes.reduce((acc, scheme) => {
       acc[scheme.affects] = scheme.getEligibility(purchasePrice, formData);
@@ -65,20 +70,21 @@ export function calcTableData(
     }, {} as Record<keyof CalculationResult, EligibilityResult>);
 
     const lmi = calcLMI(purchasePrice, deposit, schemeResults?.lmi);
-    const transferDuty = calcStampDuty(purchasePrice, state, purpose, schemeResults?.transferDuty);
+    const transferDuty = calcStampDuty(purchasePrice, state, purpose, propertyType, schemeResults?.transferDuty);
     const cashOnHand = cashOnHandRequired(
       deposit,
       calcSettings.transactionFee,
       transferDuty,
       lmi,
-      schemeResults?.cashOnHand
+      schemeResults?.cashOnHand,
+      state
     );
 
     return {
       monthlyIncome,
       purchasePrice,
       loanPrincipal,
-      totalInterest: monthlyRepayment * 12 * 30 - loanPrincipal,
+      totalInterest: monthlyRepayment * 12 * calcSettings.loanPeriod - loanPrincipal,
       monthlyRepayment: monthlyRepayment,
 
       lvr: calcLVR(purchasePrice, deposit),
@@ -109,27 +115,37 @@ export function cashOnHandRequired(
   fees: number,
   transferDuty: number,
   lmi: number,
-  FHOGEligibility: EligibilityResult
+  FHOGEligibility: EligibilityResult,
+  state: State
 ) {
-  return deposit + fees + transferDuty + lmi - (FHOGEligibility.eligible ? 10000 : 0);
+  let fhogAmount = 10_000;
+
+  if (state === State.QLD) {
+    fhogAmount = 30_000;
+  }
+
+  return deposit + fees + transferDuty + lmi - (FHOGEligibility.eligible ? fhogAmount : 0);
 }
 
-export function calcPrincipalFromRepayment(income: number, annualInterestRate: number) {
+export function calcPrincipalFromRepayment(income: number, annualInterestRate: number, loanPeriod: number) {
   const rate = (annualInterestRate || 0) / 100 / 12;
-  const periods = 12 * 30;
+  const periods = 12 * loanPeriod;
 
   return Math.max((income * (1 - Math.pow(1 + rate, -periods))) / rate, 0);
 }
 
-export function calcMonthlyRepayment(principal: number, annualInterestRate?: number) {
+export function calcMonthlyRepayment(principal: number, loanPeriod: number, annualInterestRate?: number) {
   const rate = (annualInterestRate || 0) / 100 / 12;
-  const numMonths = 12 * 30;
+  const numMonths = 12 * loanPeriod;
 
   return Math.max((rate * principal) / (1 - Math.pow(1 + rate, -numMonths)), 0);
 }
 
-// Calculates the maximum loan amount (first table row) from a DTI val of 0.7
-// 0.7 chosen because it would be near or would exceed the max amount a lender would lend
-export function calcMaxLoan(monthlyIncome: number, staticExpenses: number, interestRate: number) {
-  return Math.round(calcPrincipalFromRepayment(0.7 * monthlyIncome - staticExpenses, interestRate) / 10000) * 10000;
+// Calculates the maximum loan amount (first table row) from a DTI val of 0.6
+// 0.6 chosen because it would be near or would exceed the max amount a lender would lend
+export function calcMaxLoan(monthlyIncome: number, staticExpenses: number, interestRate: number, loanPeriod: number) {
+  return (
+    Math.round(calcPrincipalFromRepayment(0.6 * monthlyIncome - staticExpenses, interestRate, loanPeriod) / 10000) *
+    10000
+  );
 }

@@ -1,13 +1,14 @@
 import type { CalculationResult, EligibilityResult } from "./calculators/loan";
 import { qualifiesForDutyConcession } from "./schemes/FHBAS";
-
-import type { State, FormResponse } from "./defaults";
+import type { FormResponse } from "./defaults";
+import { State } from "./defaults";
 import { qualifiesForFHBG } from "./schemes/FHBG";
 import { qualifiesForFHOG } from "./schemes/FHOG";
 
-type Question = { name: string; label: string; helpText?: string } & (
+type Question = { name: string; label: string; helpText?: string | (() => JSX.Element) } & (
   | { type: "money" }
-  | { type: "select"; options: { description: string; value: string }[] }
+  | { type: "radio"; options: { description: string; value: string }[] }
+  | { type: "select"; options: { description: string; value: string | number; disabled?: boolean }[] }
 );
 
 interface Scheme {
@@ -29,8 +30,20 @@ export function getSchemes(state: State) {
 
 const defaultQuestions: Question[] = [
   {
-    label: "Why are you buying a place?",
+    label: "What state are you in?",
     type: "select",
+    name: "state",
+    options: [
+      ...Object.values(State)
+        .sort()
+        .filter((state) => state === "NSW" || state === "VIC" || state === "QLD")
+        .map((state) => ({ description: state, value: state })),
+      { description: "More coming soon" as any, value: "", disabled: true },
+    ],
+  },
+  {
+    label: "Why are you buying a place?",
+    type: "radio",
     name: "purpose",
     options: [
       { description: "To live in", value: "occupier" },
@@ -39,7 +52,7 @@ const defaultQuestions: Question[] = [
   },
   {
     label: "Buying an existing, new property or vacant land?",
-    type: "select",
+    type: "radio",
     name: "propertyType",
     options: [
       { description: "Existing", value: "existing" },
@@ -49,11 +62,25 @@ const defaultQuestions: Question[] = [
   },
   {
     label: "Buying as a single or a couple?",
-    type: "select",
+    type: "radio",
     name: "participants",
     options: [
       { description: "Single", value: "single" },
       { description: "Couple", value: "couple" },
+    ],
+  },
+  {
+    type: "select",
+    name: "dependents",
+    label: "How many dependents do you have?",
+    options: [
+      { description: "0", value: 0 },
+      { description: "1", value: 1 },
+      { description: "2", value: 2 },
+      { description: "3", value: 3 },
+      { description: "4", value: 4 },
+      { description: "5", value: 5 },
+      { description: "6+", value: 6 },
     ],
   },
   {
@@ -65,8 +92,23 @@ const defaultQuestions: Question[] = [
   {
     type: "money",
     label: "How much have you saved for a deposit?",
+    helpText: () => (
+      <p className="text-xs py-1 text-zinc-600">
+        Add your{" "}
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.ato.gov.au/Individuals/Super/Withdrawing-and-using-your-super/First-Home-Super-Saver-Scheme/#Requestingadeterminationstep1"
+          className="underline hover:text-zinc-400"
+        >
+          FHSS determination
+        </a>{" "}
+        amount here if you have one
+      </p>
+    ),
     name: "deposit",
   },
+
   {
     type: "money",
     name: "expenses",
@@ -97,7 +139,7 @@ const schema: Record<State, { questions: Question[]; schemes: Scheme[] }> = {
     questions: [
       {
         label: "Where are you buying?",
-        type: "select",
+        type: "radio",
         name: "location",
         options: [
           { description: "Sydney, Newcastle, Lake Macquarie or Illawarra", value: "city" },
@@ -128,7 +170,7 @@ const schema: Record<State, { questions: Question[]; schemes: Scheme[] }> = {
     questions: [
       {
         label: "Where are you buying?",
-        type: "select",
+        type: "radio",
         name: "location",
         options: [
           { description: "Melbourne or Geelong", value: "city" },
@@ -159,21 +201,38 @@ const schema: Record<State, { questions: Question[]; schemes: Scheme[] }> = {
     questions: [
       {
         label: "Where are you buying?",
-        type: "select",
+        type: "radio",
         name: "location",
         options: [
-          { description: "Brisbane, Gold Coast ord Sunshine Coast", value: "city" },
+          { description: "Brisbane, Gold Coast or Sunshine Coast", value: "city" },
           { description: "Rest of State", value: "regional" },
         ],
       },
     ],
-    schemes: [],
+    schemes: [
+      {
+        name: "First Home Concession",
+        short: "FH Concession",
+        link: "https://qro.qld.gov.au/duties/transfer-duty/concessions/homes/first-home/",
+        helpDoc: "fhbas.md",
+        affects: "transferDuty",
+        getEligibility: qualifiesForDutyConcession,
+      },
+      {
+        name: "First Home Owner's Grant",
+        short: "FHOG",
+        link: "https://qro.qld.gov.au/property-concessions-grants/first-home-grant/",
+        helpDoc: "fhog.md",
+        affects: "cashOnHand",
+        getEligibility: qualifiesForFHOG,
+      },
+    ],
   },
   WA: {
     questions: [
       {
         label: "Where are you buying?",
-        type: "select",
+        type: "radio",
         name: "location",
         options: [
           { description: "Perth", value: "city" },
