@@ -88,10 +88,13 @@ export default function BaseRoute() {
           <div className="pt-0">
             <img src={logoSVG} width="70" height="81" alt="FHB Help logo" />
           </div>
-          <div>
-            <h1 className="text-4xl text-center text-zinc-600 tracking-normal font-spartan font-semibold leading-relaxed sm:break-before-auto">
+          <div className="flex flex-col">
+            <h1 className="text-4xl text-center text-zinc-600 tracking-normal font-spartan font-semibold  sm:break-before-auto">
               First Home Buyer Calculator
             </h1>
+            <h3 className="text-xl text-zinc-400 tracking-normal font-spartan max-sm:text-center max-sm:pt-2">
+              firsthomebuyer.help
+            </h3>
           </div>
         </div>
         <div className="flex flex-col gap-20 mt-16 xl:flex-col mb-8 2xl:max-w-screen-4xl">
@@ -112,7 +115,7 @@ export default function BaseRoute() {
           <div className="flex flex-row gap-4">
             <div>
               <label htmlFor="priceInterval" className="block text-xs font-light font-roboto text-zinc-500 select-none">
-                Price interval
+                Purchase price interval
               </label>
               <input
                 id="priceInterval"
