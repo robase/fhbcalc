@@ -98,7 +98,7 @@ const defaultQuestions: Question[] = [
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="https://www.legacy.ato.gov.au/individuals/super/withdrawing-and-using-your-super/first-home-super-saver-scheme/#Requestingadeterminationstep1"
+          href="https://www.ato.gov.au/individuals-and-families/super-for-individuals-and-families/super/withdrawing-and-using-your-super/early-access-to-super/first-home-super-saver-scheme#Requestingadeterminationstep1"
           className="underline hover:text-zinc-400"
         >
           FHSS determination
