@@ -117,11 +117,6 @@ const config: Record<
   SA: { default: [], concession: [] },
 };
 
-// const calcQldFHBConcession = (purchasePrice: number): number => {
-//   const applicableBand = qldConcessionBands.find((band) => purchasePrice <= band.max);
-//   return applicableBand ? applicableBand.concession : 0;
-// };
-
 // linear approx based on vals pulled from NSW calc
 function calcNswConcession(purchasePrice: number) {
   return Math.max(0.19863 * purchasePrice - 158895.20811, 0);
@@ -135,7 +130,8 @@ function calcVicConcession(purchasePrice: number) {
 function calcQLDFHBRate(purchasePrice: number, propertyType: FormResponse["propertyType"]) {
   let dutyBands: RateBand[] = [];
 
-  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore 
   const discountBands: ConcessionBand[] = config[State.QLD][propertyType];
 
   if (propertyType === "vacant-land") {
@@ -143,8 +139,6 @@ function calcQLDFHBRate(purchasePrice: number, propertyType: FormResponse["prope
   } else {
     dutyBands = config[State.QLD].concession;
   }
-
-  console.log(propertyType);
 
   const band = dutyBands.find((band) => purchasePrice <= band.max);
   const concessionBand = discountBands.find((band) => purchasePrice <= band.max);

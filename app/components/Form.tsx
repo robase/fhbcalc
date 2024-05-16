@@ -1,9 +1,10 @@
 import React from "react";
-import CurrencyInput from "react-currency-input-field";
-import type { FieldValues, UseFormRegister } from "react-hook-form";
-import { useForm } from "react-hook-form";
+
+import type { Control, FieldValues, UseFormRegister } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import type { FormResponse } from "~/services/defaults";
 import { getQuestions } from "~/services/formSchema";
+import { NumericFormat, PatternFormat } from "react-number-format";
 
 export default function InputForm({
   values,
@@ -12,7 +13,7 @@ export default function InputForm({
   values: FormResponse;
   onValueChange: (values: FormResponse) => void;
 }) {
-  const { register, getValues } = useForm();
+  const { register, getValues, control } = useForm();
 
   return (
     <form
@@ -41,6 +42,7 @@ export default function InputForm({
           />
         ) : (
           <MoneyInput
+            control={control}
             key={question.label + question.name + question.type}
             HelpText={question.helpText && question.helpText}
             label={question.label}
@@ -106,9 +108,9 @@ export function RadioInput({
       <label htmlFor={`form-fieldset-${name}`} className="mb-2 font-bold select-none">
         {label}
       </label>
-      <fieldset defaultValue={options[0].value} id={`form-fieldset-${name}`} className="pt-0 flex flex-col gap-2">
+      <fieldset defaultValue={options[0].value} id={`form-fieldset-${name}`} className="flex flex-col gap-2 pt-0">
         {options.map(({ description, value }) => (
-          <div key={name + value} className="flex flex-row gap-2 items-center">
+          <div key={name + value} className="flex flex-row items-center gap-2">
             <input
               type="radio"
               value={value}
@@ -132,36 +134,50 @@ export function MoneyInput({
   label,
   defaultValue,
   HelpText,
+  control,
   register,
 }: {
   name: string;
   label: string;
   HelpText?: string | React.FC;
   defaultValue: number;
+  control: Control<FieldValues, any>;
   register: UseFormRegister<FieldValues>;
 }) {
   return (
     <div className="flex flex-col justify-between">
       <div>
-        <label htmlFor={`form-${name}`} className="block font-bold  mr-2 select-none">
+        <label htmlFor={`form-${name}`} className="block mr-2 font-bold select-none">
           {label}
         </label>
         {typeof HelpText === "string" ? (
-          <p className="text-xs py-1 text-zinc-600">{HelpText}</p>
+          <p className="py-1 text-xs text-zinc-600">{HelpText}</p>
         ) : (
           HelpText && <HelpText />
         )}
       </div>
-      <CurrencyInput
-        className="max-w-fit border-[#24282b]"
-        id={`form-${name}`}
-        intlConfig={{ locale: "en-AU", currency: "AUD" }}
-        placeholder="Please enter a number"
+      <Controller
+        control={control}
+        name={name}
+        rules={{ min: 0}}
         defaultValue={defaultValue}
-        decimalsLimit={2}
-        {...register(name, {
-          setValueAs: (v) => (typeof v === "number" ? v : Number(v.replace(/[^0-9.-]+/g, ""))),
-        })}
+        render={({ field: { name, onChange, onBlur, value, ref } }) => (
+          <NumericFormat
+            getInputRef={ref}
+            value={value}
+            name={name}
+            onBlur={onBlur}
+            onValueChange={(value) => {
+              onChange(value.floatValue || 0.01);
+            }}
+            thousandSeparator={true}
+            prefix={"$"}
+            
+            allowNegative={false}
+            placeholder="Enter amount"
+            className="max-w-fit border-[#24282b]"
+          />
+        )}
       />
     </div>
   );

@@ -83,18 +83,21 @@ export default function BaseRoute() {
         focusedItem={focusedItem}
         clearFocusedItem={() => setFocusedItem(undefined)}
       />
-      <div className=" xl:container xl:mx-auto transition-all ease-in-out">
-        <div className="flex sm:flex-row  flex-col gap-6 px-8 mt-10 mb-8 items-center justify-start">
+      <div className="transition-all ease-in-out  xl:container xl:mx-auto">
+        <div className="flex flex-col items-center justify-start gap-6 px-8 mt-10 mb-8 sm:flex-row">
           <div className="pt-0">
             <img src={logoSVG} width="70" height="81" alt="FHB Help logo" />
           </div>
-          <div>
-            <h1 className="text-4xl text-center text-zinc-600 tracking-normal font-spartan font-semibold leading-relaxed sm:break-before-auto">
+          <div className="flex flex-col">
+            <h1 className="text-4xl font-semibold tracking-normal text-center text-zinc-600 font-spartan sm:break-before-auto">
               First Home Buyer Calculator
             </h1>
+            <h3 className="text-xl tracking-normal text-zinc-400 font-spartan max-sm:text-center max-sm:pt-2">
+              firsthomebuyer.help
+            </h3>
           </div>
         </div>
-        <div className="flex flex-col gap-20 mt-16 xl:flex-col mb-8 2xl:max-w-screen-4xl">
+        <div className="flex flex-col gap-20 mt-16 mb-8 xl:flex-col 2xl:max-w-screen-4xl">
           <InputForm
             onValueChange={(values: FormResponse) => {
               setFormValues(values);
@@ -103,16 +106,16 @@ export default function BaseRoute() {
           />
         </div>
       </div>
-      <div className="sm:hidden m-8 p-4 border-sky-500 border-2 bg-white rounded-full flex flex-row gap-2 items-center">
+      <div className="flex flex-row items-center gap-2 p-4 m-8 bg-white border-2 rounded-full sm:hidden border-sky-500">
         <InfoCircle size="20px" />
         <p className="text-xs">Tap table headings for calculation explanations</p>
       </div>
       <div className="max-w-[90em] lg:mx-auto sm:mt-24">
-        <div className="flex flex-row gap-4 justify-between items-end pb-4 max-sm:px-8 2xl:max-w-screen-4xl text-zinc-700 overflow-x-auto">
+        <div className="flex flex-row items-end justify-between gap-4 pb-4 overflow-x-auto max-sm:px-8 2xl:max-w-screen-4xl text-zinc-700">
           <div className="flex flex-row gap-4">
             <div>
-              <label htmlFor="priceInterval" className="block text-xs font-light font-roboto text-zinc-500 select-none">
-                Price interval
+              <label htmlFor="priceInterval" className="block text-xs font-light select-none font-roboto text-zinc-500">
+                Purchase price interval
               </label>
               <input
                 id="priceInterval"
@@ -130,7 +133,7 @@ export default function BaseRoute() {
               />
             </div>
             <div>
-              <label htmlFor="interestRate" className="block text-xs font-light font-roboto text-zinc-500 select-none">
+              <label htmlFor="interestRate" className="block text-xs font-light select-none font-roboto text-zinc-500">
                 Interest rate %
               </label>
               <input
@@ -149,7 +152,7 @@ export default function BaseRoute() {
               />
             </div>
             <div>
-              <label htmlFor="interestRate" className="block text-xs font-light font-roboto text-zinc-500 select-none">
+              <label htmlFor="interestRate" className="block text-xs font-light select-none font-roboto text-zinc-500">
                 Loan period (years)
               </label>
               <input
@@ -169,8 +172,8 @@ export default function BaseRoute() {
               />
             </div>
           </div>
-          <div className="max-md:hidden p-2  pr-3 border bg-white rounded-full flex flex-row gap-2 items-center">
-            <InfoCircle size="20px" className="fill-zinc-400 shadow-sm" />
+          <div className="flex flex-row items-center gap-2 p-2 pr-3 bg-white border rounded-full max-md:hidden">
+            <InfoCircle size="20px" className="shadow-sm fill-zinc-400" />
             <p className="text-sm">Click on table headings for calculation explanations</p>
           </div>
           <div>
@@ -186,7 +189,7 @@ export default function BaseRoute() {
           <div className="flex items-center justify-center">
             <button
               onClick={() => setNumberOfRows((rows) => rows + 10)}
-              className="flex p-4 gap-2 items-center text-zinc-500 hover:text-black rounded-md"
+              className="flex items-center gap-2 p-4 rounded-md text-zinc-500 hover:text-black"
             >
               <PlusCircle className="h-4" />
               <p className="text-xs">Add more rows</p>
@@ -194,10 +197,10 @@ export default function BaseRoute() {
           </div>
         )}
         <p className="pt-2 pb-4 mx-6 text-sm">* estimate only</p>
-        <div className="flex flex-row max-sm:flex-col max-sm:items-center justify-between gap-4 md:mx-6 max-sm:justify-start mb-8">
+        <div className="flex flex-row justify-between gap-4 mb-8 max-sm:flex-col max-sm:items-center md:mx-6 max-sm:justify-start">
           <a rel="noreferrer" target="_blank" href="https://forms.gle/4vpH5Szigse9fq8v8" className="w-fit">
-            <div className="px-4 text-sm py-2 border rounded-md bg-white w-46 flex gap-4 hover:bg-zinc-200 border-zinc-400 cursor-pointer items-center">
-              <span className="whitespace-nowrap font-sans uppercase text-zinc-600">Provide Feedback</span>
+            <div className="flex items-center gap-4 px-4 py-2 text-sm bg-white border rounded-md cursor-pointer w-46 hover:bg-zinc-200 border-zinc-400">
+              <span className="font-sans uppercase whitespace-nowrap text-zinc-600">Provide Feedback</span>
               <BoxArrowUpRight aria-hidden size="1em" />
             </div>
           </a>
@@ -207,10 +210,10 @@ export default function BaseRoute() {
             handleCopyLink={() => valuesToURLParam()}
           />
         </div>
-        <div className="flex flex-row flex-wrap justify-between gap-x-4 gap-y-12 font-roboto text-sm px-8 mb-8 text-zinc-500">
+        <div className="flex flex-row flex-wrap justify-between px-8 mb-8 text-sm gap-x-4 gap-y-12 font-roboto text-zinc-500">
           <div>
             <p>Assumptions:</p>
-            <ul className="list-inside list-disc pl-2 pt-2">
+            <ul className="pt-2 pl-2 list-disc list-inside">
               <li>you are a first home buyer</li>
               <li>you are an australian citizen</li>
               <li>you are over 18</li>
@@ -228,8 +231,8 @@ export default function BaseRoute() {
                 rel="noopener noreferrer"
                 className="hover:underline w-fit hover:text-zinc-800 "
               >
-                <div className=" flex gap-2 max-w-fit items-center border rounded-md px-4 py-2 hover:bg-white">
-                  <Github className="h-6 w-6" />
+                <div className="flex items-center gap-2 px-4 py-2 border rounded-md  max-w-fit hover:bg-white">
+                  <Github className="w-6 h-6" />
                   View GitHub repo
                 </div>
               </a>

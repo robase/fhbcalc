@@ -62,7 +62,7 @@ export function calcTableData(
   return loanPrincipals.map((loanPrincipal) => {
     const purchasePrice = loanPrincipal + deposit;
 
-    const monthlyRepayment = calcMonthlyRepayment(loanPrincipal, calcSettings.loanPeriod, bufferedInterestRate);
+    const monthlyRepayment = calcMonthlyRepayment(loanPrincipal, calcSettings.loanPeriod, calcSettings.interestRate);
 
     const schemeResults = schemes.reduce((acc, scheme) => {
       acc[scheme.affects] = scheme.getEligibility(purchasePrice, formData);
