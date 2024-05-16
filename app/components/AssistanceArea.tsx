@@ -130,17 +130,17 @@ export default function AssistanceArea({
         focusedItem.x > window.innerWidth / 2 - 100 ? "sm:ml-10 sm:mr-auto" : "sm:mr-10 sm:ml-auto"
       } h-min max-h-full fixed sm:mb-10  mt-auto inset-0 bg-white z-30 border-[#516472] border-t-8 shadow-xl shadow-zinc-300 px-4 pt-3 w-fit max-sm:w-full max-sm:rounded-none text-zinc-700 max-w-xl`}
     >
-      <div className="flex flex-row justify-between items-center gap-4">
-        <div className="flex flex-row gap-3 items-center mb-1">
-          <QuestionCircle className="h-6 w-6 mb-2 mt-1" />
-          <h3 className="font-spartan font-bold py-1">{title}</h3>
+      <div className="flex flex-row items-center justify-between gap-4">
+        <div className="flex flex-row items-center gap-3 mb-1">
+          <QuestionCircle className="w-6 h-6 mt-1 mb-2" />
+          <h3 className="py-1 font-bold font-spartan">{title}</h3>
         </div>
-        <div
+        <button
           onClick={clearFocusedItem}
-          className="mb-1 hover:bg-zinc-300 group hover:text-zinc-50 rounded-full cursor-pointer border p-1 border-zinc-400 hover:border-zinc-800"
+          className="p-1 mb-1 border rounded-full cursor-pointer hover:bg-zinc-300 group hover:text-zinc-50 border-zinc-400 hover:border-zinc-800"
         >
           <XLg size="1em" className="group-hover:text-zinc-900" />
-        </div>
+        </button>
       </div>
       <div className="text-sm max-h-[80vh] overflow-y-auto mb-4 prose prose-neutral prose-pre:bg-[#f6f8fa] prose-code:text-neutral-800">
         {element}

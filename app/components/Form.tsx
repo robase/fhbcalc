@@ -1,10 +1,9 @@
 import React from "react";
-
 import type { Control, FieldValues, UseFormRegister } from "react-hook-form";
 import { Controller, useForm } from "react-hook-form";
 import type { FormResponse } from "~/services/defaults";
 import { getQuestions } from "~/services/formSchema";
-import { NumericFormat, PatternFormat } from "react-number-format";
+import { NumericFormat } from "react-number-format";
 
 export default function InputForm({
   values,
@@ -47,7 +46,6 @@ export default function InputForm({
             HelpText={question.helpText && question.helpText}
             label={question.label}
             name={question.name}
-            register={register}
             defaultValue={values[question.name as keyof Pick<FormResponse, "deposit" | "expenses" | "hecs" | "income">]}
           />
         )
@@ -71,7 +69,7 @@ export function SelectInput({
 }) {
   return (
     <div className="flex flex-col gap-2">
-      <label htmlFor="form-state" className="block font-bold select-none">
+      <label htmlFor={`form-select-${name}`} className="block font-bold select-none">
         {label}
       </label>
       <select
@@ -105,9 +103,9 @@ export function RadioInput({
 }) {
   return (
     <div className="flex flex-col">
-      <label htmlFor={`form-fieldset-${name}`} className="mb-2 font-bold select-none">
+      <p className="mb-2 font-bold select-none">
         {label}
-      </label>
+      </p>
       <fieldset defaultValue={options[0].value} id={`form-fieldset-${name}`} className="flex flex-col gap-2 pt-0">
         {options.map(({ description, value }) => (
           <div key={name + value} className="flex flex-row items-center gap-2">
@@ -135,14 +133,12 @@ export function MoneyInput({
   defaultValue,
   HelpText,
   control,
-  register,
 }: {
   name: string;
   label: string;
   HelpText?: string | React.FC;
   defaultValue: number;
   control: Control<FieldValues, any>;
-  register: UseFormRegister<FieldValues>;
 }) {
   return (
     <div className="flex flex-col justify-between">
@@ -166,6 +162,7 @@ export function MoneyInput({
             getInputRef={ref}
             value={value}
             name={name}
+            id={`form-${name}`}
             onBlur={onBlur}
             onValueChange={(value) => {
               onChange(value.floatValue || 0.01);

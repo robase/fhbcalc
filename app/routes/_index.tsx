@@ -64,7 +64,7 @@ export default function BaseRoute() {
   // Assistance area
   const [focusedItem, setFocusedItem] = useState<{ item: HelpText; x: number; y: number }>();
 
-  const handleItemFocus = (e: React.MouseEvent<HTMLDivElement | HTMLAnchorElement, MouseEvent>, item: HelpText) => {
+  const handleItemFocus = (e: React.MouseEvent<HTMLDivElement | HTMLAnchorElement | HTMLButtonElement, MouseEvent>, item: HelpText) => {
     const rect = e.currentTarget.getBoundingClientRect();
     setFocusedItem({ item, x: rect.left, y: rect.top + rect.height + 40 });
   };
@@ -83,7 +83,7 @@ export default function BaseRoute() {
         focusedItem={focusedItem}
         clearFocusedItem={() => setFocusedItem(undefined)}
       />
-      <div className="transition-all ease-in-out  xl:container xl:mx-auto">
+      <div className="transition-all ease-in-out xl:container xl:mx-auto">
         <div className="flex flex-col items-center justify-start gap-6 px-8 mt-10 mb-8 sm:flex-row">
           <div className="pt-0">
             <img src={logoSVG} width="70" height="81" alt="FHB Help logo" />
@@ -231,7 +231,7 @@ export default function BaseRoute() {
                 rel="noopener noreferrer"
                 className="hover:underline w-fit hover:text-zinc-800 "
               >
-                <div className="flex items-center gap-2 px-4 py-2 border rounded-md  max-w-fit hover:bg-white">
+                <div className="flex items-center gap-2 px-4 py-2 border rounded-md max-w-fit hover:bg-white">
                   <Github className="w-6 h-6" />
                   View GitHub repo
                 </div>

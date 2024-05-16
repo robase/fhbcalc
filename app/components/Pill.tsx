@@ -7,10 +7,10 @@ export default function Pill({
   text: string;
   status: "R" | "A" | "G";
   reason?: string;
-  onClick?: React.MouseEventHandler<HTMLDivElement>;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }) {
   return (
-    <div title={reason} onClick={onClick}>
+    <button title={reason} onClick={onClick}>
       <p
         className={`${
           status === "R"
@@ -22,6 +22,6 @@ export default function Pill({
       >
         {text}
       </p>
-    </div>
+    </button>
   );
 }
