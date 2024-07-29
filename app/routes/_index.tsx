@@ -1,4 +1,4 @@
-import { useNavigate, useSearchParams } from "@remix-run/react";
+import { Link, useNavigate, useSearchParams } from "@remix-run/react";
 import { useCallback, useMemo, useState } from "react";
 import LZString from "lz-string";
 import { BoxArrowUpRight, Github, InfoCircle, PlusCircle } from "react-bootstrap-icons";
@@ -252,8 +252,11 @@ export default function BaseRoute() {
               </a>
               .
               <br />
-              <br /> No data is collected, retained or stored anywhere from this site, it never leaves your browser.
               <br />
+              <div className="flex gap-4 text-xs">
+                <Link target="_blank" to="/privacy-policy" className="underline hover:text-zinc-400">Privacy Policy</Link>
+                <Link target="_blank" to="/terms-and-conditions" className="underline hover:text-zinc-400">Terms of Service</Link>
+              </div>
               <br />
               Last updated 20/11/23
             </p>
