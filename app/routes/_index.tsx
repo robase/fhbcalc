@@ -107,7 +107,7 @@ export default function BaseRoute() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-20 mt-16 mb-8 xl:flex-col 2xl:max-w-screen-4xl">
+        <div className="flex flex-col gap-20 mt-4 mb-8 xl:flex-col 2xl:max-w-screen-4xl">
           <InputForm
             onValueChange={(values: FormResponse) => {
               setFormValues(values);
