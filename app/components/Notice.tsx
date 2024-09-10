@@ -19,15 +19,17 @@ export function Notice() {
       script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7123056396745025";
       document.head.appendChild(script);
     }
+
     // @ts-ignore
-    window.adsbygoogle = window.adsbygoogle || [];
-    // @ts-ignore
-    window.adsbygoogle.push({});
+    if (!window.adsbygoogle) {
+      // @ts-ignore
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    }
   };
 
   return (
     <div
-      className="flex text-center justify-center items-center lg:w-[410px] xl:w-[710px] md:w-[768px] sm:w-[640px] min-[300px]:w-[400px] lg:h-[160px] max-lg:h-[300px] min-[300px]:h-[400px]"
+      className="lg:w-[410px] xl:w-[710px] md:w-[768px] sm:w-[640px] min-[300px]:w-[400px] lg:h-[160px] max-lg:h-[300px] min-[300px]:h-[400px]"
       key={location.key}
     >
       <ins
