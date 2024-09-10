@@ -13,7 +13,8 @@ export const meta: MetaFunction = () => [
   { title: "First Home Buyer Calculator" },
   {
     name: "description",
-    content: "An all in one homeloan and govt scheme eligibility calculator for first home buyers in NSW, VIC, QLD. Includes FHOG, FHSS, FHBG, FHBAS, FHG",
+    content:
+      "An all in one homeloan and govt scheme eligibility calculator for first home buyers in NSW, VIC, QLD. Includes FHOG, FHSS, FHBG, FHBAS, FHG",
   },
   { name: "viewport", content: "width=device-width,initial-scale=1" },
   { property: "og:title", content: "First Home Buyer Calculator" },

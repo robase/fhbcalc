@@ -11,6 +11,7 @@ import InputForm from "~/components/Form";
 import type { FormResponse, CalcSettings } from "~/services/defaults";
 import { SETTINGS_DEFAULT, FORM_DEFAULT } from "~/services/defaults";
 import { calcTableData } from "~/services/calculators/loan";
+import { Notice } from "~/components/Notice";
 
 interface URLParamData {
   f: FormResponse;
@@ -64,7 +65,10 @@ export default function BaseRoute() {
   // Assistance area
   const [focusedItem, setFocusedItem] = useState<{ item: HelpText; x: number; y: number }>();
 
-  const handleItemFocus = (e: React.MouseEvent<HTMLDivElement | HTMLAnchorElement | HTMLButtonElement, MouseEvent>, item: HelpText) => {
+  const handleItemFocus = (
+    e: React.MouseEvent<HTMLDivElement | HTMLAnchorElement | HTMLButtonElement, MouseEvent>,
+    item: HelpText
+  ) => {
     const rect = e.currentTarget.getBoundingClientRect();
     setFocusedItem({ item, x: rect.left, y: rect.top + rect.height + 40 });
   };
@@ -84,19 +88,25 @@ export default function BaseRoute() {
         clearFocusedItem={() => setFocusedItem(undefined)}
       />
       <div className="transition-all ease-in-out xl:container xl:mx-auto">
-        <div className="flex flex-col items-center justify-start gap-6 px-8 mt-10 mb-8 sm:flex-row">
-          <div className="pt-0">
-            <img src={logoSVG} width="70" height="81" alt="FHB Help logo" />
+        <div className="flex flex-wrap flex-col sm:flex-row">
+          <div className="flex flex-1 flex-col items-center justify-start gap-6 px-8 mt-10 mb-8 sm:flex-row">
+            <div className="pt-0 shrink-0 ">
+              <img src={logoSVG} width="70" height="81" alt="FHB Help logo" />
+            </div>
+            <div className="flex flex-col shrink-0 ">
+              <h1 className="text-4xl font-semibold tracking-normal text-center text-zinc-600 font-spartan sm:break-before-auto">
+                First Home Buyer Calculator
+              </h1>
+              <h3 className="text-xl tracking-normal text-zinc-400 font-spartan max-sm:text-center max-sm:pt-2">
+                firsthomebuyer.help
+              </h3>
+            </div>
           </div>
-          <div className="flex flex-col">
-            <h1 className="text-4xl font-semibold tracking-normal text-center text-zinc-600 font-spartan sm:break-before-auto">
-              First Home Buyer Calculator
-            </h1>
-            <h3 className="text-xl tracking-normal text-zinc-400 font-spartan max-sm:text-center max-sm:pt-2">
-              firsthomebuyer.help
-            </h3>
+          <div className="flex justify-center max-lg:w-full">
+            <Notice />
           </div>
         </div>
+
         <div className="flex flex-col gap-20 mt-16 mb-8 xl:flex-col 2xl:max-w-screen-4xl">
           <InputForm
             onValueChange={(values: FormResponse) => {
@@ -239,7 +249,7 @@ export default function BaseRoute() {
             </div>
           </div>
           <div className="max-w-md">
-            <p>
+            <div>
               Please note that this is a tool intended to compliment your own research, this is not financial advice.
               Please report errors via the{" "}
               <a
@@ -254,12 +264,16 @@ export default function BaseRoute() {
               <br />
               <br />
               <div className="flex gap-4 text-xs">
-                <Link target="_blank" to="/privacy-policy" className="underline hover:text-zinc-400">Privacy Policy</Link>
-                <Link target="_blank" to="/terms-and-conditions" className="underline hover:text-zinc-400">Terms of Service</Link>
+                <Link target="_blank" to="/privacy-policy" className="underline hover:text-zinc-400">
+                  Privacy Policy
+                </Link>
+                <Link target="_blank" to="/terms-and-conditions" className="underline hover:text-zinc-400">
+                  Terms of Service
+                </Link>
               </div>
               <br />
               Last updated 20/11/23
-            </p>
+            </div>
           </div>
         </div>
       </div>
