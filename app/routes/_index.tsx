@@ -272,7 +272,7 @@ export default function BaseRoute() {
                 </Link>
               </div>
               <br />
-              Last updated 20/11/23
+              Last updated 10/09/24
             </div>
           </div>
         </div>
