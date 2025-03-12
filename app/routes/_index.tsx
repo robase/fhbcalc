@@ -88,8 +88,8 @@ export default function BaseRoute() {
         clearFocusedItem={() => setFocusedItem(undefined)}
       />
       <div className="transition-all ease-in-out xl:container xl:mx-auto">
-        <div className="flex flex-wrap flex-col sm:flex-row">
-          <div className="flex flex-1 flex-col items-center justify-start gap-6 px-8 mt-10 mb-8 sm:flex-row">
+        <div className="flex flex-col flex-wrap sm:flex-row">
+          <div className="flex flex-col items-center justify-start flex-1 gap-6 px-8 mt-10 mb-8 sm:flex-row">
             <div className="pt-0 shrink-0 ">
               <img src={logoSVG} width="70" height="81" alt="FHB Help logo" />
             </div>
@@ -103,7 +103,7 @@ export default function BaseRoute() {
             </div>
           </div>
           <div className="flex justify-center max-lg:w-full">
-            <Notice />
+            {/* <Notice /> */}
           </div>
         </div>
 

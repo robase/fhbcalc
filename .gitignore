@@ -12,3 +12,5 @@ node_modules
 
 lmi.txt
 notes.md
+
+.DS_Store
