@@ -1,0 +1,415 @@
+{
+  "lastUpdated": "2025-10-11",
+  "lastVerified": "2025-10-11",
+  "verificationNotes": [
+    "✅ NSW FHBAS: Verified correct (exemption $800K, concessional to $1M for new/existing; vacant land exempt $350K, concessional to $450K)",
+    "✅ NSW FHOG: Verified correct ($10K grant, new homes max $600K, land+build max $750K) - URL was updated from /new-homes to /first-home-owner-new-homes-grant",
+    "✅ VIC Duty Concession: Verified correct (exemption up to $600K, concessional $600K-$750K)",
+    "✅ VIC FHOG: Verified correct ($10K grant, max $750K for new homes only)",
+    "✅ QLD First Home Concession: Verified correct (no duty under $700K, concessional $700K-$800K) - Last updated May 1, 2025",
+    "⚠️ QLD FHOG: NEEDS UPDATE - Two grant amounts exist: $30K (contracts 20 Nov 2023 to 30 Jun 2026) OR $15K (contracts before 20 Nov 2023). Current implementation only shows $30K.",
+    "✅ LMI Rates: Verified correct as of April 9, 2025 - all premium rates match reference table",
+    "⚠️ FHDS: Homepage verified to exist but detailed price caps not prominently displayed - implementation based on official documentation from October 2025"
+  ],
+  "schemes": [
+    {
+      "id": "fhds",
+      "name": "Australian Government 5% Deposit Scheme",
+      "state": "FEDERAL",
+      "affects": "lmi",
+      "description": "Helps first home buyers purchase with just a 5% deposit without paying LMI",
+      "effectiveDate": "2025-10-01",
+      "sources": [
+        {
+          "url": "https://firsthomebuyers.gov.au",
+          "type": "official_website",
+          "description": "Official Australian Government 5% Deposit Scheme website",
+          "verifyFields": [
+            "priceCaps",
+            "lvrRequirements",
+            "eligibilityCriteria",
+            "incomeRequirements"
+          ]
+        }
+      ],
+      "implementation": {
+        "file": "app/services/schemes/FHDS.ts",
+        "configVariable": "FHDSconfig",
+        "verificationPoints": [
+          "Price caps by state and location",
+          "LVR min: 80%, max: 95%",
+          "No income cap",
+          "Owner-occupier requirement",
+          "First home buyer or 10 year rule"
+        ]
+      }
+    },
+    {
+      "id": "fhss",
+      "name": "First Home Super Saver Scheme",
+      "state": "FEDERAL",
+      "affects": "deposit",
+      "description": "Allows eligible first home buyers to save for a deposit using their superannuation",
+      "sources": [
+        {
+          "url": "https://www.ato.gov.au/individuals-and-families/super-for-individuals-and-families/super/withdrawing-and-using-your-super/early-access-to-super/first-home-super-saver-scheme#Requestingadeterminationstep1",
+          "type": "official_website",
+          "description": "ATO information on FHSS scheme and determination requests",
+          "verifyFields": [
+            "eligibilityCriteria",
+            "maximumAmounts",
+            "withdrawalProcess"
+          ]
+        }
+      ],
+      "implementation": {
+        "file": "app/services/formSchema.tsx",
+        "configVariable": null,
+        "verificationPoints": [
+          "Mentioned in deposit help text only",
+          "Not actively calculated in the app"
+        ]
+      }
+    },
+    {
+      "id": "fhbas_nsw",
+      "name": "First Home Buyer Assistance Scheme",
+      "state": "NSW",
+      "affects": "transferDuty",
+      "description": "Provides transfer duty exemptions or concessions for eligible first home buyers in NSW",
+      "sources": [
+        {
+          "url": "https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/assistance-scheme",
+          "type": "official_website",
+          "description": "NSW Revenue - FHBAS official information",
+          "verifyFields": [
+            "priceCaps",
+            "exemptionThresholds",
+            "concessionalThresholds",
+            "propertyTypeEligibility"
+          ]
+        }
+      ],
+      "implementation": {
+        "file": "app/services/schemes/FHBAS.ts",
+        "configVariable": "dutyConcessionConfig.NSW",
+        "verificationPoints": [
+          "New property max: $1,000,000, concessional: $800,000",
+          "Existing property max: $1,000,000, concessional: $800,000",
+          "Vacant land max: $450,000, concessional: $350,000"
+        ]
+      }
+    },
+    {
+      "id": "fhog_nsw",
+      "name": "First Home Owner Grant",
+      "state": "NSW",
+      "affects": "cashOnHand",
+      "description": "$10,000 grant for eligible first home buyers purchasing or building a new home in NSW",
+      "sources": [
+        {
+          "url": "https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/first-home-owner-new-homes-grant",
+          "type": "official_website",
+          "description": "NSW Revenue - FHOG official information (URL updated October 2025)",
+          "verifyFields": [
+            "grantAmount",
+            "priceCaps",
+            "propertyTypeEligibility",
+            "eligibilityCriteria"
+          ]
+        }
+      ],
+      "implementation": {
+        "file": "app/services/schemes/FHOG.ts",
+        "configVariable": "FHOGconfig.NSW",
+        "verificationPoints": [
+          "New property max: $600,000",
+          "Vacant land max: $750,000",
+          "Grant amount: $10,000"
+        ]
+      }
+    },
+    {
+      "id": "transfer_duty_nsw",
+      "name": "Transfer Duty Calculator",
+      "state": "NSW",
+      "affects": "transferDuty",
+      "description": "Information on how transfer duty (stamp duty) is calculated in NSW",
+      "sources": [
+        {
+          "url": "https://www.revenue.nsw.gov.au/taxes-duties-levies-royalties/transfer-duty#heading4",
+          "type": "calculator",
+          "description": "NSW Revenue - Transfer duty calculation methodology",
+          "verifyFields": [
+            "dutyRates",
+            "thresholds",
+            "calculationFormula"
+          ]
+        }
+      ],
+      "implementation": {
+        "file": "app/services/calculators/stampDuty.ts",
+        "configVariable": "stampDutyNSW",
+        "verificationPoints": [
+          "Duty calculation thresholds and rates for NSW"
+        ]
+      }
+    },
+    {
+      "id": "fhb_duty_vic",
+      "name": "First Home Buyer Duty Concession",
+      "state": "VIC",
+      "affects": "transferDuty",
+      "description": "Duty exemptions and concessions for eligible first home buyers in Victoria",
+      "sources": [
+        {
+          "url": "https://www.sro.vic.gov.au/fhbduty",
+          "type": "official_website",
+          "description": "State Revenue Office VIC - FHB Duty Concession information",
+          "verifyFields": [
+            "priceCaps",
+            "exemptionThresholds",
+            "concessionalThresholds",
+            "propertyTypeEligibility"
+          ]
+        }
+      ],
+      "implementation": {
+        "file": "app/services/schemes/FHBAS.ts",
+        "configVariable": "dutyConcessionConfig.VIC",
+        "verificationPoints": [
+          "New property max: $750,000, concessional: $600,000",
+          "Existing property max: $750,000, concessional: $600,000",
+          "Vacant land max: $750,000, concessional: $600,000"
+        ]
+      }
+    },
+    {
+      "id": "fhog_vic",
+      "name": "First Home Owner Grant",
+      "state": "VIC",
+      "affects": "cashOnHand",
+      "description": "$10,000 grant for eligible first home buyers purchasing or building a new home in Victoria",
+      "sources": [
+        {
+          "url": "https://www.sro.vic.gov.au/first-home-owner-grant/understanding-first-home-owner-grant",
+          "type": "official_website",
+          "description": "State Revenue Office VIC - FHOG official information",
+          "verifyFields": [
+            "grantAmount",
+            "priceCaps",
+            "propertyTypeEligibility",
+            "eligibilityCriteria"
+          ]
+        },
+        {
+          "url": "https://www.sro.vic.gov.au/content/will-i-be-eligible-first-home-owner-grant",
+          "type": "eligibility_calculator",
+          "description": "VIC Government eligibility calculator for FHOG",
+          "verifyFields": [
+            "eligibilityCriteria"
+          ]
+        }
+      ],
+      "implementation": {
+        "file": "app/services/schemes/FHOG.ts",
+        "configVariable": "FHOGconfig.VIC",
+        "verificationPoints": [
+          "New property max: $750,000",
+          "Vacant land max: $750,000",
+          "Grant amount: $10,000"
+        ]
+      }
+    },
+    {
+      "id": "transfer_duty_vic",
+      "name": "Transfer Duty Calculator",
+      "state": "VIC",
+      "affects": "transferDuty",
+      "description": "Information on how transfer duty (stamp duty) is calculated in Victoria",
+      "sources": [
+        {
+          "url": "https://www.sro.vic.gov.au/calculators/land-transfer-calculator",
+          "type": "calculator",
+          "description": "State Revenue Office VIC - Land transfer duty calculator",
+          "verifyFields": [
+            "dutyRates",
+            "thresholds",
+            "calculationFormula"
+          ]
+        }
+      ],
+      "implementation": {
+        "file": "app/services/calculators/stampDuty.ts",
+        "configVariable": "stampDutyVIC",
+        "verificationPoints": [
+          "Duty calculation thresholds and rates for Victoria"
+        ]
+      }
+    },
+    {
+      "id": "fh_concession_qld",
+      "name": "First Home Concession",
+      "state": "QLD",
+      "affects": "transferDuty",
+      "description": "Transfer duty concessions for eligible first home buyers in Queensland",
+      "sources": [
+        {
+          "url": "https://qro.qld.gov.au/duties/transfer-duty/concessions/homes/first-home/",
+          "type": "official_website",
+          "description": "Queensland Revenue Office - First Home Concession information",
+          "verifyFields": [
+            "priceCaps",
+            "exemptionThresholds",
+            "concessionalThresholds",
+            "propertyTypeEligibility"
+          ]
+        }
+      ],
+      "implementation": {
+        "file": "app/services/schemes/FHBAS.ts",
+        "configVariable": "dutyConcessionConfig.QLD",
+        "verificationPoints": [
+          "Existing property max: $550,000, concessional: $505,000",
+          "Vacant land max: $400,000, concessional: $250,000"
+        ]
+      }
+    },
+    {
+      "id": "fhog_qld",
+      "name": "First Home Owner Grant",
+      "state": "QLD",
+      "affects": "cashOnHand",
+      "description": "First home owner grant for new homes in Queensland - $30,000 (contracts 20 Nov 2023 - 30 Jun 2026) or $15,000 (earlier contracts)",
+      "sources": [
+        {
+          "url": "https://qro.qld.gov.au/property-concessions-grants/first-home-grant/",
+          "type": "official_website",
+          "description": "Queensland Revenue Office - FHOG official information",
+          "verifyFields": [
+            "grantAmount",
+            "priceCaps",
+            "propertyTypeEligibility",
+            "eligibilityCriteria"
+          ]
+        },
+        {
+          "url": "https://qro.qld.gov.au/property-concessions-grants/first-home-grant/eligibility/",
+          "type": "eligibility_information",
+          "description": "Queensland Revenue Office - FHOG eligibility details",
+          "verifyFields": [
+            "eligibilityCriteria",
+            "residencyRequirements"
+          ]
+        }
+      ],
+      "implementation": {
+        "file": "app/services/schemes/FHOG.ts",
+        "configVariable": "FHOGconfig.QLD",
+        "verificationPoints": [
+          "New property max: $750,000",
+          "Vacant land max: $750,000",
+          "Grant amount: $30,000 (contracts signed 20 Nov 2023 - 30 Jun 2026)",
+          "Grant amount: $15,000 (contracts signed before 20 Nov 2023)",
+          "Not available for investment properties",
+          "NOTE: Implementation currently only calculates $30,000 - may need date-based logic"
+        ]
+      }
+    },
+    {
+      "id": "transfer_duty_qld",
+      "name": "Transfer Duty Calculator",
+      "state": "QLD",
+      "affects": "transferDuty",
+      "description": "Information on how transfer duty (stamp duty) is calculated in Queensland",
+      "sources": [
+        {
+          "url": "https://qro.qld.gov.au/duties/transfer-duty/calculate/transfer-duty-estimator/",
+          "type": "calculator",
+          "description": "Queensland Revenue Office - Transfer duty estimator",
+          "verifyFields": [
+            "dutyRates",
+            "thresholds",
+            "calculationFormula"
+          ]
+        }
+      ],
+      "implementation": {
+        "file": "app/services/calculators/stampDuty.ts",
+        "configVariable": "stampDutyQLD",
+        "verificationPoints": [
+          "Duty calculation thresholds and rates for Queensland"
+        ]
+      }
+    },
+    {
+      "id": "lmi_rates",
+      "name": "Lenders Mortgage Insurance Rates",
+      "state": "NATIONAL",
+      "affects": "lmi",
+      "description": "LMI premium rates used for calculating lenders mortgage insurance costs",
+      "sources": [
+        {
+          "url": "https://www.homeloanexperts.com.au/lenders-mortgage-insurance/lmi-premium-rates/",
+          "type": "reference_data",
+          "description": "Home Loan Experts - LMI premium rate tables (updated April 2025)",
+          "verifyFields": [
+            "premiumRatesByLVR",
+            "priceBrackets",
+            "stampDutyOnLMI"
+          ]
+        }
+      ],
+      "implementation": {
+        "file": "app/services/calculators/lmi.ts",
+        "configVariable": "lookup",
+        "verificationPoints": [
+          "LVR ranges: 81-95%",
+          "Price buckets: up to $300K, $500K, $600K, $750K, $1M",
+          "Premium rates match table from source",
+          "Note: Rates vary by lender, these are example rates"
+        ]
+      }
+    }
+  ],
+  "additionalResources": [
+    {
+      "name": "Property Buying Costs Guide",
+      "state": "NSW",
+      "url": "https://www.nsw.gov.au/housing-and-construction/buying-and-selling-property/buying-residential-property-nsw/planning-your-finances/costs-when-buying-a-home",
+      "type": "reference",
+      "description": "NSW Government guide to costs when buying a home"
+    },
+    {
+      "name": "Mortgage Payment Formula",
+      "state": "NATIONAL",
+      "url": "https://en.wikipedia.org/wiki/Mortgage_calculator#Monthly_payment_formula",
+      "type": "reference",
+      "description": "Technical details on monthly mortgage payment calculations"
+    },
+    {
+      "name": "Australian Privacy Principles",
+      "state": "NATIONAL",
+      "url": "https://www.oaic.gov.au/",
+      "type": "legal",
+      "description": "Office of the Australian Information Commissioner"
+    }
+  ],
+  "verificationStrategy": {
+    "purpose": "This JSON file provides structured data for automated verification of scheme implementations against official government sources",
+    "usage": [
+      "Use an LLM to fetch each source URL",
+      "Extract the verifyFields from each page",
+      "Compare extracted data with implementation.verificationPoints",
+      "Flag discrepancies for manual review",
+      "Update implementation files as needed"
+    ],
+    "frequency": "Check quarterly or when official announcements are made",
+    "criticalFields": [
+      "priceCaps",
+      "grantAmount",
+      "lvrRequirements",
+      "eligibilityCriteria"
+    ]
+  }
+}

@@ -6,7 +6,7 @@ import { calcHecsMonthlyRepayment } from "./hecs";
 import { calculateExpensesMeasure } from "./expenses";
 
 export interface EligibilityResult {
-  scheme: "FHBG" | "FHOG" | "FHBAS";
+  scheme: "FHOG" | "FHBAS" | "FHDS";
   eligible: boolean;
   type?: "full" | "concessional";
   reason?: string;
@@ -29,6 +29,9 @@ export interface CalculationResult {
 
   schemeResults: Partial<Record<keyof CalculationResult, EligibilityResult>>;
   state: State;
+
+  // Scheme eligibility fields
+  fhds?: never;
 }
 
 // Use a 3% interest buffer for serviceability calculation
@@ -69,7 +72,8 @@ export function calcTableData(
       return acc;
     }, {} as Record<keyof CalculationResult, EligibilityResult>);
 
-    const lmi = calcLMI(purchasePrice, deposit, schemeResults?.lmi);
+    // Check if eligible for FHDS (waives LMI)
+    const lmi = calcLMI(purchasePrice, deposit, schemeResults?.fhds?.eligible ? schemeResults.fhds : undefined);
     const transferDuty = calcStampDuty(purchasePrice, state, purpose, propertyType, schemeResults?.transferDuty);
     const cashOnHand = cashOnHandRequired(
       deposit,

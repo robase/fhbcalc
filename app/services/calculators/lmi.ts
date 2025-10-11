@@ -2,11 +2,12 @@ import type { EligibilityResult } from "./loan";
 import { calcLVR } from "./loan";
 
 // https://www.homeloanexperts.com.au/lenders-mortgage-insurance/lmi-premium-rates/
-export function calcLMI(purchasePrice: number, deposit: number, FHBGEligibility?: EligibilityResult) {
+export function calcLMI(purchasePrice: number, deposit: number, schemeEligibility?: EligibilityResult) {
   // Get LVR, lookup LVR vs purchase price in table
   // get premium % from table, multiply by loan amount
 
-  if (FHBGEligibility?.eligible) {
+  // If eligible for FHBG or FHDS, no LMI required
+  if (schemeEligibility?.eligible) {
     return 0;
   }
 

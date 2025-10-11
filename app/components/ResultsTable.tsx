@@ -106,7 +106,9 @@ export default function ResultsTable({
                 <td className="px-3 py-2">{row.lvr.toFixed(2)}%</td>
                 <td className="px-3 py-2">
                   {row.lmi === -1 ? "No data" : fmtAUD(row.lmi)}{" "}
-                  {row.schemeResults.lmi?.eligible && <span className="text-[10px] text-zinc-400">FHBG</span>}
+                  {row.schemeResults.fhds?.eligible && (
+                    <span className="text-[10px] text-zinc-400">FHDS</span>
+                  )}
                 </td>
                 <td className="px-3 py-2">
                   {row.schemeResults.transferDuty?.type === "full" ? (

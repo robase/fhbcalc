@@ -2,8 +2,8 @@ import type { CalculationResult, EligibilityResult } from "./calculators/loan";
 import { qualifiesForDutyConcession } from "./schemes/FHBAS";
 import type { FormResponse } from "./defaults";
 import { State } from "./defaults";
-import { qualifiesForFHBG } from "./schemes/FHBG";
 import { qualifiesForFHOG } from "./schemes/FHOG";
+import { qualifiesForFHDS } from "./schemes/FHDS";
 
 type Question = { name: string; label: string; helpText?: string | (() => JSX.Element) } & (
   | { type: "money" }
@@ -125,12 +125,12 @@ const defaultQuestions: Question[] = [
 
 const defaultSchemes: Scheme[] = [
   {
-    name: "First Home Guarantee",
-    short: "FHBG",
-    link: "https://www.nhfic.gov.au/support-buy-home/first-home-guarantee",
-    helpDoc: "fhbg.md",
-    affects: "lmi",
-    getEligibility: qualifiesForFHBG,
+    name: "Australian Government 5% Deposit Scheme",
+    short: "FHDS",
+    link: "https://firsthomebuyers.gov.au",
+    helpDoc: "fhds.md",
+    affects: "fhds",
+    getEligibility: qualifiesForFHDS,
   },
 ];
 
@@ -159,7 +159,7 @@ const schema: Record<State, { questions: Question[]; schemes: Scheme[] }> = {
       {
         name: "First Home Owner's Grant",
         short: "FHOG",
-        link: "https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/new-homes",
+        link: "https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/first-home-owner-new-homes-grant",
         helpDoc: "fhog.md",
         affects: "cashOnHand",
         getEligibility: qualifiesForFHOG,
@@ -190,7 +190,7 @@ const schema: Record<State, { questions: Question[]; schemes: Scheme[] }> = {
       {
         name: "First Home Owner's Grant",
         short: "FHOG",
-        link: "https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/new-homes",
+        link: "https://www.sro.vic.gov.au/first-home-owner-grant/understanding-first-home-owner-grant",
         helpDoc: "fhog.md",
         affects: "cashOnHand",
         getEligibility: qualifiesForFHOG,

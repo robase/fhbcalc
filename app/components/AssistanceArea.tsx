@@ -8,9 +8,9 @@ import DutyNSW from "../markdown/dutyConcession/nsw.md";
 import DutyVIC from "../markdown/dutyConcession/vic.md";
 import DutyQLD from "../markdown/dutyConcession/qld.md";
 
-import FHBGNsw from "../markdown/fhbg/nsw.md";
-import FHBGVic from "../markdown/fhbg/vic.md";
-import FHBGQld from "../markdown/fhbg/qld.md";
+import FHDSNsw from "../markdown/fhds/nsw.md";
+import FHDSVic from "../markdown/fhds/vic.md";
+import FHDSQld from "../markdown/fhds/qld.md";
 
 import FHOGNsw from "../markdown/fhog/nsw.md";
 import FHOGVic from "../markdown/fhog/vic.md";
@@ -35,7 +35,7 @@ export enum HelpText {
   UPFRONT_CASH = "upfront-cash",
   FHBAS = "FHBAS",
   FHOG = "FHOG",
-  FHBG = "FHBG",
+  FHDS = "FHDS",
   MONTHLY_REPAYMENT = "monthly-repayment",
   DTI = "dti",
 }
@@ -86,10 +86,10 @@ function selectContent(state: State, item: HelpText): { title: string; element?:
         title: "First Home Owner's Grant (FHOG)",
         element: { NSW: <FHOGNsw />, VIC: <FHOGVic />, QLD: <FHOGQld /> }[state as string],
       };
-    case HelpText.FHBG:
+    case HelpText.FHDS:
       return {
-        title: "First Home Buyer's Grant (FHBG)",
-        element: { NSW: <FHBGNsw />, VIC: <FHBGVic />, QLD: <FHBGQld /> }[state as string],
+        title: "Australian Government 5% Deposit Scheme",
+        element: { NSW: <FHDSNsw />, VIC: <FHDSVic />, QLD: <FHDSQld /> }[state as string],
       };
     case HelpText.MONTHLY_REPAYMENT:
       return {
